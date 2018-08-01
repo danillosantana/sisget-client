@@ -137,10 +137,7 @@ export class CaixaComponent implements OnInit {
       });
 
       this.caixaBean.saldoFinal = this.caixaBean.entradas - this.caixaBean.saidas;
-
-      if (this.caixaBean.caixa.id != undefined) {
-        this.caixaBean.saldoFinal = this.caixaBean.saldoFinal + this.caixaBean.saldoAnterior;
-      } 
+      this.caixaBean.saldoFinal = this.caixaBean.saldoFinal + this.caixaBean.saldoAnterior;
     }  
   }
   
