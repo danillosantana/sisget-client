@@ -1,0 +1,134 @@
+<div class="row">
+  <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaListar()" i18n="@@TITLE_CAIXAS">TITLE_CAIXAS</h6>
+  <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaIncluir()" i18n="@@TITLE_INCLUSAO_CAIXA">TITLE_INCLUSAO_CAIXA</h6>
+  <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaAlterar()" i18n="@@TITLE_ALTERACAO_CAIXA">TITLE_ALTERACAO_CAIXA
+  </h6>
+  <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaVisualizar()" i18n="@@TITLE_CAIXA">TITLE_CAIXA</h6>
+</div>
+<hr>
+<div class="row" *ngIf="acaoSistema.isAcaoSistemaAlterar()"> 
+  <a class="text-left"  (click)="finalizarCaixa(popupFecharCaixa)">
+    <fa class="fa-lg" name="fechar" animation="times" ></fa>
+    <span i18n="@@LABEL_ENCERRAR_CAIXA">LABEL_ENCERRAR_CAIXA</span>
+  </a>
+</div>
+<br/>
+<div class="col-lg-12">
+	<div class="text-right" >
+		<a class="text-right"  *ngIf="acaoSistema.isAcaoSistemaListar()" (click)="novoCaixa()" >
+        <fa class="fa-lg" name="fechar" animation="plus" ></fa>
+        <span i18n="@@LABEL_NOVO_CAIXA">LABEL_NOVO_CAIXA</span>
+    </a>	
+	</div>
+	<app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()" (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"></app-lista-caixa>
+
+	<div *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
+    <form #cadastro="ngForm" class="form-horizontal">
+			
+      <div class="form-group row">
+        <div class="col-lg-2">
+            <label  for="complemento" i18n="@@LABEL_MES">LABEL_MES:</label>
+         </div>
+         <div class="col-lg-4">
+            <select class="form-control" name="mes" id="mes" [(ngModel)]="caixaBean.caixa.mes" 
+                     [disabled]="acaoSistema.isAcaoSistemaVisualizar() || acaoSistema.isAcaoSistemaAlterar()">
+                <option *ngFor="let mes of meses, let i = index" [ngValue]="mes">{{mes.descricao}}</option> 
+            </select>
+         </div>
+         <div class="col-lg-2">
+            <label  for="complemento" i18n="@@LABEL_ANO">LABEL_ANO:</label>
+         </div>
+         <div class="col-lg-4">
+           <input	class="form-control" type="text" id="ano" name="ano" [(ngModel)]="caixaBean.caixa.ano" 
+                  [disabled]="true">
+         </div>
+      </div>
+      <br/>
+      <div class="form-group card card-block card-header" [collapse]="false">
+          <label class="col-lg-1"  i18n="@@LABEL_ENTRADAS" style="font-size: 12px">LABEL_ENTRADAS</label>: 
+          <label class="col-lg-2 text-blue">{{caixaBean.entradas | currency:'BRL':true}}</label>     
+          <label class="col-lg-1" i18n="@@LABEL_SAIDAS" style="font-size: 12px"> LABEL_SAIDAS</label>: 
+          <label class="col-lg-2 text-red">{{caixaBean.saidas | currency:'BRL':true}}</label>        
+          <label class="col-lg-1" i18n="@@LABEL_SALDO_ANTERIOR" style="font-size: 12px">LABEL_SALDO_ANTERIOR</label>: 
+          <label class="col-lg-2 {{caixaService.getClasseSaldos(caixaBean.saldoAnterior)}}">{{caixaBean.saldoAnterior | currency:'BRL':true}}</label>        
+          <label class="col-lg-1"  i18n="@@LABEL_SALDO_FINAL" style="font-size: 12px">LABEL_SALDO_FINAL</label>: 
+          <span class="col-lg-2 {{caixaService.getClasseSaldos(caixaBean.saldoFinal)}}" >{{caixaBean.saldoFinal | currency:'BRL':true}}</span> 
+        </div>
+        <br>
+       <div class="form-group row">
+          <div class="col-lg-12 text-right" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
+              <a  (click)="novaMovimentacaoFinanceira(popupMovimentacaoFinanceira)" >
+                  <fa class="fa-lg" name="fechar" animation="plus" ></fa>
+                  <span i18n="@@LABEL_NOVA_MOVIMENTACAO_FINANCEIRA">LABEL_NOVA_MOVIMENTACAO_FINANCEIRA</span>
+              </a>
+          </div>
+       </div> 
+      <div class="form-group">
+          <table class="table table-responsive table-hover text-center">
+            <thead >
+              <tr>
+                <th i18n="@@LABEL_TIPO_MOVIMENTACAO" style="width: 300px;">LABEL_TIPO_MOVIMENTACAO</th>
+                <th i18n="@@LABEL_DESCRICAO" style="width: 300px;">LABEL_DESCRICAO</th>
+                <th i18n="@@LABEL_VALOR" style="width: 300px;">LABEL_VALOR</th>
+                <th i18n="@@LABEL_ACOES" style="width: 300px;">LABEL_ACOES</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr *ngFor="let movimentacao of dataTableService.returnedArray">
+                <td class="text-center" style="width: 200px;"> {{caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? movimentacao.tipoMovimentacao.descricao : '-'}}</td>
+                <td class="text-center" style="width: 200px;"> {{movimentacao.descricao}}</td>
+                <td class="text-center {{getClasseValor(movimentacao)}}" style="width: 200px;"> {{movimentacao.valor | currency:'BRL':true}}</td>
+                <td class="text-center espaco" style="width: 200px;">
+                  <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" 
+                          (click)="excluirMovimentacao(movimentacao)" i18n-title="@@LABEL_EXCLUIR" title="LABEL_EXCLUIR" >
+                          <fa class="fa-lg" name="alterar" animation="close" ></fa>   
+                  </a>
+                  <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" i18n-title="@@LABEL_ALTERAR" title="LABEL_ALTERAR"
+                          (click)="alterarMovimentacao(movimentacao, popupMovimentacaoFinanceira)" >
+                          <fa class="fa-lg" name="alterar" animation="edit" ></fa>
+                  </a>
+                  <p *ngIf="acaoSistema.isAcaoSistemaVisualizar()">{{' - '}}</p>
+                </td> 
+              </tr>
+            </tbody> 
+            <tfoot>
+              <pagination *ngIf="caixaBean.caixa.movimentacoesCaixa.length > dataTableService.totalItensPorPagina"  
+                          [totalItems]="caixaBean.caixa.movimentacoesCaixa.length" 
+                          [itemsPerPage]= "dataTableService.totalItensPorPagina"
+                          (pageChanged)="dataTableService.mudarPagina($event)" 
+                          previousText="Anterior" nextText="Próximo"></pagination>
+          </tfoot>
+        </table>
+        <div class="col-lg-12" *ngIf="caixaBean.caixa.movimentacoesCaixa.length == 0" i18n="@@LABEL_NENHUMA_MOVIMENTACAO_CADASTRADA">
+            LABEL_NENHUMA_MOVIMENTACAO_CADASTRADA
+          </div>
+      </div>
+
+			<div class="form-group last text-center " >
+				<div class="col-sm-12">
+				    <button  (click)="voltar()"> 
+                <fa class="fa-sm espaco" name="voltar" animation="chevron-left" ></fa>
+                <span i18n="@@LABEL_VOLTAR">LABEL_VOLTAR</span>
+			       </button>
+
+				    <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="submit"	(click)="salvar()" >
+                <fa class="fa-sm espaco" name="add" animation="plus" ></fa> 
+                <span i18n="@@LABEL_SALVAR">LABEL_SALVAR</span> 
+            </button>
+            
+            <button   *ngIf="acaoSistema.isAcaoSistemaAlterar()" type="submit"	(click)="alterar()">
+                <fa class="fa-sm espaco" name="add" animation="plus" ></fa> 
+                <span i18n="@@LABEL_ALTERAR">LABEL_ALTERAR</span>
+            </button>
+			  </div>
+			</div>  
+		</form>	
+	</div>
+</div>	
+
+<ng-template #popupMovimentacaoFinanceira>
+    <app-movimentacao-caixa (enviarMovimentacao)="adicionarMovimentacao($event)" [movimentacaoAlterada]="movimentacaoFinanceira"></app-movimentacao-caixa>  
+</ng-template>
+<ng-template #popupFecharCaixa>
+    <app-fechamento-caixa [caixa]="caixaParaEncerramento" (encerramentoRealizado)="receberEncerramentoRealizado($event)"></app-fechamento-caixa>
+</ng-template>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <!--TITLE-->
+      <trans-unit id="TITLE_SISGEF" datatype="html">
+        <source>TITLE_SISGEF</source>
+		    <target>Sistema de Gestão Financeira</target>
+      </trans-unit>
+      <trans-unit id="TITLE_MOVIMENTACAO_FINANCEIRA" datatype="html">
+        <source>TITLE_MOVIMENTACAO_FINANCEIRA</source>
+		    <target>Movimentação Financeira</target>
+      </trans-unit>
+      <trans-unit id="TITLE_CAIXAS" datatype="html">
+        <source>TITLE_CAIXAS</source>
+		    <target>Caixas</target>
+      </trans-unit>
+      <trans-unit id="TITLE_CAIXA" datatype="html">
+        <source>TITLE_CAIXA</source>
+		    <target>Caixa</target>
+      </trans-unit>
+      TITLE_CAIXA
+      <trans-unit id="TITLE_INCLUSAO_CAIXA" datatype="html">
+        <source>TITLE_INCLUSAO_CAIXA</source>
+		    <target>Inclusão de Caixa</target>
+      </trans-unit>
+      <trans-unit id="TITLE_ALTERACAO_CAIXA" datatype="html">
+        <source>TITLE_ALTERACAO_CAIXA</source>
+		    <target>Alteração de Caixa</target>
+      </trans-unit>
+      <!--LABELS -->
+      <trans-unit id="LABEL_REGISTROS_NAO_ENCONTRADOS" datatype="html">
+        <source>LABEL_REGISTROS_NAO_ENCONTRADOS</source>
+        <target>Registros Não Encontrados</target>
+      </trans-unit>
+      <trans-unit id="LABEL_MES" datatype="html">
+        <source>LABEL_MES</source>
+        <target>Mês</target>
+      </trans-unit>
+      <trans-unit id="LABEL_ANO" datatype="html">
+        <source>LABEL_ANO</source>
+        <target>Ano</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SALDO" datatype="html">
+        <source>LABEL_SALDO</source>
+        <target>Saldo</target>
+      </trans-unit>
+      <trans-unit id="LABEL_ACOES" datatype="html">
+        <source>LABEL_ACOES</source>
+        <target>Ações</target>
+      </trans-unit>
+      <trans-unit id="LABEL_VISUALIZAR" datatype="html">
+        <source>LABEL_VISUALIZAR</source>
+        <target>Visualizar</target>
+      </trans-unit>
+      <trans-unit id="LABEL_ALTERAR" datatype="html">
+        <source>LABEL_ALTERAR</source>
+        <target>Alterar</target>
+      </trans-unit>
+      <trans-unit id="LABEL_NOVO_CAIXA" datatype="html">
+        <source>LABEL_NOVO_CAIXA</source>
+        <target>Novo Caixa</target>
+      </trans-unit>
+      <trans-unit id="LABEL_VOLTAR" datatype="html">
+        <source>LABEL_VOLTAR</source>
+        <target>Voltar</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SALVAR" datatype="html">
+        <source>LABEL_SALVAR</source>
+        <target>Salvar</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SELECIONE" datatype="html">
+        <source>LABEL_SELECIONE</source>
+        <target>Selecione</target>
+      </trans-unit>
+      <trans-unit id="LABEL_DESCRICAO" datatype="html">
+        <source>LABEL_DESCRICAO</source>
+        <target>Descrição</target>
+      </trans-unit>
+      <trans-unit id="LABEL_TIPO_MOVIMENTACAO" datatype="html">
+        <source>LABEL_TIPO_MOVIMENTACAO</source>
+        <target>Tipo de Movimentação</target>
+      </trans-unit>
+      <trans-unit id="LABEL_VALOR" datatype="html">
+        <source>LABEL_VALOR</source>
+        <target>Valor</target>
+      </trans-unit>
+      <trans-unit id="LABEL_NOVA_MOVIMENTACAO_FINANCEIRA" datatype="html">
+        <source>LABEL_NOVA_MOVIMENTACAO_FINANCEIRA</source>
+        <target>Nova Movimentação Financeira</target>
+      </trans-unit>
+      <trans-unit id="LABEL_TIPO_OPERACAO" datatype="html">
+        <source>LABEL_TIPO_OPERACAO</source>
+        <target>Tipo de Operação</target>
+      </trans-unit>
+      <trans-unit id="LABEL_EXCLUIR" datatype="html">
+        <source>LABEL_EXCLUIR</source>
+        <target>Excluir</target>
+      </trans-unit>
+      <trans-unit id="LABEL_ENTRADAS" datatype="html">
+        <source>LABEL_ENTRADAS</source>
+        <target>Entradas</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SAIDAS" datatype="html">
+        <source>LABEL_SAIDAS</source>
+        <target>Saídas</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SALDO_ANTERIOR" datatype="html">
+        <source>LABEL_SALDO_ANTERIOR</source>
+        <target>Saldo Anterior</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SALDO_FINAL" datatype="html">
+        <source>LABEL_SALDO_FINAL</source>
+        <target>Saldo Final</target>
+      </trans-unit>
+      <trans-unit id="LABEL_NENHUMA_MOVIMENTACAO_CADASTRADA" datatype="html">
+        <source>LABEL_NENHUMA_MOVIMENTACAO_CADASTRADA</source>
+        <target>Nenhuma Movimentação Cadastrada</target>
+      </trans-unit> 
+      <trans-unit id="LABEL_ENCERRAR_CAIXA" datatype="html">
+        <source>LABEL_ENCERRAR_CAIXA</source>
+        <target>Encerrar Caixa</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SIM" datatype="html">
+        <source>LABEL_SIM</source>
+        <target>Sim</target>
+      </trans-unit>
+      <trans-unit id="LABEL_NAO" datatype="html">
+        <source>LABEL_NAO</source>
+        <target>Não</target>
+      </trans-unit>
+      <trans-unit id="LABEL_SITUACAO" datatype="html">
+        <source>LABEL_SITUACAO</source>
+        <target>Situação</target>
+      </trans-unit>
+      <trans-unit id="LABEL_RELATORIO_CAIXA" datatype="html">
+        <source>LABEL_RELATORIO_CAIXA</source>
+        <target>Relatório Caixa</target>
+      </trans-unit>
+      
+
+      <!-- Mensagens -->
+      <trans-unit id="MSG-001" datatype="html">
+        <source>MSG-001</source>
+        <target>Deseja realmento finalizar o caixa? Essa ação não poderá ser desfeita.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

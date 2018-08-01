@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <!--TITLE-->
+      <trans-unit id="TITLE_SISGEF" datatype="html">
+        <source>TITLE_SISGEF</source>
+		    <target>Welcome Financial Management System</target>
+      </trans-unit>
+
+      <!--LABELS -->
+      <trans-unit id="LABEL_NOVO_CAIXA" datatype="html">
+        <source>LABEL_NOVO_CAIXA</source>
+        <target>New Box</target>
+      </trans-unit>
+      <trans-unit id="LABEL_REGISTROS_NAO_ENCONTRADOS" datatype="html">
+        <source>LABEL_REGISTROS_NAO_ENCONTRADOS</source>
+        <target>Records Not Found</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
