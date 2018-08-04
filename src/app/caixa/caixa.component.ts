@@ -46,13 +46,13 @@ export class CaixaComponent implements OnInit {
    * Prepara para inserção do novo caixa.
    */
   novoCaixa() {
+    this.dataTableService.setarDataTable([]);
     this.caixaService.validarCaixaEmAberto(new Date().getFullYear()).subscribe(
       data => {
         this.caixaService.getNovoCaixa().subscribe(
           data => {
             this.acaoSistema.setaAcaoParaIncluir();
             this.caixaBean = data;
-            console.log('dsaf', this.caixaBean);
             this.inicialiarMeses();
           },
           err => {this.mensagemService.addMensagemErro(err.error);}

@@ -143,4 +143,12 @@ export class CaixaService {
 	getRelatorioCaixa(idCaixa) {
 		this.http.downloadFile(API+'arquivo/getRelatorioCaixa/'+idCaixa);
 	}
+
+	/**
+	 * Retorna a lista de meses.
+	 * 
+	 */
+	getMeses() {
+		return this.http.get(API+'caixa/getMeses');
+	}
 }

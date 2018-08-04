@@ -19,7 +19,6 @@
         <source>TITLE_CAIXA</source>
 		    <target>Caixa</target>
       </trans-unit>
-      TITLE_CAIXA
       <trans-unit id="TITLE_INCLUSAO_CAIXA" datatype="html">
         <source>TITLE_INCLUSAO_CAIXA</source>
 		    <target>Inclusão de Caixa</target>
@@ -28,6 +27,11 @@
         <source>TITLE_ALTERACAO_CAIXA</source>
 		    <target>Alteração de Caixa</target>
       </trans-unit>
+      <trans-unit id="TITLE_FILTROS_PESQUISA" datatype="html">
+        <source>TITLE_FILTROS_PESQUISA</source>
+		    <target>Filtros de Pesquisa</target>
+      </trans-unit>
+      
       <!--LABELS -->
       <trans-unit id="LABEL_REGISTROS_NAO_ENCONTRADOS" datatype="html">
         <source>LABEL_REGISTROS_NAO_ENCONTRADOS</source>
@@ -137,7 +141,15 @@
         <source>LABEL_RELATORIO_CAIXA</source>
         <target>Relatório Caixa</target>
       </trans-unit>
-      
+      <trans-unit id="LABEL_PESQUISAR" datatype="html">
+        <source>LABEL_PESQUISAR</source>
+        <target>Pesquisar</target>
+      </trans-unit>
+      <trans-unit id="LABEL_LIMPAR" datatype="html">
+        <source>LABEL_LIMPAR</source>
+        <target>Limpar</target>
+      </trans-unit>
+          
 
       <!-- Mensagens -->
       <trans-unit id="MSG-001" datatype="html">

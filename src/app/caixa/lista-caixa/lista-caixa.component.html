@@ -1,5 +1,49 @@
 <div class="col-lg-12" >
-	<table class="table table-responsive table-hover text-center"> 
+    <div class="row">
+        <h6 class="text-left"  i18n="@@TITLE_FILTROS_PESQUISA">TITLE_FILTROS_PESQUISA</h6>
+    </div>
+  <form #pesquisaCaixa="ngForm" class="form-horizontal" >
+			
+    <div class="form-group row">
+      <div class="col-lg-2">
+          <label  for="complemento" i18n="@@LABEL_MES">LABEL_MES:</label>
+       </div>
+       <div class="col-lg-4">
+          <select class="form-control" name="mes" id="mes" [(ngModel)]="filtro.mes" >
+              <option value="0">Selecione</option>
+              <option *ngFor="let mes of meses" [ngValue]="mes">{{mes.descricao}}</option> 
+          </select>
+       </div>
+       <div class="col-lg-2">
+          <label  for="complemento" i18n="@@LABEL_ANO">LABEL_ANO:</label>
+       </div>
+       <div class="col-lg-4">
+         <input	class="form-control" type="number" id="ano" name="ano" [(ngModel)]="filtro.ano" >
+       </div>
+    </div>
+    <div class="form-group last text-center " >
+      <div class="col-sm-12">
+          <button  (click)="limpar()"> 
+              <fa class="fa-sm espaco" name="ban" animation="ban" ></fa>
+              <span i18n="@@LABEL_LIMPAR">LABEL_LIMPAR</span>
+           </button>
+          
+          <button  type="submit"	(click)="pesquisar()">
+              <fa class="fa-sm espaco" name="search" animation="search" ></fa> 
+              <span i18n="@@LABEL_PESQUISAR">LABEL_PESQUISAR</span>
+          </button>
+      </div>
+    </div>
+    </form>
+</div>
+<div class="col-lg-12" >
+    <div class="text-right" >
+        <a class="text-right"  (click)="novoCaixa()" >
+            <fa class="fa-lg" name="plus" animation="plus" ></fa>
+            <span i18n="@@LABEL_NOVO_CAIXA">LABEL_NOVO_CAIXA</span>
+        </a>	
+      </div>
+  <table class="table table-responsive table-hover text-center"> 
     <thead >
       <tr>
         <th i18n="@@LABEL_MES" style="width: 300px;">LABEL_MES</th>
@@ -10,7 +54,7 @@
       </tr>
     </thead>        
      <tbody > 
-      <tr *ngFor="let caixa of caixasTO">
+      <tr *ngFor="let caixa of dataTableService.returnedArray">
         <td class="text-center" style="width: 200px;"> {{caixa.mes.descricao}}</td>
         <td class="text-center" style="width: 200px;"> {{caixa.ano}}</td>
         <td class="text-center {{caixaService.getClasseSaldos(caixa.saldo)}}" style="width: 200px;"> {{caixa.saldo | currency:'BRL':true}}</td>
@@ -28,6 +72,13 @@
         </td> 
       </tr>
      </tbody> 
+     <tfoot>
+      <pagination *ngIf="caixasTO.length > dataTableService.totalItensPorPagina"  
+                  [totalItems]="caixasTO.length" 
+                  [itemsPerPage]= "dataTableService.totalItensPorPagina"
+                  (pageChanged)="dataTableService.mudarPagina($event)" 
+                  previousText="Anterior" nextText="Próximo"></pagination>
+  </tfoot>
 </table>	
 </div>
 <div class="col-lg-12" *ngIf="caixasTO.length == 0" i18n="@@LABEL_REGISTROS_NAO_ENCONTRADOS">

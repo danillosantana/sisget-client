@@ -14,13 +14,12 @@
 </div>
 <br/>
 <div class="col-lg-12">
-	<div class="text-right" >
-		<a class="text-right"  *ngIf="acaoSistema.isAcaoSistemaListar()" (click)="novoCaixa()" >
-        <fa class="fa-lg" name="fechar" animation="plus" ></fa>
-        <span i18n="@@LABEL_NOVO_CAIXA">LABEL_NOVO_CAIXA</span>
-    </a>	
-	</div>
-	<app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()" (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"></app-lista-caixa>
+	
+  <app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()" 
+                   (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  
+                   (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"
+                   (novoCaixaEmitter) = "novoCaixa($event)">
+</app-lista-caixa>
 
 	<div *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
     <form #cadastro="ngForm" class="form-horizontal">
