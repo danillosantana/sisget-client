@@ -1,11 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { Component, OnInit, TemplateRef } from '@angular/core';;
 
-import {AcaoSistema} from '../classes/util/acao-sistema';
-import {CaixaService} from './caixa.service';
+import { AcaoSistema } from '../classes/util/acao-sistema';
+import { CaixaService } from './caixa.service';
 import { MensagensService } from '../mensagens/mensagens.service';
 import { PoupService } from '../servicos/poup.service';
-import {DataTableService} from '../servicos/data-table.service';
+import { DataTableService } from '../servicos/data-table.service';
 
 @Component({
   selector: 'app-caixa',
@@ -46,11 +45,11 @@ export class CaixaComponent implements OnInit {
    * Prepara para inserção do novo caixa.
    */
   novoCaixa() {
-    this.dataTableService.setarDataTable([]);
     this.caixaService.validarCaixaEmAberto(new Date().getFullYear()).subscribe(
       data => {
         this.caixaService.getNovoCaixa().subscribe(
           data => {
+            this.dataTableService.setarDataTable([]);
             this.acaoSistema.setaAcaoParaIncluir();
             this.caixaBean = data;
             this.inicialiarMeses();

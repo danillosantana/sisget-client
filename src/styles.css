@@ -5,7 +5,7 @@
   
   .navbar .dropdown-menu {
    border:none;
-   background-color:#0060c8!important;
+   /*background-color:#0060c8!important;*/
   }
   
   /* breakpoint and up - mega dropdown styles */
@@ -27,8 +27,8 @@
   .navbar .dropdown {position:static;}
   
   .navbar .dropdown-menu {
-   width:100%;
-   left:0;
+   width:18%;
+   left:10;
    right:0;
   /*  height of nav-item  */
    top:45px;
@@ -83,6 +83,10 @@
 .text-green {
   color:green!important;
   font-weight: bold;
+}
+
+.text-gray {
+  color: #adb5bd!important;
 }
 
 .text-uppercase {

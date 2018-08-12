@@ -24,12 +24,12 @@
     <div class="form-group last text-center " >
       <div class="col-sm-12">
           <button  (click)="limpar()"> 
-              <fa class="fa-sm espaco" name="ban" animation="ban" ></fa>
+              <fa class="fa-sm espaco " name="shower" animation="shower" ></fa>
               <span i18n="@@LABEL_LIMPAR">LABEL_LIMPAR</span>
            </button>
           
           <button  type="submit"	(click)="pesquisar()">
-              <fa class="fa-sm espaco" name="search" animation="search" ></fa> 
+              <fa class="fa-sm espaco text-gray" name="search" animation="search" ></fa> 
               <span i18n="@@LABEL_PESQUISAR">LABEL_PESQUISAR</span>
           </button>
       </div>
@@ -39,17 +39,17 @@
 <div class="col-lg-12" >
     <div class="text-right" >
         <a class="text-right"  (click)="novoCaixa()" >
-            <fa class="fa-lg" name="plus" animation="plus" ></fa>
+            <fa class="fa-lg text-green" name="plus" animation="plus" ></fa>
             <span i18n="@@LABEL_NOVO_CAIXA">LABEL_NOVO_CAIXA</span>
         </a>	
       </div>
   <table class="table table-responsive table-hover text-center"> 
     <thead >
       <tr>
-        <th i18n="@@LABEL_MES" style="width: 300px;">LABEL_MES</th>
-        <th i18n="@@LABEL_ANO" style="width: 300px;">LABEL_ANO</th>
-        <th i18n="@@LABEL_SALDO" style="width: 300px;">LABEL_SALDO</th>
-        <th i18n="@@LABEL_SITUACAO" style="width: 300px;">LABEL_SITUACAO</th>
+        <th i18n="@@LABEL_MES" style="width: 300px;" sortColumn="mes.descricao">LABEL_MES</th>
+        <th i18n="@@LABEL_ANO" style="width: 300px;" sortColumn="ano">LABEL_ANO</th>
+        <th i18n="@@LABEL_SALDO" style="width: 300px;" sortColumn="saldo">LABEL_SALDO</th>
+        <th i18n="@@LABEL_SITUACAO" style="width: 300px;" sortColumn="situacao"> LABEL_SITUACAO</th>
         <th i18n="@@LABEL_ACOES" style="width: 300px;">LABEL_ACOES</th>
       </tr>
     </thead>        
@@ -61,13 +61,13 @@
         <td class="text-center" style="width: 200px;"> {{caixa.situacao}}</td>
         <td class="text-center espaco" style="width: 200px;">
         <a  (click)="visualizar(caixa)"  i18n-title="@@LABEL_VISUALIZAR"  title="LABEL_VISUALIZAR">  
-              <fa class="fa-lg" name="visualizar" animation="eye" > </fa>
+              <fa class="fa-lg text-gray" name="visualizar" animation="eye" > </fa>
           </a>
           <a *ngIf="!caixa.encerrado" (click)="alterar(caixa)" i18n-title="@@LABEL_ALTERAR" title="LABEL_ALTERAR">
-              <fa class="fa-lg" name="alterar" animation="edit" ></fa>
+              <fa class="fa-lg text-blue" name="alterar" animation="edit" ></fa>
           </a>
           <a  (click)="getRelatorioCaixa(caixa.id)" i18n-title="@@LABEL_RELATORIO_CAIXA" title="LABEL_RELATORIO_CAIXA">
-            <fa class="fa-lg" name="pdf" animation="file-pdf-o" ></fa>
+            <fa class="fa-lg text-red" name="pdf" animation="file-pdf-o" ></fa>
           </a>
         </td> 
       </tr>

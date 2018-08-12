@@ -1,0 +1,62 @@
+<div class="container"> 
+  <div class="col-lg-12">
+    <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaListar()" i18n="@@TITLE_CONTAS">TITLE_CONTAS</h6>
+    <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaIncluir()" i18n="@@TITLE_INCLUSAO_CONTA">TITLE_INCLUSAO_CONTA</h6>
+    <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaAlterar()" i18n="@@TITLE_ALTERACAO_CONTA">TITLE_ALTERACAO_CONTA
+    </h6>
+  </div>
+  <hr>
+  <br/>  
+<div class="col-lg-12" *ngIf="acaoSistema.isAcaoSistemaListar()">
+    <div class="text-right" >
+        <a class="text-right"  (click)="novaConta()" >
+           <fa class="fa-lg text-green" name="plus" animation="plus" ></fa>
+            <span i18n="@@LABEL_NOVA_CONTA">LABEL_NOVA_CONTA</span>
+        </a>	
+      </div>
+  <table class="table table-responsive table-hover text-center"> 
+    <thead >
+      <tr>
+        <th i18n="@@LABEL_TIPO_CONTA" style="width: 300px;" filterColumn="tipoConta">LABEL_TIPO_CONTA</th>
+        <th i18n="@@LABEL_CPF_CNPJ" style="width: 300px;" filterColumn="numeroRegistro">LABEL_CPF_CNPJ</th>
+        <th i18n="@@LABEL_NOME" style="width: 300px;" filterColumn="nome">LABEL_NOME</th>
+        <th i18n="@@LABEL_SITUACAO" style="width: 300px;" filterColumn="situacao"> LABEL_SITUACAO</th>
+        <th i18n="@@LABEL_ACOES" style="width: 300px;">LABEL_ACOES</th>
+      </tr>
+    </thead>        
+     <tbody > 
+      <tr *ngFor="let contaTO of dataTableService.returnedArray">
+        <td class="text-center" style="width: 200px;"> {{contaTO.tipoConta}}</td>
+        <td class="text-center" style="width: 200px;"> {{contaTO.numeroRegistro | mask : getMascara(contaTO.pessoaJuridica)}}</td>
+        <td class="text-center" style="width: 200px;"> {{contaTO.nome}}</td>
+        <td class="text-center" style="width: 200px;"> {{contaTO.situacao}}</td>
+        <td class="text-center espaco" style="width: 200px;">
+          <a  (click)="inativar(contaTO.id)" *ngIf="contaTO.ativo"  i18n-title="@@LABEL_INATIVAR"  title="LABEL_INATIVAR">  
+                <fa class="fa-lg text-green" name="ativo" animation="toggle-on" > </fa>
+          </a>
+          <a  (click)="ativar(contaTO.id)" *ngIf="!contaTO.ativo"  i18n-title="@@LABEL_ATIVAR"  title="LABEL_ATIVAR">  
+              <fa class="fa-lg text-red" name="inativo" animation="toggle-off" > </fa>
+        </a>
+        </td> 
+      </tr>
+     </tbody> 
+     <tfoot>
+      <pagination *ngIf="contasTO.length > dataTableService.totalItensPorPagina"  
+                  [totalItems]="contasTO.length" 
+                  [itemsPerPage]= "dataTableService.totalItensPorPagina"
+                  (pageChanged)="dataTableService.mudarPagina($event)" 
+                  previousText="Anterior" nextText="Próximo"></pagination>
+  </tfoot>
+</table>	
+</div>
+<div class="col-lg-12" *ngIf="contasTO.length == 0 && acaoSistema.isAcaoSistemaListar()" i18n="@@LABEL_REGISTROS_NAO_ENCONTRADOS">
+	LABEL_REGISTROS_NAO_ENCONTRADOS
+</div>
+</div>
+<div class="container" *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar()">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <app-conta (voltarEmitter) = "init($event)"></app-conta>
+      </div>
+    </div>
+</div>

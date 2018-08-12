@@ -1,0 +1,76 @@
+<form #cadastro="ngForm" class="form-horizontal"> 
+    <div class="form-group row">
+        <label class="text-blue"  for="complemento" i18n="@@TITLE_INFORMACOES_CONTA">TITLE_INFORMACOES_CONTA</label>
+        <hr>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-3">
+            <label  class="required" for="tipoConta" i18n="@@LABEL_TIPO_CONTA">LABEL_TIPO_CONTA</label>:
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" name="tipoConta" id="tipoConta" [(ngModel)]="conta.tipoConta">
+                <option value="0">Selecione</option>
+                <option *ngFor="let tipoConta of tiposContas, let i = index" [ngValue]="tipoConta">{{tipoConta.descricao}}</option> 
+            </select>
+        </div>
+        <div class="col-lg-3 required">
+            <label  class="required" for="tipoSituacao" i18n="@@LABEL_SITUACAO">LABEL_SITUACAO</label>:
+            </div>
+            <div class="col-lg-3">
+            <select class="form-control" name="tipoSituacao" id="tipoSituacao" [(ngModel)]="conta.tipoSituacao" [disabled]="true">
+                <option value="0">Selecione</option>
+                <option *ngFor="let tipoSituacao of tiposSituacoes, let i = index" [ngValue]="tipoSituacao">{{tipoSituacao.descricao}}</option> 
+            </select>
+        </div>
+    </div>
+        
+    <div class="form-group row">
+        <label class="required" class="text-blue"  for="complemento" i18n="@@TITLE_DADOS_PESSOAIS">TITLE_DADOS_PESSOAIS</label>
+        <hr>
+    </div>
+  <div class="form-group row">
+    <div class="col-lg-3">
+      <label class="required"  for="complemento" i18n="@@LABEL_TIPO_PESSOA">LABEL_TIPO_PESSOA:</label>
+   </div>
+   <div class="col-lg-9">
+      <select class="form-control" name="tipoPessoa" id="tipoPessoa" [(ngModel)]="conta.pessoa.tipoPessoa" (change)="definirMascaraNumeroRegistro()">
+          <option value="0">Selecione</option>
+          <option *ngFor="let tipoPessoa of tiposPessoa, let i = index" [ngValue]="tipoPessoa">{{tipoPessoa.descricao}}</option> 
+      </select>
+   </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-lg-3">
+      <label  for="numeroRegistro" i18n="@@LABEL_CPF_CNPJ">LABEL_CPF_CNPJ:</label>
+   </div>
+   <div class="col-lg-9">
+     <input	class="form-control" type="text" [disabled]="!habilitarCpfCnpj"
+            id="numeroRegistro" name="numeroRegistro" (focusout)="getPessoa()"
+            [(ngModel)]="conta.pessoa.numeroRegistro"  mask="{{mascaraNumeroRegistro}}">
+   </div>
+   </div> 
+   <div class="form-group row">
+        <div class="col-lg-3">
+          <label  for="nome" i18n="@@LABEL_NOME">LABEL_NOME:</label>
+       </div>
+       <div class="col-lg-9">
+         <input	class="form-control" type="text" 
+                id="nome" name="nome" 
+                [(ngModel)]="conta.pessoa.nome" >
+       </div> 
+    </div>
+   <div class="form-group last text-center " >
+          <div class="col-sm-12">
+              <button  (click)="voltar()"> 
+                  <fa class="fa-sm espaco text-blue" name="voltar" animation="chevron-left" ></fa>
+                  <span i18n="@@LABEL_VOLTAR">LABEL_VOLTAR</span>
+               </button>
+  
+              <button   type="submit"	(click)="salvar()" >
+                  <fa class="fa-sm espaco text-green" name="add" animation="plus" ></fa> 
+                  <span i18n="@@LABEL_SALVAR">LABEL_SALVAR</span> 
+              </button>
+              
+          </div>
+        </div> 
+</form>

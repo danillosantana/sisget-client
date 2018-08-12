@@ -31,6 +31,26 @@
         <source>TITLE_FILTROS_PESQUISA</source>
 		    <target>Filtros de Pesquisa</target>
       </trans-unit>
+      <trans-unit id="TITLE_CONTAS" datatype="html">
+        <source>TITLE_CONTAS</source>
+		    <target>Contas</target>
+      </trans-unit>
+      <trans-unit id="TITLE_INCLUSAO_CONTA" datatype="html">
+        <source>TITLE_INCLUSAO_CONTA</source>
+		    <target>Inclusão Conta</target>
+      </trans-unit>
+      <trans-unit id="TITLE_ALTERACAO_CONTA" datatype="html">
+        <source>TITLE_ALTERACAO_CONTA</source>
+		    <target>Alteração Conta</target>
+      </trans-unit>
+      <trans-unit id="TITLE_INFORMACOES_CONTA" datatype="html">
+        <source>TITLE_INFORMACOES_CONTA</source>
+		    <target>Informações da Conta</target>
+      </trans-unit>
+      <trans-unit id="TITLE_DADOS_PESSOAIS" datatype="html">
+        <source>TITLE_DADOS_PESSOAIS</source>
+		    <target>Dados Pessoais</target>
+      </trans-unit>
       
       <!--LABELS -->
       <trans-unit id="LABEL_REGISTROS_NAO_ENCONTRADOS" datatype="html">
@@ -149,7 +169,38 @@
         <source>LABEL_LIMPAR</source>
         <target>Limpar</target>
       </trans-unit>
-          
+      <trans-unit id="LABEL_NOVA_CONTA" datatype="html">
+        <source>LABEL_NOVA_CONTA</source>
+        <target>Nova Conta</target>
+      </trans-unit>
+      <trans-unit id="LABEL_NOME" datatype="html">
+        <source>LABEL_NOME</source>
+        <target>Nome</target>
+      </trans-unit>
+      <trans-unit id="LABEL_NUMERO_REGISTRO" datatype="html">
+        <source>LABEL_NUMERO_REGISTRO</source>
+        <target>Número de Registro</target>
+      </trans-unit>
+      <trans-unit id="LABEL_CPF_CNPJ" datatype="html">
+        <source>LABEL_CPF_CNPJ</source>
+        <target>CPF/CNPJ</target>
+      </trans-unit>
+      <trans-unit id="LABEL_TIPO_PESSOA" datatype="html">
+        <source>LABEL_TIPO_PESSOA</source>
+        <target>Tipo de Pessoa</target>
+      </trans-unit>
+      <trans-unit id="LABEL_TIPO_CONTA" datatype="html">
+        <source>LABEL_TIPO_CONTA</source>
+        <target>Tipo de Conta</target>
+      </trans-unit>
+      <trans-unit id="LABEL_ATIVAR" datatype="html">
+        <source>LABEL_ATIVAR</source>
+        <target>Ativar</target>
+      </trans-unit>
+      <trans-unit id="LABEL_INATIVAR" datatype="html">
+        <source>LABEL_INATIVAR</source>
+        <target>Inativar</target>
+      </trans-unit>
 
       <!-- Mensagens -->
       <trans-unit id="MSG-001" datatype="html">
