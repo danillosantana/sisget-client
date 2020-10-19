@@ -19,7 +19,7 @@ export class CaixaService {
    *  Retorna a lista de caixas por ano vigente.
    */
   getCaixasTOsPorAnoVigente() {
-    return this.http.get(API+'caixa/getCaixasTOsPorAnoVigente');
+    return this.http.get(API+'caixa/ano-vigente');
   }
 
   /**
@@ -46,7 +46,7 @@ export class CaixaService {
 	* @param filtro
 	*/
 	getCaixasTOPorFiltro(filtro) {  
-	   return this.http.post(API+'caixa/getCaixasTOPorFiltro', filtro);	
+	   return this.http.post(API+'caixa/filtro', filtro);	
 	}
 	
    /**
@@ -55,14 +55,14 @@ export class CaixaService {
 	* @param idCaixa
 	*/
 	getCaixaBean(idCaixa) { 
-	   return this.http.get(API+'caixa/getCaixaBean/'+idCaixa);
+	   return this.http.get(API+'caixa/'+idCaixa);
 	}
 	
    /**
 	* Retorna a lista de TipoMovimentacao.
 	*/
 	getTiposMovimentacoes() {
-	   return this.http.get(API+'caixa/getTiposMovimentacoes');		
+	   return this.http.get(API+'caixa/tipos/movimentacoes');		
 	}
 	
    /**
@@ -78,7 +78,7 @@ export class CaixaService {
 	 * @param ano
 	 */
 	getMesesDisponiveis(ano) { 
-		return this.http.get(API+'caixa/getMesesDisponiveis/'+ano);		
+		return this.http.get(API+'caixa/meses/disponiveis/'+ano);		
 	}
 
 	/**
@@ -87,7 +87,7 @@ export class CaixaService {
 	 * @param movimentacaoCaixa
 	 */
 	validarCamposObrigatoriosMovimentoCaixa(movimentacaoCaixa) { 
-		return this.http.post(API+'caixa/validarCamposObrigatoriosMovimentoCaixa', movimentacaoCaixa);
+		return this.http.post(API+'caixa/validar/campos-obrigatorios-movimentoCaixa', movimentacaoCaixa);
 	}
 
 	/**
@@ -114,7 +114,7 @@ export class CaixaService {
 	 * @param ano
 	 */
 	validarCaixaEmAberto(ano) {
-		return this.http.get(API+'caixa/validarCaixaEmAberto/'+ano);
+		return this.http.get(API+'caixa/validar/caixa-em-aberto/'+ano);
 	}
 
 	//TODO colocar em diretiva
@@ -130,7 +130,7 @@ export class CaixaService {
 	 * 
 	 */
 	getNovoCaixa() { 
-		return this.http.get(API+'caixa/getNovoCaixa');
+		return this.http.get(API+'caixa/novo-Caixa');
 	}
 
 	/**
@@ -147,6 +147,6 @@ export class CaixaService {
 	 * 
 	 */
 	getMeses() {
-		return this.http.get(API+'caixa/getMeses');
+		return this.http.get(API+'caixa/meses');
 	}
 }
