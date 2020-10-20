@@ -20,12 +20,12 @@ export class ListaCaixaComponent implements OnInit {
   caixasTO : any = [];
   filtro   : any = {};
   meses    : any = [];
-  @Output() enviarCaixaParaVisualizacao = new EventEmitter();
-  @Output() enviarCaixaParaAlteracao = new EventEmitter();
-  @Output() novoCaixaEmitter = new EventEmitter();
+  @Output() enviarCaixaParaVisualizacao : EventEmitter<any> = new EventEmitter<any>();
+  @Output() enviarCaixaParaAlteracao : EventEmitter<any> = new EventEmitter<any>();
+  @Output() novoCaixaEmitter : EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(protected caixaService : CaixaService, private mensagemService : MensagensService, 
-            private poupService : PoupService, public dataTableService : DataTableService) { 
+  constructor(public caixaService : CaixaService, public mensagemService : MensagensService, 
+            public poupService : PoupService, public dataTableService : DataTableService) { 
 
   }
 
@@ -50,10 +50,12 @@ export class ListaCaixaComponent implements OnInit {
     .subscribe(
       data => {
         this.caixasTO = data;
+        console.log('this.caixasTO', this.caixasTO);
+        
         this.dataTableService.setarDataTable(this.caixasTO);
       },
       err => {
-        this.mensagemService.addMensagemErro(err.error);
+        // this.mensagemService.addMensagemErro(err.error);
       }
     );
   }
@@ -101,7 +103,7 @@ export class ListaCaixaComponent implements OnInit {
       },
       err => {
         this.setarMesDefault();
-        this.mensagemService.addMensagemErro(err.error);
+        // this.mensagemService.addMensagemErro(err.error);
       }
     );
   }
@@ -119,7 +121,9 @@ export class ListaCaixaComponent implements OnInit {
         this.meses = data;
         this.setarMesDefault();
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     );
   }
 

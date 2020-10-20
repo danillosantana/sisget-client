@@ -48,7 +48,9 @@ export class ListaContaComponent implements OnInit {
         this.contasTO = data;
         this.dataTableService.setarDataTable(this.contasTO);
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     ); 
   }
 
@@ -76,10 +78,12 @@ export class ListaContaComponent implements OnInit {
   inativar(idConta) {
     this.contaService.inativar(idConta).subscribe(
       data => {
-        this.mensagemService.addMensagemSucesso(data);
+        // this.mensagemService.addMensagemSucesso(data);
         this.init();
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     ); 
   }
 
@@ -92,10 +96,12 @@ export class ListaContaComponent implements OnInit {
     console.log('fdsfda', idConta);
     this.contaService.ativar(idConta).subscribe(
       data => {
-        this.mensagemService.addMensagemSucesso(data);
+        // this.mensagemService.addMensagemSucesso(data);
         this.init();
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     ); 
   }
 }

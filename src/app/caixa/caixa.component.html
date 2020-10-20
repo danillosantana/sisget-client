@@ -10,7 +10,6 @@
 <hr>
 <div class="row" *ngIf="acaoSistema.isAcaoSistemaAlterar()"> 
   <a class="text-left"  (click)="finalizarCaixa(popupFecharCaixa)">
-    <fa class="fa-lg text-red" name="fechar" animation="times" ></fa>
     <span i18n="@@LABEL_ENCERRAR_CAIXA">LABEL_ENCERRAR_CAIXA</span>
   </a>
 </div>
@@ -20,7 +19,7 @@
   <app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()" 
                    (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  
                    (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"
-                   (novoCaixaEmitter) = "novoCaixa($event)">
+                   (novoCaixaEmitter) = "novoCaixa()">
 </app-lista-caixa>
 
 	<div *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
@@ -59,7 +58,7 @@
        <div class="form-group row">
           <div class="col-lg-12 text-right" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
               <a  (click)="novaMovimentacaoFinanceira(popupMovimentacaoFinanceira)" >
-                  <fa class="fa-lg text-green" name="fechar" animation="plus" ></fa>
+
                   <span i18n="@@LABEL_NOVA_MOVIMENTACAO_FINANCEIRA">LABEL_NOVA_MOVIMENTACAO_FINANCEIRA</span>
               </a>
           </div>
@@ -81,12 +80,10 @@
                 <td class="text-center {{getClasseValor(movimentacao)}}" style="width: 200px;"> {{movimentacao.valor | currency:'BRL':true}}</td>
                 <td class="text-center espaco" style="width: 200px;">
                   <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" 
-                          (click)="excluirMovimentacao(movimentacao)" i18n-title="@@LABEL_EXCLUIR" title="LABEL_EXCLUIR" >
-                          <fa class="fa-lg text-red" name="alterar" animation="close" ></fa>   
+                          (click)="excluirMovimentacao(movimentacao)" i18n-title="@@LABEL_EXCLUIR" title="LABEL_EXCLUIR" >  
                   </a>
                   <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" i18n-title="@@LABEL_ALTERAR" title="LABEL_ALTERAR"
                           (click)="alterarMovimentacao(movimentacao, popupMovimentacaoFinanceira)" >
-                          <fa class="fa-lg text-blue" name="alterar" animation="edit" ></fa>
                   </a>
                   <p *ngIf="acaoSistema.isAcaoSistemaVisualizar()">{{' - '}}</p>
                 </td> 
@@ -108,17 +105,14 @@
 			<div class="form-group last text-center " >
 				<div class="col-sm-12">
 				    <button  (click)="voltar()"> 
-                <fa class="fa-sm espaco text-blue" name="voltar" animation="chevron-left" ></fa>
                 <span i18n="@@LABEL_VOLTAR">LABEL_VOLTAR</span>
 			       </button>
 
 				    <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="submit"	(click)="salvar()" >
-                <fa class="fa-sm espaco text-green" name="add" animation="plus" ></fa> 
                 <span i18n="@@LABEL_SALVAR">LABEL_SALVAR</span> 
             </button>
             
             <button   *ngIf="acaoSistema.isAcaoSistemaAlterar()" type="submit"	(click)="alterar()">
-                <fa class="fa-sm espaco text-blue" name="edit" animation="edit" ></fa> 
                 <span i18n="@@LABEL_ALTERAR">LABEL_ALTERAR</span>
             </button>
 			  </div>

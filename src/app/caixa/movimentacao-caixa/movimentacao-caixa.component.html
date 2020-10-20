@@ -27,19 +27,16 @@
               </div> 
               <div class="form-group">
                 <label	for="valor" class="required" i18n="@@LABEL_VALOR">LABEL_VALOR</label>
-                <input	class="form-control"  maxlength="15" 
-                        currencyMask [options]="{prefix: 'R$ ', thousands: '.', decimal: ',' }" type="text" 
+                <input	class="form-control"  maxlength="15"  type="text" 
                         id="valor" name="valor" [(ngModel)]="movimentacaoFinanceira.valor" >
               </div> 
               <div class="form-group last" >
             <div class="col-sm-12 text-center">
-                <button    (click)="fecharPopupMovimentacaoFinanceira()">
-                    <fa class="fa-sm espaco" name="cancelar" animation="ban" ></fa>    
+                <button    (click)="fecharPopupMovimentacaoFinanceira()"> 
                     <span  >Cancelar</span>
                     
                 </button>
                 <button   type="submit"	(click)="salvar()" >
-                    <fa class="fa-sm espaco" name="add" animation="plus" ></fa> 
                     <span i18n="@@LABEL_SALVAR">LABEL_SALVAR</span> 
                 </button>
             </div>

@@ -16,7 +16,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
   tiposMovimentacoes : any[];
   mostrarTipoMovimentacao : boolean;
 
-  @Output() enviarMovimentacao = new EventEmitter();
+  @Output() enviarMovimentacao : EventEmitter<any> = new EventEmitter<any>();
   @Input()	movimentacaoAlterada:	any;
 
   constructor(private poupService : PoupService, private caixaService : CaixaService, private mensagensService : MensagensService) { }
@@ -63,7 +63,9 @@ export class MovimentacaoCaixaComponent implements OnInit {
               this.inicializarTiposMovimentacoes();
             }
           },
-          err => {this.mensagensService.addMensagemErro(err.error);}
+          err => {
+            // this.mensagensService.addMensagemErro(err.error);
+          }
         );
     
   }
@@ -91,7 +93,9 @@ export class MovimentacaoCaixaComponent implements OnInit {
               }
             }
           },
-          err => {this.mensagensService.addMensagemErro(err.error);}
+          err => {
+            // this.mensagensService.addMensagemErro(err.error);
+          }
         );
       } else {
         this.tiposMovimentacoes = [];
@@ -116,7 +120,9 @@ export class MovimentacaoCaixaComponent implements OnInit {
           this.fecharPopupMovimentacaoFinanceira();
           this.enviarMovimentacao.emit(this.movimentacaoFinanceira);
         },
-        err => {this.mensagensService.addMensagemErro(err.error);}
+        err => {
+          // this.mensagensService.addMensagemErro(err.error);
+        }
       );
   }
 }

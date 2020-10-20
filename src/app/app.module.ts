@@ -6,10 +6,8 @@ import { RouterModule, Routes  } from '@angular/router';
 
 import { AlertModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
-import { CurrencyMaskModule } from "ng2-currency-mask";
 import { PaginationModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NgxMaskModule } from 'ngx-mask'
 
 import { AppComponent } from './app.component';
@@ -27,6 +25,7 @@ import { SortColumnDirective } from './diretivas/sort-column.directive';
 import { FilterColumnDirective } from './diretivas/filter-column.directive';
 import { ListaContaComponent } from './lista-conta/lista-conta.component';
 import { ContaComponent } from './lista-conta/conta/conta.component';
+import {TableModule} from 'primeng/table';
 
 /**
  * Configuração de Rotas.
@@ -57,12 +56,11 @@ const appRoutes: Routes = [
     HttpClientModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
-    CurrencyMaskModule,
     PaginationModule.forRoot(),
     CollapseModule.forRoot(),
-    AngularFontAwesomeModule,
     RouterModule.forRoot(appRoutes),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    TableModule
   ],
   providers: [MensagensService, NgLoadingService, HttpService],
   bootstrap: [AppComponent]

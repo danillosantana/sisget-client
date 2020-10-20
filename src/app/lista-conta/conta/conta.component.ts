@@ -19,7 +19,7 @@ export class ContaComponent implements OnInit {
   tiposSituacoes : any = [];
   mascaraNumeroRegistro : string  = NUMERO_REGISTRO.CPF;
   habilitarCpfCnpj : boolean = false;
-  @Output() voltarEmitter = new EventEmitter();
+  @Output() voltarEmitter : EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private mensagemService : MensagensService, public contaService : ContaService,
     private poupService : PoupService, public dataTableService : DataTableService) { }
@@ -51,7 +51,9 @@ export class ContaComponent implements OnInit {
         this.tiposPessoa = data;
         this.conta.pessoa.tipoPessoa = 0;
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     );
   }
 
@@ -64,7 +66,9 @@ export class ContaComponent implements OnInit {
         this.tiposContas = data;
         this.conta.tipoConta = 0;
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     );
   }
 
@@ -77,7 +81,9 @@ export class ContaComponent implements OnInit {
         this.tiposSituacoes = data;
         this.conta.tipoSituacao = this.tiposSituacoes[0];
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     );
   }
 
@@ -108,14 +114,14 @@ export class ContaComponent implements OnInit {
 
     this.contaService.salvar(this.conta).subscribe(
       data => {
-        this.mensagemService.addMensagemSucesso(data);
+        // this.mensagemService.addMensagemSucesso(data);
         this.inicializarConta();
         this.voltar();
       },
       err => {
           this.conta.tipoConta = this.conta.tipoConta == undefined ? 0 : this.conta.tipoConta;
           this.conta.pessoa.tipoPessoa =  this.conta.pessoa.tipoPessoa == undefined ? 0 : this.conta.pessoa.tipoPessoa;
-          this.mensagemService.addMensagemErro(err.error);
+          // this.mensagemService.addMensagemErro(err.error);
         }
     );
   }
@@ -149,7 +155,9 @@ export class ContaComponent implements OnInit {
               this.conta.pessoa.numeroRegistro = numeroRegistro;
             }
         },
-        err => {this.mensagemService.addMensagemErro(err.error);}
+        err => {
+          // this.mensagemService.addMensagemErro(err.error);
+        }
       ); 
     }
   }

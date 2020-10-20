@@ -9,15 +9,15 @@ import { Injectable, Output, EventEmitter} from '@angular/core';
 })
 export class NgLoadingService {
 
-  static loading = new EventEmitter<boolean>();
+  // static loading = new EventEmitter<boolean>();
 
   constructor() { }
 
   showLoading() {
-    NgLoadingService.loading.emit(true);       
+    // NgLoadingService.loading.emit(true);       
   }
 
   hideLoading(){
-    NgLoadingService.loading.emit(false);
+    // NgLoadingService.loading.emit(false);
   }
 }

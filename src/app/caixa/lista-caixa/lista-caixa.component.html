@@ -24,12 +24,10 @@
     <div class="form-group last text-center " >
       <div class="col-sm-12">
           <button  (click)="limpar()"> 
-              <fa class="fa-sm espaco " name="shower" animation="shower" ></fa>
               <span i18n="@@LABEL_LIMPAR">LABEL_LIMPAR</span>
            </button>
           
           <button  type="submit"	(click)="pesquisar()">
-              <fa class="fa-sm espaco text-gray" name="search" animation="search" ></fa> 
               <span i18n="@@LABEL_PESQUISAR">LABEL_PESQUISAR</span>
           </button>
       </div>
@@ -39,11 +37,57 @@
 <div class="col-lg-12" >
     <div class="text-right" >
         <a class="text-right"  (click)="novoCaixa()" >
-            <fa class="fa-lg text-green" name="plus" animation="plus" ></fa>
             <span i18n="@@LABEL_NOVO_CAIXA">LABEL_NOVO_CAIXA</span>
         </a>	
       </div>
-  <table class="table table-responsive table-hover text-center"> 
+      <p-table #dt [value]="caixasTO" dataKey="id"   [rows]="10" [globalFilterFields]="['mes','ano','situacao','saldo']">
+        <ng-template pTemplate="caption">
+          <div class="table-header">
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" />
+              </span>
+          </div>
+      </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="text-center">
+                <th class="text-center">Mês</th>
+                <th class="text-center"> Ano</th>
+                <th class="text-center">Saldo</th>
+                <th class="text-center">Situacao</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-caixa>
+            <tr class="text-center">
+              <td class="text-center"> {{caixa.mes}}</td>
+              <td class="text-center"> {{caixa.ano}}</td>
+              <td class="text-center {{caixaService.getClasseSaldos(caixa.saldo)}}"> {{caixa.saldo | currency:'BRL':true}}</td>
+              <td class="text-center"> {{caixa.situacao}}</td>
+              <td >
+                <div class="row">
+                  <a class="col"  (click)="visualizar(caixa)"   title="LABEL_VISUALIZAR">  
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-eye"></i>
+                    </span> 
+                  </a>
+                    <a class="col" *ngIf="!caixa.encerrado" (click)="alterar(caixa)"  title="LABEL_ALTERAR">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-user-edit"></i>
+                      </span>
+                    </a>
+                    <a class="col"  (click)="getRelatorioCaixa(caixa.id)" title="LABEL_RELATORIO_CAIXA">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-file-pdf"></i>
+                      </span>
+                    </a>
+
+                </div>
+                </td> 
+            </tr>
+        </ng-template>
+    </p-table>    
+  <!-- <table class="table table-responsive table-hover text-center"> 
     <thead >
       <tr>
         <th i18n="@@LABEL_MES" style="width: 300px;" sortColumn="mes.descricao">LABEL_MES</th>
@@ -61,13 +105,10 @@
         <td class="text-center" style="width: 200px;"> {{caixa.situacao}}</td>
         <td class="text-center espaco" style="width: 200px;">
         <a  (click)="visualizar(caixa)"  i18n-title="@@LABEL_VISUALIZAR"  title="LABEL_VISUALIZAR">  
-              <fa class="fa-lg text-gray" name="visualizar" animation="eye" > </fa>
           </a>
           <a *ngIf="!caixa.encerrado" (click)="alterar(caixa)" i18n-title="@@LABEL_ALTERAR" title="LABEL_ALTERAR">
-              <fa class="fa-lg text-blue" name="alterar" animation="edit" ></fa>
           </a>
           <a  (click)="getRelatorioCaixa(caixa.id)" i18n-title="@@LABEL_RELATORIO_CAIXA" title="LABEL_RELATORIO_CAIXA">
-            <fa class="fa-lg text-red" name="pdf" animation="file-pdf-o" ></fa>
           </a>
         </td> 
       </tr>
@@ -79,7 +120,7 @@
                   (pageChanged)="dataTableService.mudarPagina($event)" 
                   previousText="Anterior" nextText="Próximo"></pagination>
   </tfoot>
-</table>	
+</table>	 -->
 </div>
 <div class="col-lg-12" *ngIf="caixasTO.length == 0" i18n="@@LABEL_REGISTROS_NAO_ENCONTRADOS">
 	LABEL_REGISTROS_NAO_ENCONTRADOS

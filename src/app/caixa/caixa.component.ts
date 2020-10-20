@@ -19,8 +19,8 @@ export class CaixaComponent implements OnInit {
   movimentacaoFinanceira : any;
   caixaParaEncerramento : any;
 
-  constructor(protected caixaService : CaixaService, private mensagemService : MensagensService, 
-              private poupService : PoupService, protected dataTableService : DataTableService) { }
+  constructor(public caixaService : CaixaService, public mensagemService : MensagensService, 
+    public poupService : PoupService, public dataTableService : DataTableService) { }
 
   ngOnInit() {
     this.acaoSistema.setaAcaoParaListar();
@@ -36,7 +36,9 @@ export class CaixaComponent implements OnInit {
           this.meses = data;
           this.caixaBean.caixa.mes = this.meses[0];
         },
-        err => {this.mensagemService.addMensagemErro(err.error);}
+        err => {
+          // this.mensagemService.addMensagemErro(err.error);
+        }
       );
     }
   }
@@ -54,11 +56,15 @@ export class CaixaComponent implements OnInit {
             this.caixaBean = data;
             this.inicialiarMeses();
           },
-          err => {this.mensagemService.addMensagemErro(err.error);}
+          err => {
+            // this.mensagemService.addMensagemErro(err.error);
+          }
         );
         this.acaoSistema.setaAcaoParaIncluir();
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     );
   }
 
@@ -97,7 +103,7 @@ export class CaixaComponent implements OnInit {
    * @param template 
    */
   private abrirPopupMovimentacaoFinanceira(template: TemplateRef<any>) {
-    this.poupService.show(template);
+    // this.poupService.show(template);
   }
 
   /**
@@ -166,7 +172,7 @@ export class CaixaComponent implements OnInit {
   /**
    * Retorna a classe do css para o saldo final
    */
-  protected getClasseSaldos(valor) {
+ getClasseSaldos(valor) {
     return valor >= 0 ? 'text-green' : 'text-red';
   }
 
@@ -175,33 +181,37 @@ export class CaixaComponent implements OnInit {
    * 
    * @param movimentacao 
    */
-  protected getClasseValor(movimentacao) {
+  getClasseValor(movimentacao) {
     return  this.caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? 'text-green' : 'text-red';
   }
 
   /**
    * Salva o caixa.
    */
-  protected salvar() {
+  salvar() {
     this.caixaService.salvar(this.caixaBean.caixa).subscribe(
       data => {
         this.acaoSistema.setaAcaoParaListar();
-        this.mensagemService.addMensagemSucesso(data);
+        // this.mensagemService.addMensagemSucesso(data);
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     ); 
   }
 
   /**
    * Atualiza o caixa.
    */
-  protected alterar() {
+   alterar() {
     this.caixaService.alterar(this.caixaBean.caixa).subscribe(
       data => {
         this.acaoSistema.setaAcaoParaListar();
-        this.mensagemService.addMensagemSucesso(data);
+        // this.mensagemService.addMensagemSucesso(data);
       },
-      err => {this.mensagemService.addMensagemErro(err.error);}
+      err => {
+        // this.mensagemService.addMensagemErro(err.error);
+      }
     ); 
   }
 
@@ -247,7 +257,9 @@ export class CaixaComponent implements OnInit {
           this.meses.push(this.caixaBean.caixa.mes);
           this.calcularValores();
         },
-        err => {this.mensagemService.addMensagemErro(err.error);}
+        err => {
+          // this.mensagemService.addMensagemErro(err.error);
+        }
       );
     }
   }
@@ -257,9 +269,9 @@ export class CaixaComponent implements OnInit {
    * 
    * @param template 
    */
-  protected finalizarCaixa(template: TemplateRef<any>) {
+  finalizarCaixa(template: TemplateRef<any>) {
     this.caixaParaEncerramento = this.caixaBean.caixa;
-    this.poupService.show(template); 
+    // this.poupService.show(template); 
   }
 
   /**
