@@ -26,6 +26,8 @@ import { FilterColumnDirective } from './diretivas/filter-column.directive';
 import { ListaContaComponent } from './lista-conta/lista-conta.component';
 import { ContaComponent } from './lista-conta/conta/conta.component';
 import {TableModule} from 'primeng/table';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
 
 /**
  * Configuração de Rotas.
@@ -60,7 +62,9 @@ const appRoutes: Routes = [
     CollapseModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     NgxMaskModule.forRoot(),
-    TableModule
+    TableModule,
+    InputTextModule,
+    ButtonModule
   ],
   providers: [MensagensService, NgLoadingService, HttpService],
   bootstrap: [AppComponent]

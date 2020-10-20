@@ -1,128 +1,99 @@
 <div class="col-lg-12" >
     <div class="row">
-        <h6 class="text-left"  i18n="@@TITLE_FILTROS_PESQUISA">TITLE_FILTROS_PESQUISA</h6>
+        <h6 class="text-left">Filtros Para Pesquisa</h6>
     </div>
   <form #pesquisaCaixa="ngForm" class="form-horizontal" >
 			
     <div class="form-group row">
-      <div class="col-lg-2">
-          <label  for="complemento" i18n="@@LABEL_MES">LABEL_MES:</label>
+      <div class="col-2">
+          <label  for="complemento">Mês:</label>
        </div>
-       <div class="col-lg-4">
+       <div class="col-4">
           <select class="form-control" name="mes" id="mes" [(ngModel)]="filtro.mes" >
               <option value="0">Selecione</option>
               <option *ngFor="let mes of meses" [ngValue]="mes">{{mes.descricao}}</option> 
           </select>
        </div>
-       <div class="col-lg-2">
-          <label  for="complemento" i18n="@@LABEL_ANO">LABEL_ANO:</label>
+       <div class="col-2">
+          <label  for="complemento">Ano:</label>
        </div>
-       <div class="col-lg-4">
-         <input	class="form-control" type="number" id="ano" name="ano" [(ngModel)]="filtro.ano" >
+       <div class="col-4">
+         <input pInputText	class="form-control" type="number" id="ano" name="ano" [(ngModel)]="filtro.ano" >
        </div>
     </div>
     <div class="form-group last text-center " >
-      <div class="col-sm-12">
-          <button  (click)="limpar()"> 
-              <span i18n="@@LABEL_LIMPAR">LABEL_LIMPAR</span>
+      <div class="col">
+          <button pButton  (click)="limpar()"
+                  icon="pi pi-trash" class="p-button-secondary" 
+                  label="Limpar"> 
            </button>
           
-          <button  type="submit"	(click)="pesquisar()">
-              <span i18n="@@LABEL_PESQUISAR">LABEL_PESQUISAR</span>
+          <button  pButton type="button"	(click)="pesquisar()"
+                  icon="pi pi-search-plus" class="p-button-primary" 
+                  label="Pesquisar">
           </button>
       </div>
     </div>
     </form>
 </div>
-<div class="col-lg-12" >
-    <div class="text-right" >
-        <a class="text-right"  (click)="novoCaixa()" >
-            <span i18n="@@LABEL_NOVO_CAIXA">LABEL_NOVO_CAIXA</span>
-        </a>	
-      </div>
-      <p-table #dt [value]="caixasTO" dataKey="id"   [rows]="10" [globalFilterFields]="['mes','ano','situacao','saldo']">
-        <ng-template pTemplate="caption">
-          <div class="table-header">
-              <span class="p-input-icon-left">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" />
-              </span>
-          </div>
-      </ng-template>
-        <ng-template pTemplate="header">
-            <tr class="text-center">
-                <th class="text-center">Mês</th>
-                <th class="text-center"> Ano</th>
-                <th class="text-center">Saldo</th>
-                <th class="text-center">Situacao</th>
-                <th class="text-center">Ações</th>
-            </tr>
+<div class="row">
+  <div class="col" >
+      <div class="text-right" >
+          <a class="text-right"  (click)="novoCaixa()" >
+              <span>Novo Caixa</span>
+          </a>	
+        </div>
+        <p-table #dt [value]="caixasTO" dataKey="id"   [rows]="10" [globalFilterFields]="['mes','ano','situacao','saldo']">
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" />
+                </span>
+            </div>
         </ng-template>
-        <ng-template pTemplate="body" let-caixa>
-            <tr class="text-center">
-              <td class="text-center"> {{caixa.mes}}</td>
-              <td class="text-center"> {{caixa.ano}}</td>
-              <td class="text-center {{caixaService.getClasseSaldos(caixa.saldo)}}"> {{caixa.saldo | currency:'BRL':true}}</td>
-              <td class="text-center"> {{caixa.situacao}}</td>
-              <td >
-                <div class="row">
-                  <a class="col"  (click)="visualizar(caixa)"   title="LABEL_VISUALIZAR">  
-                    <span class="p-input-icon-left">
-                      <i class="pi pi-eye"></i>
-                    </span> 
-                  </a>
-                    <a class="col" *ngIf="!caixa.encerrado" (click)="alterar(caixa)"  title="LABEL_ALTERAR">
+          <ng-template pTemplate="header">
+              <tr class="text-center">
+                  <th class="text-center">Mês</th>
+                  <th class="text-center"> Ano</th>
+                  <th class="text-center">Saldo</th>
+                  <th class="text-center">Situacao</th>
+                  <th class="text-center">Ações</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-caixa>
+              <tr class="text-center">
+                <td class="text-center"> {{caixa.mes}}</td>
+                <td class="text-center"> {{caixa.ano}}</td>
+                <td class="text-center {{caixaService.getClasseSaldos(caixa.saldo)}}"> {{caixa.saldo | currency:'BRL':true}}</td>
+                <td class="text-center"> {{caixa.situacao}}</td>
+                <td >
+                  <div class="row">
+                    <a class="col"  (click)="visualizar(caixa)"   title="Visualziar">  
                       <span class="p-input-icon-left">
-                        <i class="pi pi-user-edit"></i>
-                      </span>
+                        <i class="pi pi-eye"></i>
+                      </span> 
                     </a>
-                    <a class="col"  (click)="getRelatorioCaixa(caixa.id)" title="LABEL_RELATORIO_CAIXA">
-                      <span class="p-input-icon-left">
-                        <i class="pi pi-file-pdf"></i>
-                      </span>
-                    </a>
+                      <a class="col" *ngIf="!caixa.encerrado" (click)="alterar(caixa)"  title="Editar">
+                        <span class="p-input-icon-left">
+                          <i class="pi pi-user-edit"></i>
+                        </span>
+                      </a>
+                      <a class="col"  (click)="getRelatorioCaixa(caixa.id)" title="Relatório">
+                        <span class="p-input-icon-left">
+                          <i class="pi pi-file-pdf"></i>
+                        </span>
+                      </a>
+  
+                  </div>
+                  </td> 
+              </tr>
+          </ng-template>
+      </p-table>    
+  </div>
 
-                </div>
-                </td> 
-            </tr>
-        </ng-template>
-    </p-table>    
-  <!-- <table class="table table-responsive table-hover text-center"> 
-    <thead >
-      <tr>
-        <th i18n="@@LABEL_MES" style="width: 300px;" sortColumn="mes.descricao">LABEL_MES</th>
-        <th i18n="@@LABEL_ANO" style="width: 300px;" sortColumn="ano">LABEL_ANO</th>
-        <th i18n="@@LABEL_SALDO" style="width: 300px;" sortColumn="saldo">LABEL_SALDO</th>
-        <th i18n="@@LABEL_SITUACAO" style="width: 300px;" sortColumn="situacao"> LABEL_SITUACAO</th>
-        <th i18n="@@LABEL_ACOES" style="width: 300px;">LABEL_ACOES</th>
-      </tr>
-    </thead>        
-     <tbody > 
-      <tr *ngFor="let caixa of dataTableService.returnedArray">
-        <td class="text-center" style="width: 200px;"> {{caixa.mes.descricao}}</td>
-        <td class="text-center" style="width: 200px;"> {{caixa.ano}}</td>
-        <td class="text-center {{caixaService.getClasseSaldos(caixa.saldo)}}" style="width: 200px;"> {{caixa.saldo | currency:'BRL':true}}</td>
-        <td class="text-center" style="width: 200px;"> {{caixa.situacao}}</td>
-        <td class="text-center espaco" style="width: 200px;">
-        <a  (click)="visualizar(caixa)"  i18n-title="@@LABEL_VISUALIZAR"  title="LABEL_VISUALIZAR">  
-          </a>
-          <a *ngIf="!caixa.encerrado" (click)="alterar(caixa)" i18n-title="@@LABEL_ALTERAR" title="LABEL_ALTERAR">
-          </a>
-          <a  (click)="getRelatorioCaixa(caixa.id)" i18n-title="@@LABEL_RELATORIO_CAIXA" title="LABEL_RELATORIO_CAIXA">
-          </a>
-        </td> 
-      </tr>
-     </tbody> 
-     <tfoot>
-      <pagination *ngIf="caixasTO.length > dataTableService.totalItensPorPagina"  
-                  [totalItems]="caixasTO.length" 
-                  [itemsPerPage]= "dataTableService.totalItensPorPagina"
-                  (pageChanged)="dataTableService.mudarPagina($event)" 
-                  previousText="Anterior" nextText="Próximo"></pagination>
-  </tfoot>
-</table>	 -->
 </div>
-<div class="col-lg-12" *ngIf="caixasTO.length == 0" i18n="@@LABEL_REGISTROS_NAO_ENCONTRADOS">
-	LABEL_REGISTROS_NAO_ENCONTRADOS
+<div class="col-lg-12" *ngIf="caixasTO.length == 0">
+	Registros Não Encontrados
 </div>
 

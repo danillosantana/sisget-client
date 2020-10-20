@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../servicos/http-service.service';
 import { API } from '../classes/util/app-config'
+import { CaixaTO } from '../model/caixa.to';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
   providedIn: 'root'
 })
-
-/**
-* Classe que fornece os serviços necessários para manipulação das informações do caixa.
-*/
 export class CaixaService {
   
 
-  constructor(private http : HttpService) { }
+  constructor(public http: HttpClient) { }
 
   /**
    *  Retorna a lista de caixas por ano vigente.
    */
-  getCaixasTOsPorAnoVigente() {
-    return this.http.get(API+'caixa/ano-vigente');
+  getCaixasTOsPorAnoVigente() : Observable<Array<CaixaTO>>  {
+    return this.http.get<Array<CaixaTO>>(API+'caixa/ano-vigente');
   }
 
   /**

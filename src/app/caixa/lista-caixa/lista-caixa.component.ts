@@ -3,6 +3,7 @@ import { CaixaService } from '../../caixa/caixa.service';
 import { MensagensService } from '../../mensagens/mensagens.service';
 import { PoupService } from '../../servicos/poup.service';
 import {DataTableService} from '../../servicos/data-table.service';
+import { CaixaTO } from 'src/app/model/caixa.to';
 
 @Component({
   selector: 'app-lista-caixa',
@@ -47,12 +48,9 @@ export class ListaCaixaComponent implements OnInit {
   */
   inicializarCaixas() {
     this.caixaService.getCaixasTOsPorAnoVigente()
-    .subscribe(
-      data => {
-        this.caixasTO = data;
-        console.log('this.caixasTO', this.caixasTO);
-        
-        this.dataTableService.setarDataTable(this.caixasTO);
+    .toPromise()
+    .then( (caixasTO : Array<CaixaTO>) => {
+        this.caixasTO = caixasTO;        
       },
       err => {
         // this.mensagemService.addMensagemErro(err.error);
