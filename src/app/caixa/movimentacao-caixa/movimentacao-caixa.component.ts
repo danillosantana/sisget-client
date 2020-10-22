@@ -44,7 +44,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
   inicializarTiposOperacoes() {
       this.caixaService.getTiposOperacaoes().subscribe(
           data => {
-            this.tiposOperacoes = data;
+            // this.tiposOperacoes = data;
             if (this.tiposOperacoes != null && this.tiposOperacoes.length > 0 ) {
               
               
@@ -77,7 +77,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
     if (this.caixaService.isOperacaoEntrada(this.movimentacaoFinanceira.tipoOperacao)) {
       this.caixaService.getTiposMovimentacoes().subscribe(
           data => {
-            this.tiposMovimentacoes = data;
+            // this.tiposMovimentacoes = data;
             this.mostrarTipoMovimentacao = this.caixaService.isOperacaoEntrada(this.movimentacaoFinanceira.tipoOperacao);
             if (this.tiposMovimentacoes != null && this.tiposMovimentacoes.length > 0) {
              

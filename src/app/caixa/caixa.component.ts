@@ -5,6 +5,7 @@ import { CaixaService } from './caixa.service';
 import { MensagensService } from '../mensagens/mensagens.service';
 import { PoupService } from '../servicos/poup.service';
 import { DataTableService } from '../servicos/data-table.service';
+import { MesTO } from '../model/dto/mes.to';
 
 @Component({
   selector: 'app-caixa',
@@ -15,7 +16,7 @@ export class CaixaComponent implements OnInit {
 
   acaoSistema : AcaoSistema = new AcaoSistema();	
   caixaBean : any;
-  meses : any[];
+  meses : Array<MesTO> = [];
   movimentacaoFinanceira : any;
   caixaParaEncerramento : any;
 
@@ -32,8 +33,8 @@ export class CaixaComponent implements OnInit {
   inicialiarMeses() {
     if (this.caixaBean.caixa != null && this.caixaBean.caixa.ano != null && this.caixaBean.caixa.ano != undefined) {
       this.caixaService.getMesesDisponiveis(this.caixaBean.caixa.ano).subscribe(
-        data => {
-          this.meses = data;
+        (meses : Array<MesTO>) => {
+          this.meses = meses;
           this.caixaBean.caixa.mes = this.meses[0];
         },
         err => {

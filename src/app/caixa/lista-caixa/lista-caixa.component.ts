@@ -1,14 +1,24 @@
-import { Component, OnInit, Output, EventEmitter, TemplateRef  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewEncapsulation, ViewChild  } from '@angular/core';
 import { CaixaService } from '../../caixa/caixa.service';
 import { MensagensService } from '../../mensagens/mensagens.service';
 import { PoupService } from '../../servicos/poup.service';
 import {DataTableService} from '../../servicos/data-table.service';
-import { CaixaTO } from 'src/app/model/caixa.to';
+import { CaixaTO } from 'src/app/model/dto/caixa.to';
+import { FiltroCaixaBean, PesquiasCaixaFormBuilderService } from './pesquisa-caixa-form-builder';
+import { FormGroup } from '@angular/forms';
+import { MesTO } from 'src/app/model/dto/mes.to';
+import { FormBuilderUtil } from 'src/app/util/form-builder-util';
+import { ObjectList } from 'src/app/model/objects/object-list';
+import Swal from 'sweetalert2';
+import { Table } from 'primeng/table';
+
 
 @Component({
   selector: 'app-lista-caixa',
   templateUrl: './lista-caixa.component.html',
-  styleUrls: ['./lista-caixa.component.css']
+  styleUrls: ['./lista-caixa.component.css'],
+  providers: [PesquiasCaixaFormBuilderService],
+  encapsulation: ViewEncapsulation.None
 })
 
 /**
@@ -18,15 +28,20 @@ import { CaixaTO } from 'src/app/model/caixa.to';
  */
 export class ListaCaixaComponent implements OnInit {
 
-  caixasTO : any = [];
+  caixasTO : Array<CaixaTO> = [];
   filtro   : any = {};
-  meses    : any = [];
+  meses    : Array<ObjectList> = [];
+  formPesquisaCaixa: FormGroup;
+
   @Output() enviarCaixaParaVisualizacao : EventEmitter<any> = new EventEmitter<any>();
   @Output() enviarCaixaParaAlteracao : EventEmitter<any> = new EventEmitter<any>();
   @Output() novoCaixaEmitter : EventEmitter<any> = new EventEmitter<any>();
 
+  @ViewChild('dt') dt: Table;
+
   constructor(public caixaService : CaixaService, public mensagemService : MensagensService, 
-            public poupService : PoupService, public dataTableService : DataTableService) { 
+              public poupService : PoupService, public dataTableService : DataTableService,
+              public pesquisaCaixaFormBuilderService : PesquiasCaixaFormBuilderService) { 
 
   }
 
@@ -39,21 +54,36 @@ export class ListaCaixaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.inicialiarMeses();
-    this.inicializarCaixas();
+    this.construirForm();
+    this.buscarListas()
+        .then(() => {
+          this.pesquisaCaixaFormBuilderService.atualizarControls(this.formPesquisaCaixa);
+          this.setarMesDefault();
+        });
   }
 
-  /**
-  * Inicializa a lista de caixas;
-  */
-  inicializarCaixas() {
-    this.caixaService.getCaixasTOsPorAnoVigente()
+  buscarListas() {
+    return Promise.all([
+      this.buscarMeses(),
+      this.buscarCaixas()
+    ]);
+  }
+
+
+  construirForm() {
+    const filtroCaixaBean = new FiltroCaixaBean();
+    this.formPesquisaCaixa = this.pesquisaCaixaFormBuilderService.buildForm(filtroCaixaBean);
+  }
+
+  buscarCaixas() {
+    return this.caixaService.getCaixasTOsPorAnoVigente()
     .toPromise()
     .then( (caixasTO : Array<CaixaTO>) => {
         this.caixasTO = caixasTO;        
       },
       err => {
         // this.mensagemService.addMensagemErro(err.error);
+        console.log('error -> ', err);
       }
     );
   }
@@ -89,10 +119,8 @@ export class ListaCaixaComponent implements OnInit {
    * Realiza a pesquisa de caixas.
    */
   pesquisar() {
-    if (this.filtro.mes == 0) {
-      this.filtro.mes = undefined;
-    }
-    this.caixaService.getCaixasTOPorFiltro(this.filtro)
+    let filtro = FormBuilderUtil.parseForEntity(this.formPesquisaCaixa, new FiltroCaixaBean()); 
+    this.caixaService.getCaixasTOPorFiltro(filtro)
     .subscribe(
       data => {
         this.caixasTO = data;
@@ -100,27 +128,37 @@ export class ListaCaixaComponent implements OnInit {
         this.dataTableService.setarDataTable(this.caixasTO);
       },
       err => {
-        this.setarMesDefault();
         // this.mensagemService.addMensagemErro(err.error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Caixas',
+          text: err
+        });
       }
     );
   }
 
   setarMesDefault() {
-    this.filtro.mes = 0;
+    if (this.meses?.length > 0) {
+       this.meses.forEach(m => {
+          if (m.value === 1) {
+            this.formPesquisaCaixa.controls.mes.setValue(m);
+          }
+       }) 
+    }
   }
 
   /**
    * Inicializa a lista de meses
    */
-  inicialiarMeses() {
-    this.caixaService.getMeses().subscribe(
-      data => {
-        this.meses = data;
-        this.setarMesDefault();
+  buscarMeses() {
+    return this.caixaService.getMeses().subscribe(
+      (meses : Array<MesTO>) => {
+        this.meses = meses.map(m => new ObjectList(m.descricao, m.id));
       },
       err => {
         // this.mensagemService.addMensagemErro(err.error);
+        console.log('error -> ',err);
       }
     );
   }

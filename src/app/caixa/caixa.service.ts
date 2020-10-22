@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { API } from '../classes/util/app-config'
-import { CaixaTO } from '../model/caixa.to';
+import { CaixaTO } from '../model/dto/caixa.to';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../servicos/http-service.service';
+import { MesTO } from '../model/dto/mes.to';
 
 
 @Injectable({
@@ -11,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class CaixaService {
   
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, public httpService : HttpService) { }
 
   /**
    *  Retorna a lista de caixas por ano vigente.
@@ -43,8 +45,8 @@ export class CaixaService {
 	* 
 	* @param filtro
 	*/
-	getCaixasTOPorFiltro(filtro) {  
-	   return this.http.post(API+'caixa/filtro', filtro);	
+	getCaixasTOPorFiltro(filtro) :  Observable<Array<CaixaTO>> {  
+	   return this.http.post<Array<CaixaTO>>(API+'caixa/filtro', filtro);	
 	}
 	
    /**
@@ -75,8 +77,8 @@ export class CaixaService {
 	 * 
 	 * @param ano
 	 */
-	getMesesDisponiveis(ano) { 
-		return this.http.get(API+'caixa/meses/disponiveis/'+ano);		
+	getMesesDisponiveis(ano) :  Observable<any>  { 
+		return this.http.get<any>(API+'caixa/meses/disponiveis/'+ano);		
 	}
 
 	/**
@@ -137,14 +139,14 @@ export class CaixaService {
 	 * @param idCaixa
 	 */
 	getRelatorioCaixa(idCaixa) {
-		this.http.downloadFile(API+'arquivo/getRelatorioCaixa/'+idCaixa);
+		this.httpService.downloadFile(API+'arquivo/getRelatorioCaixa/'+idCaixa);
 	}
 
 	/**
 	 * Retorna a lista de meses.
 	 * 
 	 */
-	getMeses() {
-		return this.http.get(API+'caixa/meses');
+	getMeses() :  Observable<Array<MesTO>> {
+		return this.http.get<Array<MesTO>>(API+'caixa/meses');
 	}
 }

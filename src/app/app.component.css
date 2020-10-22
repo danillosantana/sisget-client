@@ -1,0 +1,12 @@
+::ng-deep body .ui-menubar {
+    padding: 0;
+    background-color: #007bff!important;
+}
+
+::ng-deep .ui-menuitem-text {
+    color: white !important;
+}
+
+::ng-deep .ui-menuitem-icon {
+    color: white !important;
+}

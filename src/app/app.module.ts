@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes  } from '@angular/router';
 
@@ -28,6 +28,13 @@ import { ContaComponent } from './lista-conta/conta/conta.component';
 import {TableModule} from 'primeng/table';
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
+import {DropdownModule} from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MultiSelectModule} from 'primeng/multiselect';
+import { MatCardModule } from '@angular/material/card';
+import { MenubarModule } from 'primeng/menubar';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+
 
 /**
  * Configuração de Rotas.
@@ -54,7 +61,9 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
@@ -64,9 +73,15 @@ const appRoutes: Routes = [
     NgxMaskModule.forRoot(),
     TableModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    DropdownModule,
+    MultiSelectModule,
+    MatCardModule,
+    MenubarModule,
+    ScrollPanelModule
   ],
   providers: [MensagensService, NgLoadingService, HttpService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
