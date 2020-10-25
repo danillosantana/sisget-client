@@ -126,3 +126,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   position: sticky;
   bottom: 0;
 }
+
+.pi-pdf-color {
+  color: red;
+}

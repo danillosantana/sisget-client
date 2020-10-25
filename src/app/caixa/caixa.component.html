@@ -1,121 +1,164 @@
 <div class="container">
-
-<div class="col">
-  <h3 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaListar()">Caixas</h3>
-  <h3 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaIncluir()">Inclusão de Caixas</h3>
-  <h3 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaAlterar()">Alteração de Caixa</h3>
-  <h6 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaVisualizar()">Caixa</h6>
+<div class="row mt-n3">
+  <div class="col-3">
+    <h2 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaListar()">Caixas</h2>
+    <h2 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaIncluir()">Inclusão de Caixas</h2>
+    <h2 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaAlterar()">Alteração de Caixa</h2>
+    <h2 class="text-left text-blue text-uppercase" *ngIf="acaoSistema.isAcaoSistemaVisualizar()">Caixa</h2>
+  </div>
+  <div class="col">
+    <div class="form-group last text-right">
+          <button  *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()" 
+                   pButton (click)="voltar()" type="button" icon="pi pi-backward" label="Voltar" class="ui-button-secondary"> 
+           </button>
+  
+          <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="button"	pButton
+                    icon="pi pi-user-plus" class="ui-button-success" (click)="salvar()" >
+          </button>
+          
+          <button   *ngIf="acaoSistema.isAcaoSistemaAlterar()" pButton label="Alterar"
+                      icon="pi pi-user-edit" class="ui-button-success"
+                      type="button"	(click)="alterar()">
+          </button>
+          <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar()" class="text-left" label="Finalizar" icon="pi pi-save"  
+                class="ui-button-primary" (click)="finalizarCaixa(popupFecharCaixa)">
+        </button>
+    </div>  
+  </div>
 </div>
-<hr>
-<div class="row" *ngIf="acaoSistema.isAcaoSistemaAlterar()"> 
-  <a class="text-left"  (click)="finalizarCaixa(popupFecharCaixa)">
-    <span i18n="@@LABEL_ENCERRAR_CAIXA">LABEL_ENCERRAR_CAIXA</span>
-  </a>
-</div>
-<br/>
-<div class="col">
-	
+<div class="row mt-3">
   <app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()" 
                    (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  
                    (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"
                    (novoCaixaEmitter) = "novoCaixa()">
 </app-lista-caixa>
 
-	<div *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
+	<div class="row mt-2" *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
     <form #cadastro="ngForm" class="form-horizontal">
 			
       <div class="form-group row">
         <div class="col-lg-2">
-            <label  for="complemento" i18n="@@LABEL_MES">LABEL_MES:</label>
+            <label  for="complemento">Mês:</label>
          </div>
          <div class="col-lg-4">
-            <select class="form-control" name="mes" id="mes" [(ngModel)]="caixaBean.caixa.mes" 
+            <select class="form-control" name="mes" id="mes" [(ngModel)]="caixaBean.mes" 
                      [disabled]="acaoSistema.isAcaoSistemaVisualizar() || acaoSistema.isAcaoSistemaAlterar()">
                 <option *ngFor="let mes of meses, let i = index" [ngValue]="mes">{{mes.descricao}}</option> 
             </select>
          </div>
          <div class="col-lg-2">
-            <label  for="complemento" i18n="@@LABEL_ANO">LABEL_ANO:</label>
+            <label  for="complemento" >Ano</label>
          </div>
          <div class="col-lg-4">
-           <input	class="form-control" type="text" id="ano" name="ano" [(ngModel)]="caixaBean.caixa.ano" 
+           <input	class="form-control" type="text" id="ano" name="ano" [(ngModel)]="caixaBean.ano" 
                   [disabled]="true">
          </div>
       </div>
-      <br/>
-      <div class="form-group card card-block card-header" [collapse]="false">
-          <label class="col-lg-1"  i18n="@@LABEL_ENTRADAS" style="font-size: 12px">LABEL_ENTRADAS</label>: 
-          <label class="col-lg-2 text-blue">{{caixaBean.entradas | currency:'BRL':true}}</label>     
-          <label class="col-lg-1" i18n="@@LABEL_SAIDAS" style="font-size: 12px"> LABEL_SAIDAS</label>: 
-          <label class="col-lg-2 text-red">{{caixaBean.saidas | currency:'BRL':true}}</label>        
-          <label class="col-lg-1" i18n="@@LABEL_SALDO_ANTERIOR" style="font-size: 12px">LABEL_SALDO_ANTERIOR</label>: 
-          <label class="col-lg-2 {{caixaService.getClasseSaldos(caixaBean.saldoAnterior)}}">{{caixaBean.saldoAnterior | currency:'BRL':true}}</label>        
-          <label class="col-lg-1"  i18n="@@LABEL_SALDO_FINAL" style="font-size: 12px">LABEL_SALDO_FINAL</label>: 
-          <span class="col-lg-2 {{caixaService.getClasseSaldos(caixaBean.saldoFinal)}}" >{{caixaBean.saldoFinal | currency:'BRL':true}}</span> 
+      <div class="row text-center">
+        <mat-card class="col-3 card-header-result" >
+          <mat-card-title>
+            <label style="font-size: 12px">
+              <i class="pi pi-shopping-cart"></i>
+              Entradas
+            </label>
+          </mat-card-title>
+          <mat-card-content >
+            <label class="text-blue">
+                {{caixaBean.entradas | currency:'BRL':true}}
+            </label>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="col-3 card-header-result">
+          <mat-card-title>
+            <label style="font-size: 12px"><i class="pi pi-sign-out"></i>Saídas</label>
+          </mat-card-title>
+          <mat-card-content >
+            <label class="{{caixaService.getClasseSaldos(caixaBean.saldoAnterior)}}">{{caixaBean.saidas | currency:'BRL':true}}</label>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="col-3 card-header-result">
+          <mat-card-title>
+            <label style="font-size: 12px"><i class="pi pi-chart-bar"></i>Anterior</label>
+          </mat-card-title>
+          <mat-card-content >
+            <label class="{{caixaService.getClasseSaldos(caixaBean.saldoAnterior)}}">{{caixaBean.saldoAnterior | currency:'BRL':true}}</label>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="col-3 card-header-result">
+          <mat-card-title>
+            <label style="font-size: 12px"><i class="pi pi-money-bill"></i>Final</label>
+          </mat-card-title>
+          <mat-card-content >
+            <span class="{{caixaService.getClasseSaldos(caixaBean.saldoFinal)}}" >{{caixaBean.saldoFinal | currency:'BRL':true}}</span>
+          </mat-card-content>
+        </mat-card>  
+      </div> 
+       <div class="row mt-3">
+        <div class="col">
+          <div class="text-left ml-n3">
+            <input pInputText type="text" class="w-100" placeholder="Pesquise" 
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" />
+          </div>
         </div>
-        <br>
-       <div class="form-group row">
-          <div class="col-lg-12 text-right" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
-              <a  (click)="novaMovimentacaoFinanceira(popupMovimentacaoFinanceira)" >
+        <div class="col">
+          <div class="text-right" >
+            <a class="text-right mr-4"  (click)="novaMovimentacaoFinanceira(popupMovimentacaoFinanceira)" >
+              <span>
+                <i class="pi pi-plus-circle"></i>
+                Nova Movimentação Caixa
+              </span>
+            </a>	
+        </div>
+        </div>
+       </div>
+       <div class="row">
+         <div class="form-group">
+           <p-scrollPanel [style]="{width: '100%', height: '560px'}">
+             <p-table #dtMovimentacao [value]="caixaBean?.movimentacoes" dataKey="caixa.id"  styleClass="ui-table-pendencias" 
+                     [rows]="10" [globalFilterFields]="['descricao','tipoOperacao.descricao','tipoMovimentacao.descricao', 'valor']">
+             
+                 <ng-template pTemplate="body" let-movimentacao>
+                     <tr>
+                       <td>
+                         <mat-card  class="mat-card-lista">
+                           <mat-card-content >
+                             <div class="row">
+       
+                               <div class="col text-center">{{caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? movimentacao.tipoMovimentacao.descricao : '-'}}</div>
+                               <div class="col text-center">{{movimentacao.descricao}}</div>
+                               <div class="col  text-center ">{{movimentacao.valor | currency:'BRL':true}}</div>
+                               
+       
+                               <div class="box-actions-right col-2">
+                                 <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" 
+                                         (click)="excluirMovimentacao(movimentacao)"  title="Excluir" > 
+                                         <span class="p-input-icon-left">
+                                           <i class="pi pi-eyepi-trash"></i>
+                                         </span> 
+                                 </a>
+                                 <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()"  title="Alterar"
+                                         (click)="alterarMovimentacao(movimentacao, popupMovimentacaoFinanceira)" >
+                                         <span class="p-input-icon-left">
+                                           <i class="pi pi-user-edit"></i>
+                                         </span>
+                                 </a>
+                                 <p *ngIf="acaoSistema.isAcaoSistemaVisualizar()">{{' - '}}</p>
+                               </div>
+                             </div>
+                           </mat-card-content>
+                         </mat-card>
+                       </td>
+                     </tr>
+       
+                 </ng-template>
+               </p-table>    
+             </p-scrollPanel>
+           <div class="col-lg-12" *ngIf="caixaBean?.movimentacoes?.length == 0" >
+               Nenhum Registro Encontrado
+             </div>
+         </div>
 
-                  <span i18n="@@LABEL_NOVA_MOVIMENTACAO_FINANCEIRA">LABEL_NOVA_MOVIMENTACAO_FINANCEIRA</span>
-              </a>
-          </div>
-       </div> 
-      <div class="form-group">
-          <table class="table table-responsive table-hover text-center">
-            <thead >
-              <tr>
-                <th i18n="@@LABEL_TIPO_MOVIMENTACAO" style="width: 300px;" filterColumn='tipoMovimentacao.descricao' >LABEL_TIPO_MOVIMENTACAO</th>
-                <th i18n="@@LABEL_DESCRICAO" style="width: 300px;"  filterColumn='descricao'>LABEL_DESCRICAO</th>
-                <th i18n="@@LABEL_VALOR" style="width: 300px;" >LABEL_VALOR</th>
-                <th i18n="@@LABEL_ACOES" style="width: 300px;">LABEL_ACOES</th>
-              </tr>
-            </thead>
-            <tbody >
-              <tr *ngFor="let movimentacao of dataTableService.returnedArray">
-                <td class="text-center" style="width: 200px;"> {{caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? movimentacao.tipoMovimentacao.descricao : '-'}}</td>
-                <td class="text-center" style="width: 200px;"> {{movimentacao.descricao}}</td>
-                <td class="text-center {{getClasseValor(movimentacao)}}" style="width: 200px;"> {{movimentacao.valor | currency:'BRL':true}}</td>
-                <td class="text-center espaco" style="width: 200px;">
-                  <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" 
-                          (click)="excluirMovimentacao(movimentacao)" i18n-title="@@LABEL_EXCLUIR" title="LABEL_EXCLUIR" >  
-                  </a>
-                  <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" i18n-title="@@LABEL_ALTERAR" title="LABEL_ALTERAR"
-                          (click)="alterarMovimentacao(movimentacao, popupMovimentacaoFinanceira)" >
-                  </a>
-                  <p *ngIf="acaoSistema.isAcaoSistemaVisualizar()">{{' - '}}</p>
-                </td> 
-              </tr>
-            </tbody> 
-            <tfoot>
-              <pagination *ngIf="caixaBean.caixa.movimentacoesCaixa.length > dataTableService.totalItensPorPagina"  
-                          [totalItems]="caixaBean.caixa.movimentacoesCaixa.length" 
-                          [itemsPerPage]= "dataTableService.totalItensPorPagina"
-                          (pageChanged)="dataTableService.mudarPagina($event)" 
-                          previousText="Anterior" nextText="Próximo"></pagination>
-          </tfoot>
-        </table>
-        <div class="col-lg-12" *ngIf="caixaBean.caixa.movimentacoesCaixa.length == 0" i18n="@@LABEL_NENHUMA_MOVIMENTACAO_CADASTRADA">
-            LABEL_NENHUMA_MOVIMENTACAO_CADASTRADA
-          </div>
-      </div>
-
-			<div class="form-group last text-center " >
-				<div class="col-sm-12">
-				    <button  (click)="voltar()"> 
-                <span i18n="@@LABEL_VOLTAR">LABEL_VOLTAR</span>
-			       </button>
-
-				    <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="submit"	(click)="salvar()" >
-                <span i18n="@@LABEL_SALVAR">LABEL_SALVAR</span> 
-            </button>
-            
-            <button   *ngIf="acaoSistema.isAcaoSistemaAlterar()" type="submit"	(click)="alterar()">
-                <span i18n="@@LABEL_ALTERAR">LABEL_ALTERAR</span>
-            </button>
-			  </div>
-			</div>  
+       </div>
 		</form>	
 	</div>
 </div>	

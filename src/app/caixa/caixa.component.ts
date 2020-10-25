@@ -2,25 +2,32 @@ import { Component, OnInit, TemplateRef } from '@angular/core';;
 
 import { AcaoSistema } from '../classes/util/acao-sistema';
 import { CaixaService } from './caixa.service';
-import { MensagensService } from '../mensagens/mensagens.service';
 import { PoupService } from '../servicos/poup.service';
 import { DataTableService } from '../servicos/data-table.service';
 import { MesTO } from '../model/dto/mes.to';
+import { MensagemService } from '../servicos/mensagem.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CaixaBean } from '../model/bean/caixa-bean';
+import { ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-caixa',
   templateUrl: './caixa.component.html',
-  styleUrls: ['./caixa.component.css']
+  styleUrls: ['./caixa.component.css'],
+  providers: [MensagemService]
 })
 export class CaixaComponent implements OnInit {
 
   acaoSistema : AcaoSistema = new AcaoSistema();	
-  caixaBean : any;
+  caixaBean : CaixaBean;
   meses : Array<MesTO> = [];
   movimentacaoFinanceira : any;
   caixaParaEncerramento : any;
 
-  constructor(public caixaService : CaixaService, public mensagemService : MensagensService, 
+  @ViewChild('dtMovimentacao') dt: Table;
+
+  constructor(public caixaService : CaixaService, public mensagemService : MensagemService, 
     public poupService : PoupService, public dataTableService : DataTableService) { }
 
   ngOnInit() {
@@ -31,16 +38,15 @@ export class CaixaComponent implements OnInit {
    * Inicializa a lista de meses
    */
   inicialiarMeses() {
-    if (this.caixaBean.caixa != null && this.caixaBean.caixa.ano != null && this.caixaBean.caixa.ano != undefined) {
-      this.caixaService.getMesesDisponiveis(this.caixaBean.caixa.ano).subscribe(
+    if (this.caixaBean != null && this.caixaBean?.ano != null && this.caixaBean?.ano != undefined) {
+      this.caixaService.getMesesDisponiveis(this.caixaBean.ano).subscribe(
         (meses : Array<MesTO>) => {
           this.meses = meses;
-          this.caixaBean.caixa.mes = this.meses[0];
-        },
-        err => {
-          // this.mensagemService.addMensagemErro(err.error);
-        }
-      );
+          this.caixaBean.mes = this.meses[0];
+        }, (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.mensagemService.adicionarMensagemErro('Caixa', httpErrorResponse?.error?.message);
+        });
     }
   }
 
@@ -82,10 +88,9 @@ export class CaixaComponent implements OnInit {
   */
   inicializarCaixa() {
     this.caixaBean = {};
-    this.caixaBean.caixa = {};
-    this.caixaBean.caixa.movimentacoesCaixa = [];
-    this.dataTableService.setarDataTable(this.caixaBean.caixa.movimentacoesCaixa);
-    this.caixaBean.caixa.ano = new Date().getFullYear();
+    this.caixaBean = {};
+    this.caixaBean.movimentacoes = [];
+    this.caixaBean.ano = new Date().getFullYear();
   }
 
   /**
@@ -114,14 +119,14 @@ export class CaixaComponent implements OnInit {
    */
   adicionarMovimentacao(movimentacaoFinanceira) {
     if (!movimentacaoFinanceira.isAlteracao) {
-      movimentacaoFinanceira.indice = this.caixaBean.caixa.movimentacoesCaixa.length;
-      this.caixaBean.caixa.movimentacoesCaixa.push(movimentacaoFinanceira);
+      movimentacaoFinanceira.indice = this.caixaBean.movimentacoes.length;
+      this.caixaBean.movimentacoes.push(movimentacaoFinanceira);
     } else {
       let indice = movimentacaoFinanceira.indice;
-      this.caixaBean.caixa.movimentacoesCaixa[indice] = movimentacaoFinanceira;
+      this.caixaBean.movimentacoes[indice] = movimentacaoFinanceira;
     }
 
-    this.dataTableService.setarDataTable(this.caixaBean.caixa.movimentacoesCaixa);
+    this.dataTableService.setarDataTable(this.caixaBean.movimentacoes);
     this.calcularValores();
   }
 
@@ -133,8 +138,8 @@ export class CaixaComponent implements OnInit {
     this.caixaBean.saidas = 0.0;
     this.caixaBean.saldoFinal = 0.0;
 
-    if (this.caixaBean.caixa.movimentacoesCaixa.length > 0) {
-      this.caixaBean.caixa.movimentacoesCaixa.forEach(item => {
+    if (this.caixaBean?.movimentacoes?.length > 0) {
+      this.caixaBean?.movimentacoes?.forEach(item => {
         if (this.caixaService.isOperacaoEntrada(item.tipoOperacao)) {
           this.caixaBean.entradas += item.valor;
         } else {
@@ -165,8 +170,8 @@ export class CaixaComponent implements OnInit {
    * @param movimentacao 
    */
   excluirMovimentacao(movimentacao) {
-    this.caixaBean.caixa.movimentacoesCaixa.splice(movimentacao.indice, 1);
-    this.dataTableService.setarDataTable(this.caixaBean.caixa.movimentacoesCaixa);
+    this.caixaBean.movimentacoes.splice(movimentacao.indice, 1);
+    this.dataTableService.setarDataTable(this.caixaBean.movimentacoes);
     this.calcularValores();
   }
 
@@ -190,7 +195,7 @@ export class CaixaComponent implements OnInit {
    * Salva o caixa.
    */
   salvar() {
-    this.caixaService.salvar(this.caixaBean.caixa).subscribe(
+    this.caixaService.salvar(this.caixaBean).subscribe(
       data => {
         this.acaoSistema.setaAcaoParaListar();
         // this.mensagemService.addMensagemSucesso(data);
@@ -205,7 +210,7 @@ export class CaixaComponent implements OnInit {
    * Atualiza o caixa.
    */
    alterar() {
-    this.caixaService.alterar(this.caixaBean.caixa).subscribe(
+    this.caixaService.alterar(this.caixaBean).subscribe(
       data => {
         this.acaoSistema.setaAcaoParaListar();
         // this.mensagemService.addMensagemSucesso(data);
@@ -245,23 +250,22 @@ export class CaixaComponent implements OnInit {
    */
   private consultaCaixaBean(idCaixa) {
     if (idCaixa != undefined) {
-      this.caixaService.getCaixaBean(idCaixa).subscribe(
-        data => {
-          this.caixaBean = data;
-          if (this.caixaBean.caixa.movimentacoesCaixa.length > 0) {
-            this.caixaBean.caixa.movimentacoesCaixa.forEach(function(item, index){
+      this.caixaService.getCaixaBean(idCaixa)
+      .toPromise().then(
+        (caixa : CaixaBean) => {
+          this.caixaBean = caixa;
+          if (this.caixaBean?.movimentacoes?.length > 0) {
+            this.caixaBean.movimentacoes.forEach(function(item, index){
               item.indice = index;
             })
           }
-          this.dataTableService.setarDataTable(this.caixaBean.caixa.movimentacoesCaixa);
           this.meses = []; 
-          this.meses.push(this.caixaBean.caixa.mes);
+          this.meses.push(this.caixaBean?.mes);
           this.calcularValores();
-        },
-        err => {
-          // this.mensagemService.addMensagemErro(err.error);
-        }
-      );
+        }, (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.mensagemService.adicionarMensagemErro('Caixa', httpErrorResponse?.error?.message);
+        });
     }
   }
 
@@ -271,7 +275,7 @@ export class CaixaComponent implements OnInit {
    * @param template 
    */
   finalizarCaixa(template: TemplateRef<any>) {
-    this.caixaParaEncerramento = this.caixaBean.caixa;
+    this.caixaParaEncerramento = this.caixaBean;
     // this.poupService.show(template); 
   }
 

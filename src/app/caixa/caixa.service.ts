@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '../servicos/http-service.service';
 import { MesTO } from '../model/dto/mes.to';
+import { CaixaBean } from '../model/bean/caixa-bean';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -54,8 +56,8 @@ export class CaixaService {
 	* 
 	* @param idCaixa
 	*/
-	getCaixaBean(idCaixa) { 
-	   return this.http.get(API+'caixa/'+idCaixa);
+	getCaixaBean(idCaixa) :  Observable<CaixaBean>{ 
+	   return this.http.get<CaixaBean>(API+'caixa/'+idCaixa);
 	}
 	
    /**
