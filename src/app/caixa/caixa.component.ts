@@ -3,19 +3,21 @@ import { Component, OnInit, TemplateRef } from '@angular/core';;
 import { AcaoSistema } from '../classes/util/acao-sistema';
 import { CaixaService } from './caixa.service';
 import { PoupService } from '../servicos/poup.service';
-import { DataTableService } from '../servicos/data-table.service';
 import { MesTO } from '../model/dto/mes.to';
 import { MensagemService } from '../servicos/mensagem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CaixaBean } from '../model/bean/caixa-bean';
 import { ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
+import { DialogService } from 'primeng';
+import { MovimentacaoCaixaComponent } from './movimentacao-caixa/movimentacao-caixa.component';
+import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 
 @Component({
   selector: 'app-caixa',
   templateUrl: './caixa.component.html',
   styleUrls: ['./caixa.component.css'],
-  providers: [MensagemService]
+  providers: [MensagemService, DialogService]
 })
 export class CaixaComponent implements OnInit {
 
@@ -27,8 +29,10 @@ export class CaixaComponent implements OnInit {
 
   @ViewChild('dtMovimentacao') dt: Table;
 
-  constructor(public caixaService : CaixaService, public mensagemService : MensagemService, 
-    public poupService : PoupService, public dataTableService : DataTableService) { }
+  constructor(public caixaService : CaixaService, 
+              public mensagemService : MensagemService, 
+              public poupService : PoupService, 
+              public dialogService : DialogService) { }
 
   ngOnInit() {
     this.acaoSistema.setaAcaoParaListar();
@@ -58,21 +62,18 @@ export class CaixaComponent implements OnInit {
       data => {
         this.caixaService.getNovoCaixa().subscribe(
           data => {
-            this.dataTableService.setarDataTable([]);
             this.acaoSistema.setaAcaoParaIncluir();
             this.caixaBean = data;
             this.inicialiarMeses();
-          },
-          err => {
-            // this.mensagemService.addMensagemErro(err.error);
-          }
-        );
+          }, (httpErrorResponse: HttpErrorResponse) => {
+            console.log(httpErrorResponse);
+            this.mensagemService.adicionarMensagemErro('Caixa', httpErrorResponse?.error?.message);
+          });
         this.acaoSistema.setaAcaoParaIncluir();
-      },
-      err => {
-        // this.mensagemService.addMensagemErro(err.error);
-      }
-    );
+      },(httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.mensagemService.adicionarMensagemErro('Caixa', httpErrorResponse?.error?.message);
+      });
   }
 
  /**
@@ -98,9 +99,9 @@ export class CaixaComponent implements OnInit {
    * 
    * @param template 
    */
-  novaMovimentacaoFinanceira(template: TemplateRef<any>) {
+  novaMovimentacaoFinanceira() {
     this.movimentacaoFinanceira = {};
-    this.abrirPopupMovimentacaoFinanceira(template);
+    this.abrirPopupMovimentacaoFinanceira(undefined);
   }
 
   /**
@@ -108,8 +109,19 @@ export class CaixaComponent implements OnInit {
    * 
    * @param template 
    */
-  private abrirPopupMovimentacaoFinanceira(template: TemplateRef<any>) {
-    // this.poupService.show(template);
+  private abrirPopupMovimentacaoFinanceira(movimentacao : MovimentacaoBean) {
+    const modal = this.dialogService.open(MovimentacaoCaixaComponent, {
+      data: { movimentacao: movimentacao },
+      width: '80vw',
+      closeOnEscape: true,
+      closable: true,
+      header : 'Movimentação Caixa'
+    });
+
+    modal.onClose.subscribe((movimentacao : MovimentacaoBean) => {
+        this.adicionarMovimentacao(movimentacao)
+    });
+
   }
 
   /**
@@ -117,8 +129,8 @@ export class CaixaComponent implements OnInit {
    * 
    * @param movimentacaoFinanceira 
    */
-  adicionarMovimentacao(movimentacaoFinanceira) {
-    if (!movimentacaoFinanceira.isAlteracao) {
+  adicionarMovimentacao(movimentacaoFinanceira : MovimentacaoBean) {
+    if (!movimentacaoFinanceira?.id) {
       movimentacaoFinanceira.indice = this.caixaBean.movimentacoes.length;
       this.caixaBean.movimentacoes.push(movimentacaoFinanceira);
     } else {
@@ -126,7 +138,6 @@ export class CaixaComponent implements OnInit {
       this.caixaBean.movimentacoes[indice] = movimentacaoFinanceira;
     }
 
-    this.dataTableService.setarDataTable(this.caixaBean.movimentacoes);
     this.calcularValores();
   }
 
@@ -158,10 +169,10 @@ export class CaixaComponent implements OnInit {
    * @param movimentacao 
    * @param template 
    */
-  alterarMovimentacao(movimentacao: any, template: TemplateRef<any>) {
+  alterarMovimentacao(movimentacao: any) {
     this.movimentacaoFinanceira = movimentacao;
     this.movimentacaoFinanceira.isAlteracao = true;
-    this.abrirPopupMovimentacaoFinanceira(template);
+    this.abrirPopupMovimentacaoFinanceira(movimentacao);
   }
 
   /**
@@ -170,9 +181,13 @@ export class CaixaComponent implements OnInit {
    * @param movimentacao 
    */
   excluirMovimentacao(movimentacao) {
-    this.caixaBean.movimentacoes.splice(movimentacao.indice, 1);
-    this.dataTableService.setarDataTable(this.caixaBean.movimentacoes);
-    this.calcularValores();
+    this.mensagemService.dialogConfirm('Confirma a exclusão da movimentação?')
+      .then((result) => {
+          if (result.isConfirmed) {
+            this.caixaBean.movimentacoes.splice(movimentacao.indice, 1);
+            this.calcularValores();
+          }
+      });
   }
 
   /**
@@ -197,28 +212,25 @@ export class CaixaComponent implements OnInit {
   salvar() {
     this.caixaService.salvar(this.caixaBean).subscribe(
       data => {
-        this.acaoSistema.setaAcaoParaListar();
-        // this.mensagemService.addMensagemSucesso(data);
-      },
-      err => {
-        // this.mensagemService.addMensagemErro(err.error);
-      }
-    ); 
+        this.acaoSistema.setaAcaoParaAlterar();
+        this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
+      },(httpErrorResponse: HttpErrorResponse) => {
+        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+      });
   }
 
   /**
    * Atualiza o caixa.
    */
    alterar() {
-    this.caixaService.alterar(this.caixaBean).subscribe(
-      data => {
-        this.acaoSistema.setaAcaoParaListar();
-        // this.mensagemService.addMensagemSucesso(data);
-      },
-      err => {
-        // this.mensagemService.addMensagemErro(err.error);
-      }
-    ); 
+    this.caixaService.alterar(this.caixaBean)
+    .toPromise().then(
+      () => {
+        this.acaoSistema.setaAcaoParaAlterar();
+        this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
+      },(httpErrorResponse: HttpErrorResponse) => {
+        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+      });
   }
 
   /**
@@ -274,21 +286,21 @@ export class CaixaComponent implements OnInit {
    * 
    * @param template 
    */
-  finalizarCaixa(template: TemplateRef<any>) {
-    this.caixaParaEncerramento = this.caixaBean;
-    // this.poupService.show(template); 
-  }
-
-  /**
-   * Recebe a mensagem enviado pelo encerramento do caixa.
-   * 
-   * @param encerramentoRealizado 
-   */
-  receberEncerramentoRealizado(encerramentoRealizado) {
-      if(encerramentoRealizado) {
-        this.acaoSistema.setaAcaoParaListar();
-        this.caixaParaEncerramento = {};
-        this.dataTableService.setarDataTable([]);
-      }
+  finalizarCaixa() {
+    this.mensagemService.dialogConfirm('Deseja realmente finalizar o caixa? Essa ação não poderá ser desfeita.')
+          .then((result) => {
+             if (result.isConfirmed) {
+                this.caixaService.encerrar(this.caixaBean)
+                                    .toPromise()
+                                    .then(() => {
+                                      this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso.')
+                                      this.acaoSistema.setaAcaoParaListar();
+                                      this.caixaBean = {};
+                                    }, (httpErrorResponse: HttpErrorResponse) => {
+                                      console.log(httpErrorResponse);
+                                      this.mensagemService.adicionarMensagemErro('Caixa', httpErrorResponse?.error?.message);
+                                    });           
+             }
+          });
   }
 }

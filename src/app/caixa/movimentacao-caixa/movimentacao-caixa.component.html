@@ -1,44 +1,36 @@
 <div class="col-lg-12">
-      <div class="modal-header">
-        <h4 class="modal-title title text-blue" i18n="@@TITLE_MOVIMENTACAO_FINANCEIRA">TITLE_MOVIMENTACAO_FINANCEIRA</h4>
-      </div>
-
       <div class="modal-body">
         <div class="text-right required  text-red">Campos Obrigatórios</div>  
-        <form #cadastro="ngForm" class="form-horizontal">
+        <form [formGroup]= "formMovimentacao" class="form-horizontal">
               <div class="form-group">
-                <label	for="movimentacaoFinanceira" class="required" i18n="@@LABEL_DESCRICAO">LABEL_DESCRICAO</label>
+                <label	for="movimentacaoFinanceira" class="required">Descrição</label>
                 <input	class="form-control" type="text" id="movimentacaoFinanceira" maxlength="100"
-                        name="movimentacaoFinanceira" [(ngModel)]="movimentacaoFinanceira.descricao" 
-                        appAutoFocus >
+                        name="movimentacaoFinanceira" formControlName="descricao"  appAutoFocus >
               </div>
               <div class="form-group">
-                  <label  for="complemento" class="required" i18n="@@LABEL_TIPO_OPERACAO">LABEL_TIPO_OPERACAO:</label>
-                  <select class="form-control" name="tipoOperacao" (change)="inicializarTiposMovimentacoes()"
-                          id="tipoOperacao" [(ngModel)]="movimentacaoFinanceira.tipoOperacao" >
-                      <option *ngFor="let tipoOperacao of tiposOperacoes, let i = index" [ngValue]="tipoOperacao">{{tipoOperacao.descricao}}</option> 
-                  </select>
+                  <label  for="complemento" class="required">Tipo Operação:</label>
+                  <p-dropdown class="w-100" [options]="tiposOperacoes" optionLabel="descricao"
+                              (onChange)="changeTipoOperacao($event)"
+                              formControlName="tipoOperacao" [style]="{'width':'100%'}">
+                </p-dropdown>
               </div>
               <div class="form-group" *ngIf="mostrarTipoMovimentacao">
-                  <label  for="tipoMovimentacao" class="required"  i18n="@@LABEL_TIPO_MOVIMENTACAO">LABEL_TIPO_MOVIMENTACAO:</label>
-                  <select class="form-control" name="tipoMovimentacao" id="tipoMovimentacao" [(ngModel)]="movimentacaoFinanceira.tipoMovimentacao" >
-                      <option *ngFor="let tipoMovimentacao of tiposMovimentacoes, let i = index" [ngValue]="tipoMovimentacao">{{tipoMovimentacao.descricao}}</option> 
-                  </select>
+                  <label  for="tipoMovimentacao" class="required" >Tipo Movimentações:</label>
+                  <p-dropdown class="w-100" [options]="tiposMovimentacoes" optionLabel="descricao"
+                              formControlName="tipoMovimentacao" [style]="{'width':'100%'}">
+                  </p-dropdown>
               </div> 
               <div class="form-group">
-                <label	for="valor" class="required" i18n="@@LABEL_VALOR">LABEL_VALOR</label>
+                <label	for="valor" class="required">Valor</label>
                 <input	class="form-control"  maxlength="15"  type="text" 
-                        id="valor" name="valor" [(ngModel)]="movimentacaoFinanceira.valor" >
+                        currencyMask [options]="{prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                        id="valor" name="valor" formControlName="valor" >
               </div> 
-              <div class="form-group last" >
-            <div class="col-sm-12 text-center">
-                <button    (click)="fecharPopupMovimentacaoFinanceira()"> 
-                    <span  >Cancelar</span>
-                    
-                </button>
-                <button   type="submit"	(click)="salvar()" >
-                    <span i18n="@@LABEL_SALVAR">LABEL_SALVAR</span> 
-                </button>
+            <div class="form-group last" >
+            <div class="col text-center">
+              <button  type="button"	pButton label="Salvar"
+                       icon="pi pi-user-plus" class="ui-button-success" (click)="salvar()" >
+              </button>
             </div>
           </div>
         </form>	

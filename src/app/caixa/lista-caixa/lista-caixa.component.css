@@ -25,5 +25,13 @@
     color: red;
   }
   
-  
+  body .ui-table .ui-table-tbody > tr:nth-child(even) {
+    background-color: white;
+}
+
+body .ui-table .ui-table-tbody > tr > td {
+  background-color: inherit;
+  border: none;
+  transition: box-shadow 0.2s;
+}
   

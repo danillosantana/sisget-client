@@ -22,4 +22,13 @@ export class MensagemService {
           });
     }
 
+    dialogConfirm(msg) {
+      return Swal.fire({
+        title: msg,
+        showCancelButton: true,
+        cancelButtonText : 'Não',
+        confirmButtonText: `Sim`,
+      });
+    }
+
 }

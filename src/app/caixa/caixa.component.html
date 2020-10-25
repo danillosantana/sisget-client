@@ -12,7 +12,7 @@
                    pButton (click)="voltar()" type="button" icon="pi pi-backward" label="Voltar" class="ui-button-secondary"> 
            </button>
   
-          <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="button"	pButton
+          <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="button"	pButton label="Salvar"
                     icon="pi pi-user-plus" class="ui-button-success" (click)="salvar()" >
           </button>
           
@@ -21,7 +21,7 @@
                       type="button"	(click)="alterar()">
           </button>
           <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar()" class="text-left" label="Finalizar" icon="pi pi-save"  
-                class="ui-button-primary" (click)="finalizarCaixa(popupFecharCaixa)">
+                class="ui-button-primary" (click)="finalizarCaixa()">
         </button>
     </div>  
   </div>
@@ -100,9 +100,9 @@
                     (input)="dt.filterGlobal($event.target.value, 'contains')" />
           </div>
         </div>
-        <div class="col">
+        <div class="col" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
           <div class="text-right" >
-            <a class="text-right mr-4"  (click)="novaMovimentacaoFinanceira(popupMovimentacaoFinanceira)" >
+            <a class="text-right mr-4"  (click)="novaMovimentacaoFinanceira()" >
               <span>
                 <i class="pi pi-plus-circle"></i>
                 Nova Movimentação Caixa
@@ -129,20 +129,17 @@
                                <div class="col  text-center ">{{movimentacao.valor | currency:'BRL':true}}</div>
                                
        
-                               <div class="box-actions-right col-2">
-                                 <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()" 
-                                         (click)="excluirMovimentacao(movimentacao)"  title="Excluir" > 
-                                         <span class="p-input-icon-left">
-                                           <i class="pi pi-eyepi-trash"></i>
-                                         </span> 
-                                 </a>
-                                 <a *ngIf="!acaoSistema.isAcaoSistemaVisualizar()"  title="Alterar"
-                                         (click)="alterarMovimentacao(movimentacao, popupMovimentacaoFinanceira)" >
-                                         <span class="p-input-icon-left">
-                                           <i class="pi pi-user-edit"></i>
-                                         </span>
-                                 </a>
-                                 <p *ngIf="acaoSistema.isAcaoSistemaVisualizar()">{{' - '}}</p>
+                               <div class="form-group last text-center col-2" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
+                                <a class="col btn-edit "  (click)="alterarMovimentacao(movimentacao)"  title="Editar">
+                                  <span class="text-green">
+                                    <i class="pi pi-user-edit"></i>
+                                  </span>
+                                </a>
+                                <a class="col"  (click)="excluirMovimentacao(movimentacao)"  title="Excluir">  
+                                  <span class="text-red">
+                                    <i class="pi pi-trash"></i>
+                                  </span> 
+                                </a> 
                                </div>
                              </div>
                            </mat-card-content>
@@ -162,12 +159,4 @@
 		</form>	
 	</div>
 </div>	
-
-<ng-template #popupMovimentacaoFinanceira>
-    <app-movimentacao-caixa (enviarMovimentacao)="adicionarMovimentacao($event)" [movimentacaoAlterada]="movimentacaoFinanceira"></app-movimentacao-caixa>  
-</ng-template>
-<ng-template #popupFecharCaixa>
-    <app-fechamento-caixa [caixa]="caixaParaEncerramento" (encerramentoRealizado)="receberEncerramentoRealizado($event)"></app-fechamento-caixa>
-</ng-template>
-
 </div>

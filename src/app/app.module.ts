@@ -34,6 +34,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import { MatCardModule } from '@angular/material/card';
 import { MenubarModule } from 'primeng/menubar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { DynamicDialogModule, FullCalendarModule, ToastModule } from 'primeng';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 
 /**
@@ -78,10 +80,18 @@ const appRoutes: Routes = [
     MultiSelectModule,
     MatCardModule,
     MenubarModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    DynamicDialogModule,
+    DynamicDialogModule,
+    ToastModule,
+    FullCalendarModule,
+    CurrencyMaskModule
   ],
   providers: [MensagensService, NgLoadingService, HttpService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [
+    MovimentacaoCaixaComponent
+  ],
 })
 export class AppModule { }

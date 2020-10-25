@@ -1,7 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, TemplateRef, ViewEncapsulation, ViewChild  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ViewChild  } from '@angular/core';
 import { CaixaService } from '../../caixa/caixa.service';
-import { PoupService } from '../../servicos/poup.service';
-import {DataTableService} from '../../servicos/data-table.service';
 import { CaixaTO } from 'src/app/model/dto/caixa.to';
 import { FiltroCaixaBean, PesquiasCaixaFormBuilderService } from './pesquisa-caixa-form-builder';
 import { FormGroup } from '@angular/forms';
@@ -28,7 +26,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ListaCaixaComponent implements OnInit {
 
   caixasTO : Array<CaixaTO> = [];
-  filtro   : any = {};
   meses    : Array<MesTO> = [];
   formPesquisaCaixa: FormGroup;
 
@@ -39,18 +36,10 @@ export class ListaCaixaComponent implements OnInit {
   @ViewChild('dt') dt: Table;
 
   constructor(public caixaService : CaixaService, public mensagemService : MensagemService, 
-              public poupService : PoupService, public dataTableService : DataTableService,
               public pesquisaCaixaFormBuilderService : PesquiasCaixaFormBuilderService) { 
 
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.poupService.show(template);
-  }
-
-  closeModal(template : TemplateRef<any>) {
-    this.poupService.hide();
-  }
 
   ngOnInit() {
     this.construirForm();
@@ -67,7 +56,6 @@ export class ListaCaixaComponent implements OnInit {
       this.buscarCaixas()
     ]);
   }
-
 
   construirForm() {
     const filtroCaixaBean = new FiltroCaixaBean();
@@ -120,8 +108,6 @@ export class ListaCaixaComponent implements OnInit {
     .subscribe(
       data => {
         this.caixasTO = data;
-        this.filtro.mes == undefined ? this.setarMesDefault() : this.filtro.mes;
-        this.dataTableService.setarDataTable(this.caixasTO);
       }, (httpErrorResponse: HttpErrorResponse) => {
         this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
       });

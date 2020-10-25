@@ -7,6 +7,9 @@ import { HttpService } from '../servicos/http-service.service';
 import { MesTO } from '../model/dto/mes.to';
 import { CaixaBean } from '../model/bean/caixa-bean';
 import { map } from 'rxjs/operators';
+import { TipoOperacaoTO } from '../model/dto/tipo-operacao.to';
+import { TipoMovimentacaoTO } from '../model/dto/tipo-movimentacao.to';
+import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 
 
 @Injectable({
@@ -38,8 +41,8 @@ export class CaixaService {
    *  
    * @param caixa
    */	
-  alterar(caixa) {
-	return this.http.post(API+'caixa/alterar', caixa);		
+  alterar(caixa : CaixaBean) : Observable<CaixaBean>{
+	return this.http.put<CaixaBean>(API+'caixa/alterar', caixa);		
   }
 	
    /**
@@ -56,22 +59,22 @@ export class CaixaService {
 	* 
 	* @param idCaixa
 	*/
-	getCaixaBean(idCaixa) :  Observable<CaixaBean>{ 
+	getCaixaBean(idCaixa) :  Observable<CaixaBean> { 
 	   return this.http.get<CaixaBean>(API+'caixa/'+idCaixa);
 	}
 	
    /**
 	* Retorna a lista de TipoMovimentacao.
 	*/
-	getTiposMovimentacoes() {
-	   return this.http.get(API+'caixa/tipos/movimentacoes');		
+	getTiposMovimentacoes() : Observable<Array<TipoMovimentacaoTO>> {
+	   return this.http.get<Array<TipoMovimentacaoTO>>(API+'caixa/tipos/movimentacoes');		
 	}
 	
    /**
 	* Retorna a lista de TipoOperacao.
 	*/
-	getTiposOperacaoes() {
-	   return this.http.get(API+'caixa/getTiposOperacaoes');
+	getTiposOperacaoes() :  Observable<Array<TipoOperacaoTO>> {
+	   return this.http.get<Array<TipoOperacaoTO>>(API+'caixa/tiposOperacaoes');
 	}
 
 	/**
@@ -88,8 +91,8 @@ export class CaixaService {
 	 * 
 	 * @param movimentacaoCaixa
 	 */
-	validarCamposObrigatoriosMovimentoCaixa(movimentacaoCaixa) { 
-		return this.http.post(API+'caixa/validar/campos-obrigatorios-movimentoCaixa', movimentacaoCaixa);
+	validarCamposObrigatoriosMovimentoCaixa(movimentacaoCaixa : MovimentacaoBean) : Observable<any> { 
+		return this.http.post<MovimentacaoBean>(API+'caixa/validar/campos-obrigatorios-movimentoCaixa', movimentacaoCaixa);
 	}
 
 	/**
@@ -106,8 +109,8 @@ export class CaixaService {
    *  
    * @param caixa
    */	
-   encerrar(caixa) {
-	  return this.http.post(API+'caixa/encerrar', caixa);		
+   encerrar(caixa : CaixaBean) :  Observable<any> {
+	  return this.http.put(API+`caixa/encerrar/`, caixa);		
    }
 
      /**
