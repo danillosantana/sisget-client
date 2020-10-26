@@ -32,8 +32,8 @@ export class CaixaService {
    *  
    * @param caixa
    */	
-  salvar(caixa) {
-     return this.http.post(API+'caixa/salvar', caixa);		
+  salvar(caixa) : Observable<CaixaBean> {
+     return this.http.post<CaixaBean>(API+'caixa/salvar', caixa);		
   }
 
   /**

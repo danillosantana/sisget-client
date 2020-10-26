@@ -210,8 +210,10 @@ export class CaixaComponent implements OnInit {
    * Salva o caixa.
    */
   salvar() {
-    this.caixaService.salvar(this.caixaBean).subscribe(
-      data => {
+    this.caixaService.salvar(this.caixaBean).toPromise().then(
+      (caixaBean : CaixaBean) => {
+        this.caixaBean = caixaBean;
+        this.processarValoresDefault();
         this.acaoSistema.setaAcaoParaAlterar();
         this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
       },(httpErrorResponse: HttpErrorResponse) => {
@@ -225,7 +227,10 @@ export class CaixaComponent implements OnInit {
    alterar() {
     this.caixaService.alterar(this.caixaBean)
     .toPromise().then(
-      () => {
+      (caixaBean : CaixaBean) => {
+        this.caixaBean = caixaBean;
+        this.processarValoresDefault();
+
         this.acaoSistema.setaAcaoParaAlterar();
         this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
       },(httpErrorResponse: HttpErrorResponse) => {
@@ -266,19 +271,23 @@ export class CaixaComponent implements OnInit {
       .toPromise().then(
         (caixa : CaixaBean) => {
           this.caixaBean = caixa;
-          if (this.caixaBean?.movimentacoes?.length > 0) {
-            this.caixaBean.movimentacoes.forEach(function(item, index){
-              item.indice = index;
-            })
-          }
-          this.meses = []; 
-          this.meses.push(this.caixaBean?.mes);
-          this.calcularValores();
+          this.processarValoresDefault();
         }, (httpErrorResponse: HttpErrorResponse) => {
           console.log(httpErrorResponse);
           this.mensagemService.adicionarMensagemErro('Caixa', httpErrorResponse?.error?.message);
         });
     }
+  }
+
+  processarValoresDefault() {
+    if (this.caixaBean?.movimentacoes?.length > 0) {
+      this.caixaBean.movimentacoes.forEach(function(item, index){
+        item.indice = index;
+      })
+    }
+    this.meses = []; 
+    this.meses.push(this.caixaBean?.mes);
+    this.calcularValores();
   }
 
   /**

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes  } from '@angular/router';
@@ -36,7 +36,10 @@ import { MenubarModule } from 'primeng/menubar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { DynamicDialogModule, FullCalendarModule, ToastModule } from 'primeng';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 
+registerLocaleData(localePt, 'pt');
 
 /**
  * Configuração de Rotas.
@@ -87,7 +90,7 @@ const appRoutes: Routes = [
     FullCalendarModule,
     CurrencyMaskModule
   ],
-  providers: [MensagensService, NgLoadingService, HttpService],
+  providers: [MensagensService, NgLoadingService, HttpService, {provide: LOCALE_ID, useValue: 'pt'}],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [
