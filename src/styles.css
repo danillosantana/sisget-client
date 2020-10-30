@@ -111,3 +111,22 @@ label {
 a:hover {
     text-decoration: underline !important; 
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.top-fixed {
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}
+
+.botton-fixed {
+  z-index: 2;
+  position: sticky;
+  bottom: 0;
+}
+
+.pi-pdf-color {
+  color: red;
+}

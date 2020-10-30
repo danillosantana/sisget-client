@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -10,22 +10,22 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 */
 export class MensagensService {
 
-  static enviarMensagemSucesso = new EventEmitter<string>();
-  static enviarMensagemErro = new EventEmitter<string>();
+  // static enviarMensagemSucesso = new EventEmitter<string>();
+  // static enviarMensagemErro = new EventEmitter<string>();
 
   constructor() { }
 
   /**
   * Adiciona a mensagem de sucesso no componente de mensagens
   */
-  addMensagemSucesso(mensagem) {
-    MensagensService.enviarMensagemSucesso.emit(mensagem);
-  }
+  // addMensagemSucesso(mensagem) {
+  //   MensagensService.enviarMensagemSucesso.emit(mensagem);
+  // }
 
   /**
   * Adiciona a mensagem de erro no componente de mensagens
   */
-  addMensagemErro(mensagem) {
-  	MensagensService.enviarMensagemErro.emit(mensagem);
-  }
+  // addMensagemErro(mensagem) {
+  // 	MensagensService.enviarMensagemErro.emit(mensagem);
+  // }
 }

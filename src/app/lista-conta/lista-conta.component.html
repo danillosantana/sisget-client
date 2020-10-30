@@ -10,7 +10,6 @@
 <div class="col-lg-12" *ngIf="acaoSistema.isAcaoSistemaListar()">
     <div class="text-right" >
         <a class="text-right"  (click)="novaConta()" >
-           <fa class="fa-lg text-green" name="plus" animation="plus" ></fa>
             <span i18n="@@LABEL_NOVA_CONTA">LABEL_NOVA_CONTA</span>
         </a>	
       </div>
@@ -32,10 +31,9 @@
         <td class="text-center" style="width: 200px;"> {{contaTO.situacao}}</td>
         <td class="text-center espaco" style="width: 200px;">
           <a  (click)="inativar(contaTO.id)" *ngIf="contaTO.ativo"  i18n-title="@@LABEL_INATIVAR"  title="LABEL_INATIVAR">  
-                <fa class="fa-lg text-green" name="ativo" animation="toggle-on" > </fa>
+              
           </a>
           <a  (click)="ativar(contaTO.id)" *ngIf="!contaTO.ativo"  i18n-title="@@LABEL_ATIVAR"  title="LABEL_ATIVAR">  
-              <fa class="fa-lg text-red" name="inativo" animation="toggle-off" > </fa>
         </a>
         </td> 
       </tr>
@@ -56,7 +54,7 @@
 <div class="container" *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar()">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <app-conta (voltarEmitter) = "init($event)"></app-conta>
+        <app-conta (voltarEmitter) = "init()"></app-conta>
       </div>
     </div>
 </div>
