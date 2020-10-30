@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes  } from '@angular/router';
 
 import { AlertModule } from 'ngx-bootstrap';
@@ -11,14 +11,14 @@ import { CollapseModule } from 'ngx-bootstrap';
 import { NgxMaskModule } from 'ngx-mask'
 
 import { AppComponent } from './app.component';
-import { CaixaComponent } from './caixa/caixa.component';
-import { ListaCaixaComponent } from './caixa/lista-caixa/lista-caixa.component';
-import { MovimentacaoCaixaComponent } from './caixa/movimentacao-caixa/movimentacao-caixa.component';
+import { CaixaComponent } from './components/caixa/caixa.component';
+import { ListaCaixaComponent } from './components/caixa/lista-caixa/lista-caixa.component';
+import { MovimentacaoCaixaComponent } from './components/caixa/movimentacao-caixa/movimentacao-caixa.component';
 import { MensagensComponent } from './mensagens/mensagens.component';
 import { MensagensService } from './mensagens/mensagens.service';
 import {NgLoadingService} from './ng-loading/ng-loading.service';
 import { HttpService } from './servicos/http-service.service';
-import { FechamentoCaixaComponent } from './caixa/fechamento-caixa/fechamento-caixa.component';
+import { FechamentoCaixaComponent } from './components/caixa/fechamento-caixa/fechamento-caixa.component';
 import { NgLoadingComponent } from './ng-loading/ng-loading.component';
 import { AutoFocusDirective } from './diretivas/auto-focus.directive';
 import { SortColumnDirective } from './diretivas/sort-column.directive';
@@ -38,6 +38,9 @@ import { DynamicDialogModule, FullCalendarModule, ToastModule } from 'primeng';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { LoaderComponent } from './components/loader/loader.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 
 registerLocaleData(localePt, 'pt');
 
@@ -62,7 +65,8 @@ const appRoutes: Routes = [
     SortColumnDirective,
     FilterColumnDirective,
     ListaContaComponent,
-    ContaComponent
+    ContaComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -88,9 +92,19 @@ const appRoutes: Routes = [
     DynamicDialogModule,
     ToastModule,
     FullCalendarModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    NgxSpinnerModule
   ],
-  providers: [MensagensService, NgLoadingService, HttpService, {provide: LOCALE_ID, useValue: 'pt'}],
+  providers: [MensagensService, 
+              NgLoadingService, 
+              HttpService, 
+              {provide: LOCALE_ID, useValue: 'pt'},
+              {
+                provide: HTTP_INTERCEPTORS,
+                useClass: LoaderInterceptor,
+                multi: true,
+              }
+            ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [

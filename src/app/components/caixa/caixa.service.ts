@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { API } from '../classes/util/app-config'
-import { CaixaTO } from '../model/dto/caixa.to';
+import { API } from '../../classes/util/app-config'
+import { CaixaTO } from '../../model/dto/caixa.to';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { HttpService } from '../servicos/http-service.service';
-import { MesTO } from '../model/dto/mes.to';
-import { CaixaBean } from '../model/bean/caixa-bean';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpService } from '../../servicos/http-service.service';
+import { MesTO } from '../../model/dto/mes.to';
+import { CaixaBean } from '../../model/bean/caixa-bean';
 import { map } from 'rxjs/operators';
-import { TipoOperacaoTO } from '../model/dto/tipo-operacao.to';
-import { TipoMovimentacaoTO } from '../model/dto/tipo-movimentacao.to';
+import { TipoOperacaoTO } from '../../model/dto/tipo-operacao.to';
+import { TipoMovimentacaoTO } from '../../model/dto/tipo-movimentacao.to';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
+import { MensagemService } from 'src/app/servicos/mensagem.service';
 
 
 @Injectable({
@@ -18,7 +19,8 @@ import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-b
 export class CaixaService {
   
 
-  constructor(public http: HttpClient, public httpService : HttpService) { }
+  constructor(public http: HttpClient, public httpService : HttpService
+			 ,public mensagemService : MensagemService) { }
 
   /**
    *  Retorna a lista de caixas por ano vigente.
@@ -122,20 +124,12 @@ export class CaixaService {
 		return this.http.get(API+'caixa/validar/caixa-em-aberto/'+ano);
 	}
 
-	//TODO colocar em diretiva
-   /**
-   * Retorna a classe do css para o saldo final
-   */
-  getClasseSaldos(valor) {
-    return valor >= 0 ? 'text-green' : 'text-red';
-  }
-
   /**
 	 * Retorna um novo caixa.
 	 * 
 	 */
-	getNovoCaixa() { 
-		return this.http.get(API+'caixa/novo-Caixa');
+	getNovoCaixa() : Observable<CaixaBean> { 
+		return this.http.get<CaixaBean>(API+'caixa/novo-caixa');
 	}
 
 	/**
@@ -144,7 +138,15 @@ export class CaixaService {
 	 * @param idCaixa
 	 */
 	getRelatorioCaixa(idCaixa) {
-		this.httpService.downloadFile(API+'arquivo/getRelatorioCaixa/'+idCaixa);
+		// this.httpService.downloadFile(API+'arquivo/getRelatorioCaixa/'+idCaixa);
+	return	this.http.get(API+'arquivo/relatorio/caixa/'+idCaixa, { responseType: 'blob' }).subscribe(
+            data => {
+              var file = new Blob([data], {type: 'application/pdf'});
+              var fileURL = URL.createObjectURL(file);
+              window.open(fileURL);
+            }, (httpErrorResponse: HttpErrorResponse) => {
+				this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+			  });;
 	}
 
 	/**
@@ -154,4 +156,5 @@ export class CaixaService {
 	getMeses() :  Observable<Array<MesTO>> {
 		return this.http.get<Array<MesTO>>(API+'caixa/meses');
 	}
+
 }

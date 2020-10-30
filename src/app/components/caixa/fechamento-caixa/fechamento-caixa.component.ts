@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
-import { PoupService } from '../../servicos/poup.service';
-import {CaixaService} from '../../caixa/caixa.service';
-import { MensagensService } from '../../mensagens/mensagens.service';
+import { PoupService } from '../../../servicos/poup.service';
+import {CaixaService} from '../caixa.service';
+import { MensagensService } from '../../../mensagens/mensagens.service';
 
 @Component({
   selector: 'app-fechamento-caixa',

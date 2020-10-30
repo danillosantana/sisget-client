@@ -1,4 +1,4 @@
-import { MovimentacaoBean } from "src/app/caixa/movimentacao-caixa/movimentacao-caixa-form-builder";
+import { MovimentacaoBean } from "src/app/components/caixa/movimentacao-caixa/movimentacao-caixa-form-builder";
 import { MesTO } from "../dto/mes.to";
 
 export class CaixaBean {

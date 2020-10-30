@@ -1,12 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';;
 
-import { AcaoSistema } from '../classes/util/acao-sistema';
+import { AcaoSistema } from '../../classes/util/acao-sistema';
 import { CaixaService } from './caixa.service';
-import { PoupService } from '../servicos/poup.service';
-import { MesTO } from '../model/dto/mes.to';
-import { MensagemService } from '../servicos/mensagem.service';
+import { PoupService } from '../../servicos/poup.service';
+import { MesTO } from '../../model/dto/mes.to';
+import { MensagemService } from '../../servicos/mensagem.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CaixaBean } from '../model/bean/caixa-bean';
+import { CaixaBean } from '../../model/bean/caixa-bean';
 import { ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { DialogService } from 'primeng';
@@ -60,10 +60,10 @@ export class CaixaComponent implements OnInit {
   novoCaixa() {
     this.caixaService.validarCaixaEmAberto(new Date().getFullYear()).subscribe(
       data => {
-        this.caixaService.getNovoCaixa().subscribe(
-          data => {
+        this.caixaService.getNovoCaixa().toPromise().then(
+          (caixa: CaixaBean) => {
             this.acaoSistema.setaAcaoParaIncluir();
-            this.caixaBean = data;
+            this.caixaBean = caixa;
             this.inicialiarMeses();
           }, (httpErrorResponse: HttpErrorResponse) => {
             console.log(httpErrorResponse);
@@ -188,13 +188,6 @@ export class CaixaComponent implements OnInit {
             this.calcularValores();
           }
       });
-  }
-
-  /**
-   * Retorna a classe do css para o saldo final
-   */
- getClasseSaldos(valor) {
-    return valor >= 0 ? 'text-green' : 'text-red';
   }
 
   /**

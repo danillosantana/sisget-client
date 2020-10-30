@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ViewChild  } from '@angular/core';
-import { CaixaService } from '../../caixa/caixa.service';
+import { CaixaService } from '../caixa.service';
 import { CaixaTO } from 'src/app/model/dto/caixa.to';
 import { FiltroCaixaBean, PesquiasCaixaFormBuilderService } from './pesquisa-caixa-form-builder';
 import { FormGroup } from '@angular/forms';

@@ -8,7 +8,7 @@ import { TipoMovimentacaoTO } from 'src/app/model/dto/tipo-movimentacao.to';
 import { TipoOperacaoTO } from 'src/app/model/dto/tipo-operacao.to';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { FormBuilderUtil } from 'src/app/util/form-builder-util';
-import {CaixaService} from '../../caixa/caixa.service';
+import {CaixaService} from '../caixa.service';
 import { MovimentacaoBean, MovimentacaoFormBuilderService } from './movimentacao-caixa-form-builder';
 
 

@@ -61,7 +61,9 @@
   
                           <div class="col text-center">{{caixa.mes}}</div>
                           <div class="col text-center">{{caixa.ano}}</div>
-                          <div class="col  text-center {{caixaService.getClasseSaldos(caixa.saldo)}}">{{caixa.saldo | currency:'BRL':true}}</div>
+                          <div class="col  text-center" [ngClass]="{'text-red' : caixa.saldo < 0.0, 'text-green' : caixa.saldo >= 0.0}">
+                            {{caixa.saldo | currency:'BRL':true}}
+                          </div>
                           <div class="col text-center">{{caixa.situacao}}</div>
                           
   
