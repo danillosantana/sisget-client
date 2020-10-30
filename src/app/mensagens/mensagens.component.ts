@@ -21,13 +21,13 @@ export class MensagensComponent implements OnInit {
   constructor(private mensagemService : MensagensService) { }
 
   ngOnInit() {
-  	MensagensService.enviarMensagemSucesso.subscribe(mensagem => {
-  		this.definirMensagem(mensagem, 'success');
-  	});
+  	// MensagensService.enviarMensagemSucesso.subscribe(mensagem => {
+  	// 	this.definirMensagem(mensagem, 'success');
+  	// });
 
-  	MensagensService.enviarMensagemErro.subscribe(mensagem => {
-  		this.definirMensagem(mensagem, 'danger');
-  	});
+  	// MensagensService.enviarMensagemErro.subscribe(mensagem => {
+  	// 	this.definirMensagem(mensagem, 'danger');
+  	// });
   }
 
   /**

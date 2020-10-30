@@ -26,15 +26,17 @@ export class HttpService {
      * @param url 
      */
     downloadFile(url: string) {
-        this.loadingService.showLoading();
+        // this.loadingService.showLoading();
         this.http.get(url, { responseType: 'blob' }).subscribe(
             data => {
-              this.loadingService.hideLoading(); 
+              // this.loadingService.hideLoading(); 
               var file = new Blob([data], {type: 'application/pdf'});
               var fileURL = URL.createObjectURL(file);
               window.open(fileURL);
             },
-            e => { this.loadingService.hideLoading() } 
+            e => { 
+              // this.loadingService.hideLoading() 
+            } 
           );
     }
     
@@ -45,12 +47,12 @@ export class HttpService {
     //fazer também para o post, put, delete ...
     private watch(response: Observable<any>) {
  
-        this.loadingService.showLoading();
+        // this.loadingService.showLoading();
 
         return response.pipe(
             tap(
-              data => this.loadingService.hideLoading(),
-              error => this.loadingService.hideLoading()
+              data => {},
+              error => {}
             ),
         );    
     }

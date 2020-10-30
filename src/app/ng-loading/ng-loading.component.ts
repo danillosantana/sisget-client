@@ -19,12 +19,12 @@ export class NgLoadingComponent implements OnInit {
   }
 
   loading(){
-    NgLoadingService.loading.subscribe(data => {
-        this.exibirLoading =  data;
+    // NgLoadingService.loading.subscribe(data => {
+    //     this.exibirLoading =  data;
 
-        /*Utilizado para não acontecer 'ExpressionChangedAfterItHasBeenCheckedError' */
-        this.cdRef.detectChanges();
-    });
+    //     /*Utilizado para não acontecer 'ExpressionChangedAfterItHasBeenCheckedError' */
+    //     this.cdRef.detectChanges();
+    // });
   }
 
 }
