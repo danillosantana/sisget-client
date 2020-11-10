@@ -27,7 +27,7 @@ export class CaixaComponent implements OnInit {
   movimentacaoFinanceira : any;
   caixaParaEncerramento : any;
 
-  @ViewChild('dtMovimentacao') dt: Table;
+  @ViewChild('dtMovimentacao') dtMovimentacao: Table;
 
   constructor(public caixaService : CaixaService, 
               public mensagemService : MensagemService, 
@@ -59,7 +59,7 @@ export class CaixaComponent implements OnInit {
    */
   novoCaixa() {
     this.caixaService.validarCaixaEmAberto(new Date().getFullYear()).subscribe(
-      data => {
+      () => {
         this.caixaService.getNovoCaixa().toPromise().then(
           (caixa: CaixaBean) => {
             this.acaoSistema.setaAcaoParaIncluir();
@@ -112,7 +112,7 @@ export class CaixaComponent implements OnInit {
   private abrirPopupMovimentacaoFinanceira(movimentacao : MovimentacaoBean) {
     const modal = this.dialogService.open(MovimentacaoCaixaComponent, {
       data: { movimentacao: movimentacao },
-      width: '80vw',
+      width: '50vw',
       closeOnEscape: true,
       closable: true,
       header : 'Movimentação Caixa'
@@ -130,14 +130,13 @@ export class CaixaComponent implements OnInit {
    * @param movimentacaoFinanceira 
    */
   adicionarMovimentacao(movimentacaoFinanceira : MovimentacaoBean) {
-    if (!movimentacaoFinanceira?.id) {
-      movimentacaoFinanceira.indice = this.caixaBean.movimentacoes.length;
-      this.caixaBean.movimentacoes.push(movimentacaoFinanceira);
-    } else {
+    if (movimentacaoFinanceira?.indice) {
       let indice = movimentacaoFinanceira.indice;
       this.caixaBean.movimentacoes[indice] = movimentacaoFinanceira;
+    } else {
+      this.caixaBean.movimentacoes.push(movimentacaoFinanceira);
     }
-
+    
     this.calcularValores();
   }
 
@@ -169,9 +168,9 @@ export class CaixaComponent implements OnInit {
    * @param movimentacao 
    * @param template 
    */
-  alterarMovimentacao(movimentacao: any) {
+  alterarMovimentacao(movimentacao: MovimentacaoBean, indice : number) {
+    movimentacao.indice = indice;
     this.movimentacaoFinanceira = movimentacao;
-    this.movimentacaoFinanceira.isAlteracao = true;
     this.abrirPopupMovimentacaoFinanceira(movimentacao);
   }
 
@@ -180,11 +179,11 @@ export class CaixaComponent implements OnInit {
    * 
    * @param movimentacao 
    */
-  excluirMovimentacao(movimentacao) {
+  excluirMovimentacao(indice : number) {
     this.mensagemService.dialogConfirm('Confirma a exclusão da movimentação?')
       .then((result) => {
           if (result.isConfirmed) {
-            this.caixaBean.movimentacoes.splice(movimentacao.indice, 1);
+            this.caixaBean.movimentacoes.splice(indice, 1);
             this.calcularValores();
           }
       });
@@ -206,6 +205,7 @@ export class CaixaComponent implements OnInit {
     this.caixaService.salvar(this.caixaBean).toPromise().then(
       (caixaBean : CaixaBean) => {
         this.caixaBean = caixaBean;
+        this.dtMovimentacao.reset();
         this.processarValoresDefault();
         this.acaoSistema.setaAcaoParaAlterar();
         this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
@@ -222,8 +222,8 @@ export class CaixaComponent implements OnInit {
     .toPromise().then(
       (caixaBean : CaixaBean) => {
         this.caixaBean = caixaBean;
+        this.dtMovimentacao.reset();
         this.processarValoresDefault();
-
         this.acaoSistema.setaAcaoParaAlterar();
         this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
       },(httpErrorResponse: HttpErrorResponse) => {
@@ -273,11 +273,6 @@ export class CaixaComponent implements OnInit {
   }
 
   processarValoresDefault() {
-    if (this.caixaBean?.movimentacoes?.length > 0) {
-      this.caixaBean.movimentacoes.forEach(function(item, index){
-        item.indice = index;
-      })
-    }
     this.meses = []; 
     this.meses.push(this.caixaBean?.mes);
     this.calcularValores();

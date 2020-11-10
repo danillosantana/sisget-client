@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DialogService, DynamicDialogConfig } from 'primeng';
+import { DialogService, DynamicDialogConfig, InputText } from 'primeng';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MensagensService } from 'src/app/mensagens/mensagens.service';
 import { TipoMovimentacaoTO } from 'src/app/model/dto/tipo-movimentacao.to';
@@ -26,7 +26,9 @@ export class MovimentacaoCaixaComponent implements OnInit {
   formMovimentacao: FormGroup;
 
   @Output() enviarMovimentacao : EventEmitter<any> = new EventEmitter<any>();
-  @Input()	movimentacaoAlterada:	any;
+  @Input()	movimentacaoAlterada:	MovimentacaoBean;
+
+  @ViewChild('inputDescricao') inputDescricao: ElementRef;
 
   constructor(public dialogRef: DynamicDialogRef,
               public config: DynamicDialogConfig,
@@ -40,6 +42,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
     this.buscarListas()
           .then(() => {
             this.atualizarComportamentoInicial();
+            this.inputDescricao.nativeElement.focus();
           });
   }
 
