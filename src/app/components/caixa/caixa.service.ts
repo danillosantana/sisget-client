@@ -25,8 +25,8 @@ export class CaixaService {
   /**
    *  Retorna a lista de caixas por ano vigente.
    */
-  getCaixasTOsPorAnoVigente() : Observable<Array<CaixaTO>>  {
-    return this.http.get<Array<CaixaTO>>(API+'caixa/ano-vigente');
+  getCaixasTO() : Observable<Array<CaixaTO>>  {
+    return this.http.get<Array<CaixaTO>>(API+'caixa/lista');
   }
 
   /**
@@ -120,8 +120,8 @@ export class CaixaService {
 	 * 
 	 * @param ano
 	 */
-	validarCaixaEmAberto(ano) {
-		return this.http.get(API+'caixa/validar/caixa-em-aberto/'+ano);
+	validarCaixaEmAberto() {
+		return this.http.get(API+'caixa/validar/caixa-em-aberto/');
 	}
 
   /**

@@ -1,9 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DialogService, DynamicDialogConfig, InputText } from 'primeng';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MensagensService } from 'src/app/mensagens/mensagens.service';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TipoMovimentacaoTO } from 'src/app/model/dto/tipo-movimentacao.to';
 import { TipoOperacaoTO } from 'src/app/model/dto/tipo-operacao.to';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
@@ -33,7 +31,6 @@ export class MovimentacaoCaixaComponent implements OnInit {
   constructor(public dialogRef: DynamicDialogRef,
               public config: DynamicDialogConfig,
               public caixaService : CaixaService, 
-              public mensagensService : MensagensService,
               public movimentacaoFormBuilderService : MovimentacaoFormBuilderService,
               public mensagemService : MensagemService) { }
 

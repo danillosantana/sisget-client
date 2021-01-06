@@ -63,7 +63,7 @@ export class ListaCaixaComponent implements OnInit {
   }
 
   buscarCaixas() {
-    return this.caixaService.getCaixasTOsPorAnoVigente()
+    return this.caixaService.getCaixasTO()
     .toPromise()
     .then( (caixasTO : Array<CaixaTO>) => {
         this.caixasTO = caixasTO;        
