@@ -2,16 +2,15 @@ import { Component, OnInit, TemplateRef } from '@angular/core';;
 
 import { AcaoSistema } from '../../classes/util/acao-sistema';
 import { CaixaService } from './caixa.service';
-import { PoupService } from '../../servicos/poup.service';
 import { MesTO } from '../../model/dto/mes.to';
 import { MensagemService } from '../../servicos/mensagem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CaixaBean } from '../../model/bean/caixa-bean';
 import { ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { DialogService } from 'primeng';
 import { MovimentacaoCaixaComponent } from './movimentacao-caixa/movimentacao-caixa.component';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-caixa',
@@ -31,7 +30,6 @@ export class CaixaComponent implements OnInit {
 
   constructor(public caixaService : CaixaService, 
               public mensagemService : MensagemService, 
-              public poupService : PoupService, 
               public dialogService : DialogService) { }
 
   ngOnInit() {
@@ -58,7 +56,7 @@ export class CaixaComponent implements OnInit {
    * Prepara para inserção do novo caixa.
    */
   novoCaixa() {
-    this.caixaService.validarCaixaEmAberto(new Date().getFullYear()).subscribe(
+    this.caixaService.validarCaixaEmAberto().subscribe(
       () => {
         this.caixaService.getNovoCaixa().toPromise().then(
           (caixa: CaixaBean) => {
@@ -130,7 +128,11 @@ export class CaixaComponent implements OnInit {
    * @param movimentacaoFinanceira 
    */
   adicionarMovimentacao(movimentacaoFinanceira : MovimentacaoBean) {
-    if (movimentacaoFinanceira?.indice) {
+    if (!this.caixaBean?.movimentacoes?.length) {
+      this.caixaBean.movimentacoes = [];  
+    }
+
+    if (movimentacaoFinanceira.indice !== null && movimentacaoFinanceira.indice >= 0) {
       let indice = movimentacaoFinanceira.indice;
       this.caixaBean.movimentacoes[indice] = movimentacaoFinanceira;
     } else {

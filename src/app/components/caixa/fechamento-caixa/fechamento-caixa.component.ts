@@ -1,8 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-
-import { PoupService } from '../../../servicos/poup.service';
 import {CaixaService} from '../caixa.service';
-import { MensagensService } from '../../../mensagens/mensagens.service';
 
 @Component({
   selector: 'app-fechamento-caixa',
@@ -14,7 +11,7 @@ export class FechamentoCaixaComponent implements OnInit {
   @Input()	caixa:	any;
   @Output() encerramentoRealizado : EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private poupService : PoupService, private caixaService : CaixaService, private mensagemService : MensagensService) { }
+  constructor(public caixaService : CaixaService) { }
 
   ngOnInit() {
   }
@@ -26,8 +23,6 @@ export class FechamentoCaixaComponent implements OnInit {
   finalizar() {
     this.caixaService.encerrar(this.caixa).subscribe(
       data => {
-        // this.mensagemService.addMensagemSucesso(data);
-        this.poupService.hide();
         this.caixa = {};
         this.encerramentoRealizado.emit(true);
       },
@@ -42,6 +37,5 @@ export class FechamentoCaixaComponent implements OnInit {
    */
   cancelar() {
     this.caixa = {};
-    this.poupService.hide();
   }
 }

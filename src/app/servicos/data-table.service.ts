@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 
 @Injectable({
@@ -42,12 +41,12 @@ export class DataTableService {
    * 
    * @param event 
    */
-  mudarPagina(event: PageChangedEvent): void {
-    const startItem = (event.page - 1) * event.itemsPerPage;
-    const endItem = event.page * event.itemsPerPage;
+  // mudarPagina(event: PageChangedEvent): void {
+  //   const startItem = (event.page - 1) * event.itemsPerPage;
+  //   const endItem = event.page * event.itemsPerPage;
 
-    this.returnedArray = this.data.slice(startItem, endItem);
-  }
+  //   this.returnedArray = this.data.slice(startItem, endItem);
+  // }
 
   /**
    * Realiza a ordenação ascendente do data table.
