@@ -1,7 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { AcaoSistema } from 'src/app/classes/util/acao-sistema';
+import { ArquivoService } from 'src/app/servicos/arquivo.service';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { CaixaService } from '../caixa.service';
 import { MovimentacaoBean } from '../movimentacao-caixa/movimentacao-caixa-form-builder';
@@ -23,10 +26,13 @@ export class MovimentacoesPorTipoComponent implements OnInit {
   @ViewChild('dtMovimentacao') dtMovimentacao: Table;
 
   movimentacaoFinanceira : any;
+  image : any;
 
   constructor(public caixaService : CaixaService,
               public mensagemService : MensagemService,
-              public dialogService : DialogService) { }
+              public dialogService : DialogService,
+              public arquivoService : ArquivoService,
+              private sanitizer : DomSanitizer) { }
 
   ngOnInit(): void {
   }
@@ -99,5 +105,18 @@ export class MovimentacoesPorTipoComponent implements OnInit {
 
   abrirPopupMovimentacaoFinanceira(movimentacao : MovimentacaoBean) {
     this.notificarPoupModificacaoFinanceira.emit(movimentacao);
+  }
+
+  downloadComprovante(id : number) {
+    this.arquivoService.downloadComprovante(id).toPromise().then(
+      (comprovante : any ) => {
+        if (comprovante) {
+          var file = new Blob([comprovante]);
+          var fileURL = URL.createObjectURL(file);
+          this.image = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + fileURL);
+        }
+      }, (httpErrorResponse: HttpErrorResponse) => {
+          this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+        });;
   }
 }

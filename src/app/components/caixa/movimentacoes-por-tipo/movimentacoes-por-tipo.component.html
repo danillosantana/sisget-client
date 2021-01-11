@@ -20,29 +20,15 @@
                 <mat-card  class="mat-card-lista">
                 <mat-card-content >
                     <div class="row">
-    
                     <div class="col text-center ">{{caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? movimentacao.tipoMovimentacao.descricao : '-'}}</div>
                     <div class="col text-center ">{{movimentacao.descricao}}</div>
                     <div class="col  text-center " 
                         [ngClass]="{'text-red' : !caixaService.isOperacaoEntrada(movimentacao.tipoOperacao), 'text-green' : caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)}">
                         {{movimentacao.valor | currency:'BRL':true}}
                     </div>
-                    
-    
                     <div class="form-group last text-center col-3" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
                     
-                    <!-- <input *ngIf="!movimentacao?.arquivo && tipoOperacao == 2"   type="file" id="upload" (change)="handleFileInput($event.target.files, movimentacao)" hidden/>
-                    <label *ngIf="!movimentacao?.arquivo && tipoOperacao == 2" title="Upload Comprovante" for="upload"><i class="pi pi-upload"></i></label>  
-                    <label *ngIf="movimentacao.arquivo && tipoOperacao == 2" title="Comprovante">
-                        <i class="text-blue pi pi-download"></i>
-                    </label>     -->
-                    <!-- <app-file-upload *ngIf="tipoOperacao == 2" 
-                                     [arquivo]="movimentacao.arquivo"
-                                     [titulo]="'Comprovante'"
-                                     [accept]="'image/*'">
-                    </app-file-upload> -->
-    
-                    <a class=" btn-edit ml-2 "  (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
+                    <a class=" btn-edit" [ngClass]="{'ml-n4' : !movimentacao?.comprovante}"  (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
                         <span class="text-green">
                         <i class="pi pi-user-edit"></i>
                         </span>
@@ -51,6 +37,12 @@
                         <span class="text-red">
                         <i class="pi pi-trash"></i>
                         </span> 
+                    </a>
+                    <a *ngIf="movimentacao?.comprovante" class=" btn-edit ml-2 "  
+                        title="{{movimentacao.comprovante.nome}}" (click)="downloadComprovante(movimentacao.comprovante.id)">
+                        <span >
+                            <i class="pi pi-image"></i>        
+                        </span>
                     </a> 
                     </div>
                     </div>
@@ -60,4 +52,7 @@
             </tr>
         </ng-template>
     </p-table>
+</div>
+<div *ngIf="image">
+    <p [innerHTML]="image"></p>
 </div>

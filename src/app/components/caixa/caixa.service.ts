@@ -10,7 +10,7 @@ import { TipoMovimentacaoTO } from '../../model/dto/tipo-movimentacao.to';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { environment } from './../../../environments/environment';
-import { ArquivoTO } from 'src/app/model/dto/arquivo.to';
+import { ComprovanteMovimentacaoTO } from 'src/app/model/dto/comprovante-movimentacao.to';
 
 @Injectable({
   providedIn: 'root'
@@ -139,5 +139,9 @@ export class CaixaService {
 	getMeses() :  Observable<Array<MesTO>> {
 		return this.http.get<Array<MesTO>>(this.API+'caixa/meses');
 	}
+
+	deletarComprovanteMovimentacao(idMovimentacaoCaixa : number) :  Observable<any> {
+		return this.http.delete(this.API+`caixa/comprovante/movimentacao-caixa/${idMovimentacaoCaixa}`);		
+	 }
 	
 }

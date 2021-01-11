@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { ArquivoTO } from "../model/dto/arquivo.to";
+import { ComprovanteMovimentacaoTO } from "../model/dto/comprovante-movimentacao.to";
 import { HttpService } from "./http-service.service";
 import { MensagemService } from "./mensagem.service";
 
@@ -29,11 +29,11 @@ export class ArquivoService {
                   window.open(fileURL);
                 }, (httpErrorResponse: HttpErrorResponse) => {
                     this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
-                  });;
+                  });
         }
   
 
-    upload(file : File) : Observable<ArquivoTO> { 
+    uploadComprovante(file : File) : Observable<ComprovanteMovimentacaoTO> { 
 		let headers = new HttpHeaders();
         headers.append('Content-Type', 'multipart/form-data');
         headers.append('Accept', 'application/json');
@@ -42,10 +42,14 @@ export class ArquivoService {
 		let formData = new FormData();
 		formData.append('file', file, file.name);
 		
-		return this.http.post<ArquivoTO>(this.API+'arquivo/upload', formData, options);
+		return this.http.post<ComprovanteMovimentacaoTO>(this.API+'arquivo/comprovante/upload', formData, options);
     }
     
-    deletar(id : number) {
-        return this.http.delete<any>(this.API+`arquivo/${id}`);
+    deletarComprovante(id : number) {
+        return this.http.delete<any>(this.API+`arquivo/comprovante/${id}`);
+    }
+
+    downloadComprovante(id : number) {
+      return this.http.get(this.API+`arquivo/comprovante/download/${id}`, { responseType: 'blob' });
     }
 }

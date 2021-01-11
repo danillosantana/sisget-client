@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ArquivoTO } from 'src/app/model/dto/arquivo.to';
+import { ComprovanteMovimentacaoTO } from 'src/app/model/dto/comprovante-movimentacao.to';
 import { TipoMovimentacaoTO } from 'src/app/model/dto/tipo-movimentacao.to';
 import { TipoOperacaoTO } from 'src/app/model/dto/tipo-operacao.to';
 import { TipoOperacao } from 'src/app/model/enum/tipo-operacao.enum';
@@ -152,9 +152,19 @@ export class MovimentacaoCaixaComponent implements OnInit {
   }
 
   removerArquivo() {
-    if (this.formMovimentacao?.controls?.comprovante?.value?.id) {
+    if (this.formMovimentacao?.controls?.id?.value) {
+       const idMovimentacaoCaixa = this.formMovimentacao.controls.id.value;
+       this.caixaService.deletarComprovanteMovimentacao(idMovimentacaoCaixa)
+            .toPromise()
+            .then(() => {
+              this.formMovimentacao.controls.comprovante.setValue(undefined);  
+            }, (httpErrorResponse: HttpErrorResponse) => {
+              console.log(httpErrorResponse);
+              this.mensagemService.adicionarMensagemErro('Movimentacao Caixa', httpErrorResponse?.message);
+            });
+    } else if (this.formMovimentacao?.controls?.comprovante?.value?.id) {
       const id = this.formMovimentacao.controls.comprovante.value.id;
-      this.arquivoService.deletar(id)
+      this.arquivoService.deletarComprovante(id)
           .toPromise()
           .then(() => {
             this.formMovimentacao.controls.comprovante.setValue(undefined);
@@ -168,9 +178,9 @@ export class MovimentacaoCaixaComponent implements OnInit {
   upload(event) {
     if (event?.target?.files?.length > 0) {
       const file = event.target.files[0];
-      this.arquivoService.upload(file)
+      this.arquivoService.uploadComprovante(file)
       .toPromise()
-      .then((arquivo : ArquivoTO) => {
+      .then((arquivo : ComprovanteMovimentacaoTO) => {
               this.formMovimentacao.controls.comprovante.setValue(arquivo);
             }, (httpErrorResponse: HttpErrorResponse) => {
               console.log(httpErrorResponse);
