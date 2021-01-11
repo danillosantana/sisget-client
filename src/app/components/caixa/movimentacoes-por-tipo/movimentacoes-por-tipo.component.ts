@@ -8,6 +8,7 @@ import { ArquivoService } from 'src/app/servicos/arquivo.service';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { CaixaService } from '../caixa.service';
 import { MovimentacaoBean } from '../movimentacao-caixa/movimentacao-caixa-form-builder';
+import { VisualizaComprovanteComponent } from '../visualiza-comprovante/visualiza-comprovante.component';
 
 @Component({
   selector: 'app-movimentacoes-por-tipo',
@@ -26,7 +27,6 @@ export class MovimentacoesPorTipoComponent implements OnInit {
   @ViewChild('dtMovimentacao') dtMovimentacao: Table;
 
   movimentacaoFinanceira : any;
-  image : any;
 
   constructor(public caixaService : CaixaService,
               public mensagemService : MensagemService,
@@ -107,16 +107,27 @@ export class MovimentacoesPorTipoComponent implements OnInit {
     this.notificarPoupModificacaoFinanceira.emit(movimentacao);
   }
 
-  downloadComprovante(id : number) {
+  visualizarComprovante(id : number) {
     this.arquivoService.downloadComprovante(id).toPromise().then(
       (comprovante : any ) => {
         if (comprovante) {
-          var file = new Blob([comprovante]);
-          var fileURL = URL.createObjectURL(file);
-          this.image = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + fileURL);
+          console.log('comprovante', comprovante);
+          var fileURL = URL.createObjectURL(comprovante);
+          let image = this.sanitizer.bypassSecurityTrustUrl(fileURL);
+          this.abrirVisualizadorComprovante(image);
         }
       }, (httpErrorResponse: HttpErrorResponse) => {
           this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
         });;
+  }
+
+  abrirVisualizadorComprovante(img : any) {
+    this.dialogService.open(VisualizaComprovanteComponent, {
+      data: { img: img },
+      width: '50vw',
+      closeOnEscape: true,
+      closable: true,
+      header : 'Visualizador de Comprovante'
+    });
   }
 }
