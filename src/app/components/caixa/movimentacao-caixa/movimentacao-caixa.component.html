@@ -21,6 +21,25 @@
                               formControlName="tipoMovimentacao" [style]="{'width':'100%'}">
                   </p-dropdown>
               </div> 
+              <div class="form-group" *ngIf="TipoOperacao.SAIDA === formMovimentacao.controls['tipoOperacao']?.value?.id">
+                <div *ngIf="!formMovimentacao.controls['comprovante'].value" class="form-control">
+                  <input  accept="image/*" (change)="upload($event)"  
+                          type="file" id="comprovante" />
+                  <label for="arquivo">Selecionar Arquivo</label>
+                  <label *ngIf="!formMovimentacao.controls['comprovante'].value"  
+                        title="Upload do Comprovante" for="comprovante" style="margin-left: 24rem">
+                    <i class="pi pi-upload"></i>
+                  </label>
+                </div>
+                <div *ngIf="formMovimentacao.controls['comprovante'].value" class="form-control" (click)="removerArquivo()">
+                  <label >{{formMovimentacao.controls['comprovante'].value.nome}}</label>
+                  <a id="excluirArquivo"  title="Excluir" style="margin-left: 24rem">  
+                    <span class="text-red">
+                    <i class="pi pi-trash"></i>
+                    </span> 
+                  </a>
+                </div>
+              </div>
               <div class="form-group">
                 <label	for="valor" class="required">Valor</label>
                 <input	class="form-control"  maxlength="15"  type="text" 

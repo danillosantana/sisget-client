@@ -26,7 +26,8 @@ export class CaixaComponent implements OnInit {
   movimentacaoFinanceira : any;
   caixaParaEncerramento : any;
 
-  @ViewChild('dtMovimentacao') dtMovimentacao: Table;
+
+  // @ViewChild('dtMovimentacao') dtMovimentacao: Table;
 
   constructor(public caixaService : CaixaService, 
               public mensagemService : MensagemService, 
@@ -107,7 +108,7 @@ export class CaixaComponent implements OnInit {
    * 
    * @param template 
    */
-  private abrirPopupMovimentacaoFinanceira(movimentacao : MovimentacaoBean) {
+  abrirPopupMovimentacaoFinanceira(movimentacao : MovimentacaoBean) {
     const modal = this.dialogService.open(MovimentacaoCaixaComponent, {
       data: { movimentacao: movimentacao },
       width: '50vw',
@@ -207,7 +208,6 @@ export class CaixaComponent implements OnInit {
     this.caixaService.salvar(this.caixaBean).toPromise().then(
       (caixaBean : CaixaBean) => {
         this.caixaBean = caixaBean;
-        this.dtMovimentacao.reset();
         this.processarValoresDefault();
         this.acaoSistema.setaAcaoParaAlterar();
         this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
@@ -224,7 +224,6 @@ export class CaixaComponent implements OnInit {
     .toPromise().then(
       (caixaBean : CaixaBean) => {
         this.caixaBean = caixaBean;
-        this.dtMovimentacao.reset();
         this.processarValoresDefault();
         this.acaoSistema.setaAcaoParaAlterar();
         this.mensagemService.adicionarMensagemSucesso('Caixa', 'Operação Realizada Com Sucesso');
@@ -302,4 +301,9 @@ export class CaixaComponent implements OnInit {
              }
           });
   }
+
+  receberNotificacaoMovimentacoes() {
+    this.calcularValores();
+  }
+
 }

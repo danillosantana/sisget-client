@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CaixaTO } from '../../model/dto/caixa.to';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpService } from '../../servicos/http-service.service';
 import { MesTO } from '../../model/dto/mes.to';
 import { CaixaBean } from '../../model/bean/caixa-bean';
@@ -10,6 +10,7 @@ import { TipoMovimentacaoTO } from '../../model/dto/tipo-movimentacao.to';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { environment } from './../../../environments/environment';
+import { ArquivoTO } from 'src/app/model/dto/arquivo.to';
 
 @Injectable({
   providedIn: 'root'
@@ -132,27 +133,11 @@ export class CaixaService {
 	}
 
 	/**
-	 * Retorna o relatório caixa.
-	 * 
-	 * @param idCaixa
-	 */
-	getRelatorioCaixa(idCaixa) {
-	return	this.http.get(this.API+'arquivo/relatorio/caixa/'+idCaixa, { responseType: 'blob' }).subscribe(
-            data => {
-              var file = new Blob([data], {type: 'application/pdf'});
-              var fileURL = URL.createObjectURL(file);
-              window.open(fileURL);
-            }, (httpErrorResponse: HttpErrorResponse) => {
-				this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
-			  });;
-	}
-
-	/**
 	 * Retorna a lista de meses.
 	 * 
 	 */
 	getMeses() :  Observable<Array<MesTO>> {
 		return this.http.get<Array<MesTO>>(this.API+'caixa/meses');
 	}
-
+	
 }

@@ -2,8 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ArquivoTO } from 'src/app/model/dto/arquivo.to';
 import { TipoMovimentacaoTO } from 'src/app/model/dto/tipo-movimentacao.to';
 import { TipoOperacaoTO } from 'src/app/model/dto/tipo-operacao.to';
+import { TipoOperacao } from 'src/app/model/enum/tipo-operacao.enum';
+import { ArquivoService } from 'src/app/servicos/arquivo.service';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { FormBuilderUtil } from 'src/app/util/form-builder-util';
 import {CaixaService} from '../caixa.service';
@@ -28,11 +31,14 @@ export class MovimentacaoCaixaComponent implements OnInit {
 
   @ViewChild('inputDescricao') inputDescricao: ElementRef;
 
+  TipoOperacao = TipoOperacao;
+
   constructor(public dialogRef: DynamicDialogRef,
               public config: DynamicDialogConfig,
               public caixaService : CaixaService, 
               public movimentacaoFormBuilderService : MovimentacaoFormBuilderService,
-              public mensagemService : MensagemService) { }
+              public mensagemService : MensagemService,
+              public arquivoService : ArquivoService) { }
 
   ngOnInit() {
     this.construirForm();  
@@ -58,6 +64,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
       this.setarTipoOperacoes(movimentacao);
       this.setarTipoMovimentacao(movimentacao);
       this.formMovimentacao.controls.valor.setValue(movimentacao.valor);
+      this.formMovimentacao.controls.comprovante.setValue(movimentacao?.comprovante);
       this.movimentacaoFormBuilderService.atualizarControls(this.formMovimentacao);
     } else {
       this.formMovimentacao.controls.tipoOperacao.setValue(this.tiposOperacoes[0]); 
@@ -142,5 +149,33 @@ export class MovimentacaoCaixaComponent implements OnInit {
 
   changeTipoOperacao(event) {
     this.mostrarTipoMovimentacao = event?.value?.id !== 2;
+  }
+
+  removerArquivo() {
+    if (this.formMovimentacao?.controls?.comprovante?.value?.id) {
+      const id = this.formMovimentacao.controls.comprovante.value.id;
+      this.arquivoService.deletar(id)
+          .toPromise()
+          .then(() => {
+            this.formMovimentacao.controls.comprovante.setValue(undefined);
+          }, (httpErrorResponse: HttpErrorResponse) => {
+            console.log(httpErrorResponse);
+            this.mensagemService.adicionarMensagemErro('Movimentacao Caixa', httpErrorResponse?.message);
+          });
+    }
+  }
+
+  upload(event) {
+    if (event?.target?.files?.length > 0) {
+      const file = event.target.files[0];
+      this.arquivoService.upload(file)
+      .toPromise()
+      .then((arquivo : ArquivoTO) => {
+              this.formMovimentacao.controls.comprovante.setValue(arquivo);
+            }, (httpErrorResponse: HttpErrorResponse) => {
+              console.log(httpErrorResponse);
+              this.mensagemService.adicionarMensagemErro('Movimentacao Caixa', httpErrorResponse?.message);
+            });
+    }
   }
 }
