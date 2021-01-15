@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/sisget",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -26,7 +26,7 @@
             "styles": [
               "src/custom-theme.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/primeng/resources/themes/nova-light/theme.css",
+              "./node_modules/primeng/resources/themes/nova-dark/theme.css",
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/primeng.min.css",
               "src/styles.css"
@@ -37,7 +37,7 @@
             ]
           },
           "configurations": {
-            "production": {
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -54,19 +54,22 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            "pt": {
+            "hom": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hom.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
               "aot": true,
-              "outputPath": "dist/",
-              "i18nFile": "src/app/locale/messages.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "pt"
-            },
-            "en": {
-              "aot": true,
-              "outputPath": "dist/",
-              "i18nFile": "src/app/locale/messages-eng.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "en"
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -76,11 +79,11 @@
             "browserTarget": "sisget-client:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "sisget-client:build:production"
+            "prod": {
+              "browserTarget": "sisget-client:build:prod"
             },
-            "pt": {
-              "browserTarget": "sisget-client:build:pt"
+            "hom": {
+              "browserTarget": "sisget-client:build:hom"
             }
           }
         },

@@ -10,6 +10,7 @@ export class MovimentacaoBean {
      tipoMovimentacao : any;
      valor : any;
      indice : any;
+     comprovante : any;
 
      constructor() {
          this.id = undefined;
@@ -18,6 +19,7 @@ export class MovimentacaoBean {
          this.tipoMovimentacao = undefined;
          this.valor = undefined;
          this.indice = undefined;
+         this.comprovante = undefined;
      }
 }
 
@@ -37,5 +39,6 @@ export class MovimentacaoFormBuilderService extends AbstractFormBuilder<Moviment
         this.controls.tipoMovimentacao = form.controls['tipoMovimentacao'];
         this.controls.valor = form.controls['valor'];
         this.controls.indice = form.controls['indice'];
+        this.controls.comprovante = form.controls['comprovante'];
     }
 }

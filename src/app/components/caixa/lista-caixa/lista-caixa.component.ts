@@ -8,6 +8,7 @@ import { FormBuilderUtil } from 'src/app/util/form-builder-util';
 import { Table } from 'primeng/table';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ArquivoService } from 'src/app/servicos/arquivo.service';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class ListaCaixaComponent implements OnInit {
   @ViewChild('dt') dt: Table;
 
   constructor(public caixaService : CaixaService, public mensagemService : MensagemService, 
-              public pesquisaCaixaFormBuilderService : PesquiasCaixaFormBuilderService) { 
+              public pesquisaCaixaFormBuilderService : PesquiasCaixaFormBuilderService,
+              public arquivoService : ArquivoService) { 
 
   }
 
@@ -63,7 +65,7 @@ export class ListaCaixaComponent implements OnInit {
   }
 
   buscarCaixas() {
-    return this.caixaService.getCaixasTOsPorAnoVigente()
+    return this.caixaService.getCaixasTO()
     .toPromise()
     .then( (caixasTO : Array<CaixaTO>) => {
         this.caixasTO = caixasTO;        
@@ -96,7 +98,7 @@ export class ListaCaixaComponent implements OnInit {
 	 * @param idCaixa
 	 */
 	getRelatorioCaixa(idCaixa) {
-      this.caixaService.getRelatorioCaixa(idCaixa);
+      this.arquivoService.getRelatorioCaixa(idCaixa);
   }
   
   /**

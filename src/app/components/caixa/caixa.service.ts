@@ -1,32 +1,32 @@
 import { Injectable } from '@angular/core';
-import { API } from '../../classes/util/app-config'
 import { CaixaTO } from '../../model/dto/caixa.to';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpService } from '../../servicos/http-service.service';
 import { MesTO } from '../../model/dto/mes.to';
 import { CaixaBean } from '../../model/bean/caixa-bean';
-import { map } from 'rxjs/operators';
 import { TipoOperacaoTO } from '../../model/dto/tipo-operacao.to';
 import { TipoMovimentacaoTO } from '../../model/dto/tipo-movimentacao.to';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
-
+import { environment } from './../../../environments/environment';
+import { ComprovanteMovimentacaoTO } from 'src/app/model/dto/comprovante-movimentacao.to';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CaixaService {
   
+  API = environment.apiUrl;
 
-  constructor(public http: HttpClient, public httpService : HttpService
-			 ,public mensagemService : MensagemService) { }
+  constructor(public http: HttpClient, public httpService : HttpService, 
+		      public mensagemService : MensagemService) { }
 
   /**
    *  Retorna a lista de caixas por ano vigente.
    */
-  getCaixasTOsPorAnoVigente() : Observable<Array<CaixaTO>>  {
-    return this.http.get<Array<CaixaTO>>(API+'caixa/ano-vigente');
+  getCaixasTO() : Observable<Array<CaixaTO>>  {
+    return this.http.get<Array<CaixaTO>>(this.API+'caixa/lista');
   }
 
   /**
@@ -35,7 +35,7 @@ export class CaixaService {
    * @param caixa
    */	
   salvar(caixa) : Observable<CaixaBean> {
-     return this.http.post<CaixaBean>(API+'caixa/salvar', caixa);		
+     return this.http.post<CaixaBean>(this.API+'caixa/salvar', caixa);		
   }
 
   /**
@@ -44,7 +44,7 @@ export class CaixaService {
    * @param caixa
    */	
   alterar(caixa : CaixaBean) : Observable<CaixaBean>{
-	return this.http.put<CaixaBean>(API+'caixa/alterar', caixa);		
+	return this.http.put<CaixaBean>(this.API+'caixa/alterar', caixa);		
   }
 	
    /**
@@ -53,7 +53,7 @@ export class CaixaService {
 	* @param filtro
 	*/
 	getCaixasTOPorFiltro(filtro) :  Observable<Array<CaixaTO>> {  
-	   return this.http.post<Array<CaixaTO>>(API+'caixa/filtro', filtro);	
+	   return this.http.post<Array<CaixaTO>>(this.API+'caixa/filtro', filtro);	
 	}
 	
    /**
@@ -62,21 +62,21 @@ export class CaixaService {
 	* @param idCaixa
 	*/
 	getCaixaBean(idCaixa) :  Observable<CaixaBean> { 
-	   return this.http.get<CaixaBean>(API+'caixa/'+idCaixa);
+	   return this.http.get<CaixaBean>(this.API+'caixa/'+idCaixa);
 	}
 	
    /**
 	* Retorna a lista de TipoMovimentacao.
 	*/
 	getTiposMovimentacoes() : Observable<Array<TipoMovimentacaoTO>> {
-	   return this.http.get<Array<TipoMovimentacaoTO>>(API+'caixa/tipos/movimentacoes');		
+	   return this.http.get<Array<TipoMovimentacaoTO>>(this.API+'caixa/tipos/movimentacoes');		
 	}
 	
    /**
 	* Retorna a lista de TipoOperacao.
 	*/
 	getTiposOperacaoes() :  Observable<Array<TipoOperacaoTO>> {
-	   return this.http.get<Array<TipoOperacaoTO>>(API+'caixa/tiposOperacaoes');
+	   return this.http.get<Array<TipoOperacaoTO>>(this.API+'caixa/tiposOperacaoes');
 	}
 
 	/**
@@ -85,7 +85,7 @@ export class CaixaService {
 	 * @param ano
 	 */
 	getMesesDisponiveis(ano) :  Observable<any>  { 
-		return this.http.get<any>(API+'caixa/meses/disponiveis/'+ano);		
+		return this.http.get<any>(this.API+'caixa/meses/disponiveis/'+ano);		
 	}
 
 	/**
@@ -94,7 +94,7 @@ export class CaixaService {
 	 * @param movimentacaoCaixa
 	 */
 	validarCamposObrigatoriosMovimentoCaixa(movimentacaoCaixa : MovimentacaoBean) : Observable<any> { 
-		return this.http.post<MovimentacaoBean>(API+'caixa/validar/campos-obrigatorios-movimentoCaixa', movimentacaoCaixa);
+		return this.http.post<MovimentacaoBean>(this.API+'caixa/validar/campos-obrigatorios-movimentoCaixa', movimentacaoCaixa);
 	}
 
 	/**
@@ -112,7 +112,7 @@ export class CaixaService {
    * @param caixa
    */	
    encerrar(caixa : CaixaBean) :  Observable<any> {
-	  return this.http.put(API+`caixa/encerrar/`, caixa);		
+	  return this.http.put(this.API+`caixa/encerrar/`, caixa);		
    }
 
      /**
@@ -120,8 +120,8 @@ export class CaixaService {
 	 * 
 	 * @param ano
 	 */
-	validarCaixaEmAberto(ano) {
-		return this.http.get(API+'caixa/validar/caixa-em-aberto/'+ano);
+	validarCaixaEmAberto() {
+		return this.http.get(this.API+'caixa/validar/caixa-em-aberto/');
 	}
 
   /**
@@ -129,24 +129,7 @@ export class CaixaService {
 	 * 
 	 */
 	getNovoCaixa() : Observable<CaixaBean> { 
-		return this.http.get<CaixaBean>(API+'caixa/novo-caixa');
-	}
-
-	/**
-	 * Retorna o relatório caixa.
-	 * 
-	 * @param idCaixa
-	 */
-	getRelatorioCaixa(idCaixa) {
-		// this.httpService.downloadFile(API+'arquivo/getRelatorioCaixa/'+idCaixa);
-	return	this.http.get(API+'arquivo/relatorio/caixa/'+idCaixa, { responseType: 'blob' }).subscribe(
-            data => {
-              var file = new Blob([data], {type: 'application/pdf'});
-              var fileURL = URL.createObjectURL(file);
-              window.open(fileURL);
-            }, (httpErrorResponse: HttpErrorResponse) => {
-				this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
-			  });;
+		return this.http.get<CaixaBean>(this.API+'caixa/novo-caixa');
 	}
 
 	/**
@@ -154,7 +137,11 @@ export class CaixaService {
 	 * 
 	 */
 	getMeses() :  Observable<Array<MesTO>> {
-		return this.http.get<Array<MesTO>>(API+'caixa/meses');
+		return this.http.get<Array<MesTO>>(this.API+'caixa/meses');
 	}
 
+	deletarComprovanteMovimentacao(idMovimentacaoCaixa : number) :  Observable<any> {
+		return this.http.delete(this.API+`caixa/comprovante/movimentacao-caixa/${idMovimentacaoCaixa}`);		
+	 }
+	
 }
