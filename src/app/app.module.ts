@@ -31,6 +31,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
+import {FileUploadModule} from 'primeng/fileupload';
+import { MovimentacoesPorTipoComponent } from './components/caixa/movimentacoes-por-tipo/movimentacoes-por-tipo.component';
+import { FileUploadComponent } from './shared/file-upload/file-upload.component';
+import { VisualizaComprovanteComponent } from './components/caixa/visualiza-comprovante/visualiza-comprovante.component';
+
 
 registerLocaleData(localePt, 'pt');
 
@@ -52,7 +57,10 @@ const appRoutes: Routes = [
     AutoFocusDirective,
     SortColumnDirective,
     FilterColumnDirective,
-    LoaderComponent
+    LoaderComponent,
+    MovimentacoesPorTipoComponent,
+    FileUploadComponent,
+    VisualizaComprovanteComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +80,8 @@ const appRoutes: Routes = [
     DynamicDialogModule,
     ToastModule,
     CurrencyMaskModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FileUploadModule
   ],
   providers: [NgLoadingService, 
               HttpService, 
@@ -87,7 +96,8 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [
-    MovimentacaoCaixaComponent
+    MovimentacaoCaixaComponent,
+    VisualizaComprovanteComponent
   ],
 })
 export class AppModule { }
