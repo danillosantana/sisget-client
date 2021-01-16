@@ -1,6 +1,0 @@
-<input *ngIf="!arquivo " accept="{{accept}}"  type="file" id="upload" (change)="handleFileInput($event.target.files)" hidden/>
-<label *ngIf="!arquivo" title="Upload {{titulo}}" for="upload"><i class="pi pi-upload"></i></label>  
-<img class="preview-img">
-<label *ngIf="arquivo" title="{{titulo}}">
-    <i class="text-blue pi pi-download"></i>
-</label>

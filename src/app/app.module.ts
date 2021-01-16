@@ -33,7 +33,6 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import {FileUploadModule} from 'primeng/fileupload';
 import { MovimentacoesPorTipoComponent } from './components/caixa/movimentacoes-por-tipo/movimentacoes-por-tipo.component';
-import { FileUploadComponent } from './shared/file-upload/file-upload.component';
 import { VisualizaComprovanteComponent } from './components/caixa/visualiza-comprovante/visualiza-comprovante.component';
 
 
@@ -59,7 +58,6 @@ const appRoutes: Routes = [
     FilterColumnDirective,
     LoaderComponent,
     MovimentacoesPorTipoComponent,
-    FileUploadComponent,
     VisualizaComprovanteComponent
   ],
   imports: [
@@ -68,7 +66,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     TableModule,
     InputTextModule,
     ButtonModule,
