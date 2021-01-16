@@ -72,18 +72,18 @@
                           <div class="col text-center">{{caixa.situacao}}</div>
                           
   
-                          <div class="box-actions-right col-2">
-                            <a class="col"  (click)="visualizar(caixa)"   title="Visualziar">  
+                          <div class="form-group last text-center col-2">
+                            <a class="btn-edit" [ngClass]="{'ml-4' : !caixa.encerrado}"  (click)="visualizar(caixa)"   title="Visualziar">  
                               <span class="p-input-icon-left">
                                 <i class="pi pi-eye"></i>
                               </span> 
                             </a>
-                              <a class="col btn-edit"  *ngIf="!caixa.encerrado" (click)="alterar(caixa)"  title="Editar">
+                              <a class="text-green ml-2"  *ngIf="!caixa.encerrado" (click)="alterar(caixa)"  title="Editar">
                                 <span class="p-input-icon-left">
                                   <i class="pi pi-user-edit"></i>
                                 </span>
                               </a>
-                              <a class="col"  (click)="getRelatorioCaixa(caixa.id)" title="Relatório">
+                              <a class="ml-2"  (click)="getRelatorioCaixa(caixa.id)" title="Relatório">
                                 <span class="p-input-icon-left">
                                   <i class="pi pi-file-pdf pi-pdf-color"></i>
                                 </span>
