@@ -20,7 +20,7 @@
                 <mat-card  class="mat-card-lista">
                 <mat-card-content >
                     <div class="row">
-                    <div class="col text-center ">{{caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? movimentacao.tipoMovimentacao.descricao : '-'}}</div>
+                    <div *ngIf="caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)" class="col text-center">{{movimentacao.tipoMovimentacao.descricao}}</div>
                     <div class="col text-center " title="{{movimentacao.descricao}}" >{{movimentacao.descricao.length > 10 ? movimentacao.descricao.substring(0, 10) + '...' : movimentacao.descricao}}</div>
                     <div class="col  text-center " 
                         [ngClass]="{'text-red' : !caixaService.isOperacaoEntrada(movimentacao.tipoOperacao), 'text-green' : caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)}">
