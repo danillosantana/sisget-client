@@ -21,7 +21,7 @@ export class MovimentacoesPorTipoComponent implements OnInit {
   @Input() tipoOperacao : number;
   @Input() acaoSistema : AcaoSistema;
 
-  @Output() notificarAlteracaoModificacoes : EventEmitter<any> = new EventEmitter<any>(); 
+  @Output() notificarAlteracaoEmMovimentacoes : EventEmitter<any> = new EventEmitter<any>(); 
   @Output() notificarPoupModificacaoFinanceira : EventEmitter<MovimentacaoBean> = new EventEmitter<any>(); 
 
   @ViewChild('dtMovimentacao') dtMovimentacao: Table;
@@ -59,7 +59,7 @@ export class MovimentacoesPorTipoComponent implements OnInit {
       .then((result) => {
           if (result.isConfirmed) {
             this.movimentacoes.splice(indice, 1);
-            this.notificarAlteracaoModificacoes.emit();
+            this.notificarAlteracaoEmMovimentacoes.emit();
           }
       });
   }
@@ -90,7 +90,7 @@ export class MovimentacoesPorTipoComponent implements OnInit {
       this.movimentacoes.push(movimentacaoFinanceira);
     }
     
-    this.notificarAlteracaoModificacoes.emit();
+    this.notificarAlteracaoEmMovimentacoes.emit();
   }
 
   /**
