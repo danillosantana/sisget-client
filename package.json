@@ -5,7 +5,6 @@
     "ng": "ng",
     "start": "ng serve  --host 0.0.0.0 --disable-host-check ",
     "buildprod": "ng build  --base-href sisget-client --configuration=prod ",
-    "buildhom": "ng build  --base-href sisget-client-hom --configuration=hom ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

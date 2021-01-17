@@ -143,6 +143,10 @@ export class CaixaComponent implements OnInit {
     this.calcularValores();
   }
 
+  receberNotificacaoMovimentacao() {
+    this.calcularValores();
+  }
+
   /**
    * Calcular valores de entrada, saída e saldo final.
    */
