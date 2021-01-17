@@ -219,6 +219,7 @@
           <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
                                         [tipoOperacao]="1"
                                         [acaoSistema]="acaoSistema"
+                                        (notificarAlteracaoEmMovimentacoes)="receberNotificacaoMovimentacao()"
                                         (notificarPoupModificacaoFinanceira)="abrirPopupMovimentacaoFinanceira($event)">
           </app-movimentacoes-por-tipo>
         </div>
@@ -227,6 +228,7 @@
           <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
                                        [tipoOperacao]="2"
                                        [acaoSistema]="acaoSistema"
+                                       (notificarAlteracaoEmMovimentacoes)="receberNotificacaoMovimentacao()"
                                        (notificarPoupModificacaoFinanceira)="abrirPopupMovimentacaoFinanceira($event)">
           </app-movimentacoes-por-tipo>
         </div>
