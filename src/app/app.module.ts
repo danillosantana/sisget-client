@@ -2,15 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule, Routes  } from '@angular/router';
+import { RouterModule  } from '@angular/router';
 import { AppComponent } from './app.component';
-import { CaixaComponent } from './components/caixa/caixa.component';
-import { ListaCaixaComponent } from './components/caixa/lista-caixa/lista-caixa.component';
-import { MovimentacaoCaixaComponent } from './components/caixa/movimentacao-caixa/movimentacao-caixa.component';
-import {NgLoadingService} from './ng-loading/ng-loading.service';
+import { CaixaComponent } from './pages/caixa/caixa.component';
+import { ListaCaixaComponent } from './pages/caixa/lista-caixa/lista-caixa.component';
+import { MovimentacaoCaixaComponent } from './pages/caixa/movimentacao-caixa/movimentacao-caixa.component';
 import { HttpService } from './servicos/http-service.service';
-import { FechamentoCaixaComponent } from './components/caixa/fechamento-caixa/fechamento-caixa.component';
-import { NgLoadingComponent } from './ng-loading/ng-loading.component';
+import { FechamentoCaixaComponent } from './pages/caixa/fechamento-caixa/fechamento-caixa.component';
 import { AutoFocusDirective } from './diretivas/auto-focus.directive';
 import { SortColumnDirective } from './diretivas/sort-column.directive';
 import { FilterColumnDirective } from './diretivas/filter-column.directive';
@@ -26,24 +24,20 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderComponent } from './pages/loader/loader.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { LoaderInterceptor } from './config/interceptors/loader.interceptor';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import {FileUploadModule} from 'primeng/fileupload';
-import { MovimentacoesPorTipoComponent } from './components/caixa/movimentacoes-por-tipo/movimentacoes-por-tipo.component';
-import { VisualizaComprovanteComponent } from './components/caixa/visualiza-comprovante/visualiza-comprovante.component';
-
+import { MovimentacoesPorTipoComponent } from './pages/caixa/movimentacoes-por-tipo/movimentacoes-por-tipo.component';
+import { VisualizaComprovanteComponent } from './pages/caixa/visualiza-comprovante/visualiza-comprovante.component';
+import { HttpsRequestInterceptor } from './config/security/http-request.interceptor';
+import { UsuarioComponent } from './pages/usuario/usuario.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AppRoutingModule } from './app.routing.module';
 
 registerLocaleData(localePt, 'pt');
-
-/**
- * Configuração de Rotas.
- */
-const appRoutes: Routes = [
-  { path: 'caixa',  component: CaixaComponent }
-];
 
 @NgModule({
   declarations: [
@@ -52,13 +46,14 @@ const appRoutes: Routes = [
     ListaCaixaComponent,
     MovimentacaoCaixaComponent,
     FechamentoCaixaComponent,
-    NgLoadingComponent,
     AutoFocusDirective,
     SortColumnDirective,
     FilterColumnDirective,
     LoaderComponent,
     MovimentacoesPorTipoComponent,
-    VisualizaComprovanteComponent
+    VisualizaComprovanteComponent,
+    UsuarioComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +61,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes, { useHash: true }),
+    AppRoutingModule,
     TableModule,
     InputTextModule,
     ButtonModule,
@@ -81,13 +76,17 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     FileUploadModule
   ],
-  providers: [NgLoadingService, 
-              HttpService, 
+  providers: [HttpService, 
               DialogService,
               {provide: LOCALE_ID, useValue: 'pt'},
               {
                 provide: HTTP_INTERCEPTORS,
                 useClass: LoaderInterceptor,
+                multi: true,
+              },
+              {
+                provide: HTTP_INTERCEPTORS,
+                useClass: HttpsRequestInterceptor,
                 multi: true,
               }
             ],

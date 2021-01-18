@@ -9,7 +9,7 @@ import { TipoOperacaoTO } from '../../model/dto/tipo-operacao.to';
 import { TipoMovimentacaoTO } from '../../model/dto/tipo-movimentacao.to';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
-import { environment } from './../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { ComprovanteMovimentacaoTO } from 'src/app/model/dto/comprovante-movimentacao.to';
 
 @Injectable({
