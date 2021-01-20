@@ -10,3 +10,7 @@
 ::ng-deep .ui-menuitem-icon {
     color: white !important;
 }
+
+.blue-degrade {
+    background-image: linear-gradient(to bottom, #40E0D0,#007AD8);
+}

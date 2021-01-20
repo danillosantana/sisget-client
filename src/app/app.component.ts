@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { TokenService } from './config/security/token.service';
+import { LoginService } from './pages/login/login-service';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +13,12 @@ export class AppComponent implements OnInit {
   items: MenuItem[] = [];
 
   constructor(public router: Router,
-              public tokenService : TokenService) {
+              public loginService : LoginService) {
 
   }
 
   ngOnInit(): void {
-    if (this.tokenService.hasToken()) {
-      this.inicializarMenu();
-    }
+    this.inicializarMenu();
     this.router.navigate(['/caixa']);
   }
 

@@ -9,6 +9,8 @@ import { Table } from 'primeng/table';
 import { MensagemService } from 'src/app/servicos/mensagem.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ArquivoService } from 'src/app/servicos/arquivo.service';
+import { ObjectList } from 'src/app/model/objects/object-list';
+import { SelectItem } from 'primeng/api';
 
 
 @Component({
@@ -27,7 +29,7 @@ import { ArquivoService } from 'src/app/servicos/arquivo.service';
 export class ListaCaixaComponent implements OnInit {
 
   caixasTO : Array<CaixaTO> = [];
-  meses    : Array<MesTO> = [];
+  meses    : Array<SelectItem> = [];
   formPesquisaCaixa: FormGroup;
 
   @Output() enviarCaixaParaVisualizacao : EventEmitter<any> = new EventEmitter<any>();
@@ -118,8 +120,8 @@ export class ListaCaixaComponent implements OnInit {
   setarMesDefault() {
     if (this.meses?.length > 0) {
        this.meses.forEach(m => {
-          if (m.id === null) {
-            this.formPesquisaCaixa.controls.mes.setValue(m);
+          if (m.value === null) {
+            this.formPesquisaCaixa.controls.mes.setValue(m.value);
           }
        }) 
     }
@@ -131,8 +133,8 @@ export class ListaCaixaComponent implements OnInit {
   buscarMeses() {
     return this.caixaService.getMeses().subscribe(
       (meses : Array<MesTO>) => {
-        meses.push(new MesTO(null, 'Selecione'))
-        this.meses = meses;
+        this.meses.push({ label : 'Selecione', value :null});
+        meses.forEach(m => this.meses.push({label : m.descricao, value : m.id}));
       }, (httpErrorResponse: HttpErrorResponse) => {
         this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse.error.message);
       });

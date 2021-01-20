@@ -1,6 +1,7 @@
 <div class="container">
 <div class="row mt-3">
-  <app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()" 
+  <app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()"
+                    class="w-100" 
                    (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  
                    (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"
                    (novoCaixaEmitter) = "novoCaixa()">
@@ -54,15 +55,6 @@
         </div>
       </div>
       
-      <div class="form-group row">
-        <!-- <div class="col-6">
-          <div class="text-left ml-n3">
-            <input pInputText type="text" class="w-100" placeholder="Pesquise" 
-                    (input)="dtMovimentacao.filterGlobal($event.target.value, 'contains')" />
-          </div>
-        </div> -->
-
-      </div>
       <div class="row text-center">
         <mat-card class="col-3 card-header-result" >
           <mat-card-title>
@@ -119,100 +111,6 @@
         </div>
        </div>
        <br/>
-       <!-- <div class="row">
-         <div class="form-group col-6">
-            <p class="text-green text-center">Entradas</p>
-             <p-table #dtMovimentacao [value]="caixaBean?.movimentacoes" dataKey="caixa.id"  styleClass="ui-table-pendencias" 
-                     [rows]="10" [globalFilterFields]="['descricao','tipoOperacao.descricao','tipoMovimentacao.descricao', 'valor']">
-             
-                 <ng-template pTemplate="body" let-movimentacao let-i="rowIndex" >
-                     <tr *ngIf="movimentacao?.tipoOperacao?.id === 1">
-                       <td>
-                         <mat-card  class="mat-card-lista">
-                           <mat-card-content >
-                             <div class="row">
-       
-                               <div class="col text-center ">{{caixaService.isOperacaoEntrada(movimentacao.tipoOperacao) ? movimentacao.tipoMovimentacao.descricao : '-'}}</div>
-                               <div class="col text-center ">{{movimentacao.descricao}}</div>
-                               <div class="col  text-center " 
-                                    [ngClass]="{'text-red' : !caixaService.isOperacaoEntrada(movimentacao.tipoOperacao), 'text-green' : caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)}">
-                                    {{movimentacao.valor | currency:'BRL':true}}
-                                </div>
-                               
-       
-                               <div class="form-group last text-center col-3" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
-                                
- 
-                                <a class=" btn-edit "  (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
-                                  <span class="text-green">
-                                    <i class="pi pi-user-edit"></i>
-                                  </span>
-                                </a>
-                                <a class=""  (click)="excluirMovimentacao(i)"  title="Excluir">  
-                                  <span class="text-red">
-                                    <i class="pi pi-trash"></i>
-                                  </span> 
-                                </a> 
-                               </div>
-                             </div>
-                           </mat-card-content>
-                         </mat-card>
-                       </td>
-                     </tr>
-       
-                 </ng-template>
-               </p-table>    
-         </div>
-
-
-         <div class="form-group col-6">
-          <p class="text-center text-red">Saídas</p>
-          <p-table #dtMovimentacaoSaida [value]="caixaBean?.movimentacoes" dataKey="caixa.id"  styleClass="ui-table-pendencias" 
-                  [rows]="10" [globalFilterFields]="['descricao','tipoOperacao.descricao','tipoMovimentacao.descricao', 'valor']">
-          
-              <ng-template pTemplate="body" let-movimentacao let-i="rowIndex" >
-                  <tr *ngIf="movimentacao?.tipoOperacao?.id === 2">
-                    <td >
-                      <mat-card  class="mat-card-lista">
-                        <mat-card-content >
-                          <div class="row">
-                            <div *ngIf="caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)" class="col text-center">{{movimentacao.tipoMovimentacao.descricao}}</div>
-                            <div class="col text-center">{{movimentacao.descricao}}</div>
-                            <div class="col  text-center " 
-                                 [ngClass]="{'text-red' : !caixaService.isOperacaoEntrada(movimentacao.tipoOperacao), 'text-green' : caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)}">
-                                 {{movimentacao.valor | currency:'BRL':true}}
-                             </div>
-                            
-    
-                            <div class="form-group last text-center col-3" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
-                            
-                              
-                              <input *ngIf="!movimentacao?.arquivo"   type="file" id="upload" (change)="handleFileInput($event.target.files, movimentacao)" hidden/>
-                              <label *ngIf="!movimentacao?.arquivo" title="Upload Comprovante" for="upload"><i class="pi pi-upload"></i></label>  
-                              <label *ngIf="movimentacao.arquivo" title="Comprovante"><i class="pi pi-download"></i></label>  
-
-                              
-                             <a class="btn-edit ml-2"  (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
-                               <span class="text-green">
-                                 <i class="pi pi-user-edit"></i>
-                               </span>
-                             </a>
-                             <a   (click)="excluirMovimentacao(i)" class="ml-2"  title="Excluir">  
-                               <span class="text-red">
-                                 <i class="pi pi-trash"></i>
-                               </span> 
-                             </a> 
-                            </div>
-                          </div>
-                        </mat-card-content>
-                      </mat-card>
-                    </td>
-                  </tr>
-    
-              </ng-template>
-            </p-table>    
-      </div> -->
-       <!-- </div> -->
 
        <div class="row ">
         <div class="form-group col-6">
