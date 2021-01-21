@@ -33,9 +33,10 @@ import {FileUploadModule} from 'primeng/fileupload';
 import { MovimentacoesPorTipoComponent } from './pages/caixa/movimentacoes-por-tipo/movimentacoes-por-tipo.component';
 import { VisualizaComprovanteComponent } from './pages/caixa/visualiza-comprovante/visualiza-comprovante.component';
 import { HttpsRequestInterceptor } from './config/security/http-request.interceptor';
-import { UsuarioComponent } from './pages/usuario/usuario.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AppRoutingModule } from './app.routing.module';
+import { AdminComponent } from './pages/admin/admin.component';
+import { AdminModule } from './pages/admin/admin.module';
 
 registerLocaleData(localePt, 'pt');
 
@@ -52,8 +53,8 @@ registerLocaleData(localePt, 'pt');
     LoaderComponent,
     MovimentacoesPorTipoComponent,
     VisualizaComprovanteComponent,
-    UsuarioComponent,
-    LoginComponent
+    LoginComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

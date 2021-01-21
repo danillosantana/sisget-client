@@ -5,9 +5,28 @@
 
 ::ng-deep .ui-menuitem-text {
     color: white !important;
+} 
+
+ ::ng-deep .ui-menuitem-icon {
+    color: white !important;
+} 
+
+::ng-deep .ui-menubar .ui-menuitem-link {
+    padding: 0.714em 0.857em;
+    background-color: #007bff!important;
+    color: #333333;
+    font-weight: normal;
+    border-radius: 0;
+    transition: box-shadow 0.2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-::ng-deep .ui-menuitem-icon {
+::ng-deep .ui-menubar .ui-menubar-root-list>.ui-menuitem>.ui-menuitem-link>.ui-submenu-icon {
+    vertical-align: middle;
+    margin-left: .25em;
     color: white !important;
 }
 

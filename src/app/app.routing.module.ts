@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './config/security/auth-guard.service';
+import { AdminComponent } from './pages/admin/admin.component';
 import { CaixaComponent } from './pages/caixa/caixa.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -10,11 +11,14 @@ const appRoutes: Routes = [
     component: CaixaComponent,
     canActivate: [AuthGuardService],
   },
-  // {
-  //   path: 'cadastro-do-processo',
-  //   loadChildren: () => import('./pages/gerenciamento-atividades/gerenciador-processo/gerenciador-processo.module').then(m => m.GerenciadorProcessoModule),
-  //   canActivate: [AuthGuard],
-  // },
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+        {
+      path: '',
+      loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
+  }]},
   // {
   //   path: 'painel-gestor',
   //   loadChildren: () => import('./pages/painel-gestor/painel-gestor.module').then(m => m.PainelGestorModule),
