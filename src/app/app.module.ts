@@ -36,7 +36,12 @@ import { HttpsRequestInterceptor } from './config/security/http-request.intercep
 import { LoginComponent } from './pages/login/login.component';
 import { AppRoutingModule } from './app.routing.module';
 import { AdminComponent } from './pages/admin/admin.component';
-import { AdminModule } from './pages/admin/admin.module';
+import { HomeComponent } from './pages/home/home.component';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import { UsuarioComponent } from './pages/admin/manter-usuario/usuario/usuario.component';
+import { AlterarSenhaUsuarioComponent } from './pages/admin/manter-usuario/alterar-senha-usuario/alterar-senha-usuario.component';
+import { ContaComponent } from './pages/conta/conta.component';
+import { PanelModule } from 'primeng/panel';
 
 registerLocaleData(localePt, 'pt');
 
@@ -54,7 +59,9 @@ registerLocaleData(localePt, 'pt');
     MovimentacoesPorTipoComponent,
     VisualizaComprovanteComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    HomeComponent,
+    ContaComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +82,9 @@ registerLocaleData(localePt, 'pt');
     ToastModule,
     CurrencyMaskModule,
     NgxSpinnerModule,
-    FileUploadModule
+    FileUploadModule,
+    SplitButtonModule,
+    PanelModule
   ],
   providers: [HttpService, 
               DialogService,
@@ -95,7 +104,9 @@ registerLocaleData(localePt, 'pt');
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [
     MovimentacaoCaixaComponent,
-    VisualizaComprovanteComponent
+    VisualizaComprovanteComponent,
+    UsuarioComponent,
+    AlterarSenhaUsuarioComponent
   ],
 })
 export class AppModule { }

@@ -11,6 +11,9 @@ import { Table } from 'primeng/table';
 import { MovimentacaoCaixaComponent } from './movimentacao-caixa/movimentacao-caixa.component';
 import { MovimentacaoBean } from './movimentacao-caixa/movimentacao-caixa-form-builder';
 import { DialogService } from 'primeng/dynamicdialog';
+import { UserSessionService } from 'src/app/config/security/user-session.service';
+import { UsuarioSession } from 'src/app/model/bean/usuario-session';
+import { Permissoes } from 'src/app/model/enum/permissoes.enum';
 
 @Component({
   selector: 'app-caixa',
@@ -25,16 +28,16 @@ export class CaixaComponent implements OnInit {
   meses : Array<MesTO> = [];
   movimentacaoFinanceira : any;
   caixaParaEncerramento : any;
-
-
-  // @ViewChild('dtMovimentacao') dtMovimentacao: Table;
+  usuarioSession : UsuarioSession;
 
   constructor(public caixaService : CaixaService, 
               public mensagemService : MensagemService, 
-              public dialogService : DialogService) { }
+              public dialogService : DialogService,
+              public usuarioSessionService : UserSessionService,) { }
 
   ngOnInit() {
     this.acaoSistema.setaAcaoParaListar();
+    this.usuarioSession = this.usuarioSessionService.getUsuarioSession();
   }
 
   /**
@@ -269,6 +272,9 @@ export class CaixaComponent implements OnInit {
       .toPromise().then(
         (caixa : CaixaBean) => {
           this.caixaBean = caixa;
+          if (this.apenasMembresia() && this.caixaBean?.movimentacoes?.length > 0) {
+              this.caixaBean.movimentacoes.forEach((m) => {m.descricao = '########'});
+          }
           this.processarValoresDefault();
         }, (httpErrorResponse: HttpErrorResponse) => {
           console.log(httpErrorResponse);
@@ -308,6 +314,15 @@ export class CaixaComponent implements OnInit {
 
   receberNotificacaoMovimentacoes() {
     this.calcularValores();
+  }
+
+  apenasMembresia() {
+    let apenasMembresia : boolean = false;
+    if (this.usuarioSession?.permissoes?.length === 1) {
+      apenasMembresia = this.usuarioSession.permissoes[0] === Permissoes.MEMBRESIA;
+    }
+
+    return apenasMembresia;
   }
 
 }

@@ -1,19 +1,4 @@
-<div *ngIf="loginService.isAutenticado()"  class="top-fixed w-100"> 
-  <p-menubar  [model]="items" sytleClass="navbar-dark bg-primary">
-    <div>
-      <button pButton label="Logout" icon="pi pi-power-off" (click)="logout()" style="margin-left:.25em"></button>
-    </div>
-  </p-menubar>
-</div>
-    <div class="content" [ngClass]="{'navbar-dark blue-degrade' : !loginService.isAutenticado()}">
-        <div class="content-inside"> 
-				<div class="container">
-          <router-outlet></router-outlet>
-          <app-loader></app-loader>
-        </div>	
-        </div>
-    </div>
-    
+<app-home></app-home>
 <footer *ngIf="loginService.isAutenticado()" class="font-small bg-primary botton-fixed" style="color: white">  
     <div class="footer-copyright text-center py-3" style="background-color: #0d47a1">© {{getAno()}} Copyright:
       <a href="">Danillo Santana D'Afonseca Alves</a>

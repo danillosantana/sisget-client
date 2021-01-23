@@ -9,9 +9,9 @@ import { UsuarioSession } from 'src/app/model/bean/usuario-session';
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(private authService : AuthService,
-              private router: Router,
-              private usuarioSessionService : UserSessionService) { }
+  constructor(public authService : AuthService,
+              public router: Router,
+              public usuarioSessionService : UserSessionService) { }
 
   canActivate(route: import("@angular/router").ActivatedRouteSnapshot, state: import("@angular/router").RouterStateSnapshot): boolean | import("@angular/router").UrlTree | import("rxjs").Observable<boolean | import("@angular/router").UrlTree> | Promise<boolean | import("@angular/router").UrlTree> {
     if (!this.authService.isAutenticado()) {
@@ -19,10 +19,18 @@ export class AuthGuardService implements CanActivate {
       return false;
     }
 
-    if (route && route.data && route.data.roles) {
+    if (route && route.data && route.data.permissoes) {
        const usuarioSession: UsuarioSession = this.usuarioSessionService.getUsuarioSession();
     
-       return route.data.roles.includes(usuarioSession.role);
+       let possuiPermissao : boolean = false;
+       route.data.permissoes.forEach(p => {
+         let permissaoEncontrada = usuarioSession.permissoes?.filter(permissao => permissao === p)?.length > 0;
+         if (permissaoEncontrada) {
+            possuiPermissao = true;
+         }
+       }); 
+
+       return possuiPermissao;
     }
     
     return true;

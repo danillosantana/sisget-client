@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { AuthGuardService } from './config/security/auth-guard.service';
 import { TokenService } from './config/security/token.service';
+import { UserSessionService } from './config/security/user-session.service';
+import { UsuarioSession } from './model/bean/usuario-session';
+import { Permissoes } from './model/enum/permissoes.enum';
 import { LoginService } from './pages/login/login-service';
 import { MensagemService } from './servicos/mensagem.service';
 
@@ -15,51 +19,15 @@ export class AppComponent implements OnInit {
 
   constructor(public router: Router,
               public loginService : LoginService,
-              public mensagemService : MensagemService) {
+              public mensagemService : MensagemService,
+              public usuarioSessionService : UserSessionService) {
 
   }
 
   ngOnInit(): void {
-    this.inicializarMenu();
-    this.router.navigate(['/caixa']);
   }
 
-  inicializarMenu() {
-    this.items = [
-      {
-        label: 'Administração',
-        icon: 'pi pi-cog',
-        items : [
-          {
-            label: 'Usuários', 
-            icon: 'pi pi-users',
-            routerLink: '/usuarios'
-          },
-          {
-            label: 'Permissões', 
-            icon: 'pi pi-lock',
-            routerLink: '/permissoes'
-          }
-        ]
-      },
-      {
-          label: 'Caixa',
-          icon: 'pi pi-inbox',
-          routerLink: '/caixa'
-      }
-  ];
-  }
-  
   getAno() {
     return new Date().getFullYear();
-  }
-
-  logout() {
-    this.mensagemService.dialogConfirm('Deseja Realmente Sair?')
-      .then((result) => {
-          if (result.isConfirmed) {
-            this.loginService.logout();
-          }
-      });
   }
 }

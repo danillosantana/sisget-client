@@ -13,10 +13,14 @@ export class UserSessionService {
   constructor(private tokenService : TokenService) { }
 
   getUsuarioSession() {
-    const token = this.tokenService.getToken().replace('Bearer', '');
-    this.usuarioSession = jwt_decode(token); 
-    
-    return this.usuarioSession; 
+    if (this.tokenService?.getToken()) {
+      const token = this.tokenService.getToken().replace('Bearer', '');
+      this.usuarioSession = jwt_decode(token); 
+      
+      return this.usuarioSession; 
+    }
+
+    return null;
   }
 
 

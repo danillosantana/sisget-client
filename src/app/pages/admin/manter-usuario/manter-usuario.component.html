@@ -1,51 +1,60 @@
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <div class="text-left ml-n3">
-            <input pInputText type="text" class="w-100" placeholder="Pesquise" 
-                    (input)="dtUsuarios.filterGlobal($event.target.value, 'contains')" />
+<div class="container ">
+    <p-panel header="Usuários">
+        <div class="row d-flex justify-content-center mt-3">
+            <div class="col-3">
+                <div class="text-left ml-2">
+                <input pInputText type="text" class="w-100" placeholder="Pesquise" 
+                        (input)="dtUsuarios.filterGlobal($event.target.value, 'contains')" />
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-right mr-2" >
+                    <button  pButton type="button"	(click)="novoUsuario()"
+                              icon="pi pi-plus-circle" class="ui-button-secondary" 
+                              label="Novo Usuario">
+                        </button>
+                  </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="text-right" >
-                <button  pButton type="button"	(click)="novoUsuario()"
-                          icon="pi pi-plus-circle" class="ui-button-secondary" 
-                          label="Novo Usuario">
-                    </button>
-              </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <p-table #dtUsuarios [value]="usuarios" dataKey="usuario.id"  
-                [rows]="5" [globalFilterFields]="['nome','email']">
-        
-            <ng-template pTemplate="body" let-usuario let-i="rowIndex" >
-                <tr>
-                <td>
-                <mat-card class="mat-card-lista">
-                    <mat-card-content >
-                        <div class="row">
-                        <div class="col text-center">{{usuario.nome.length > 30 ? usuario.nome.substring(0, 30) + '...' : usuario.nome}}</div>
-                        <div class="col text-center " >{{usuario.email}}</div>
-                        <div class="form-group last text-center col-3">
-                        
-                        <a class=" btn-edit"    title="Editar">
-                            <span class="text-green">
-                            <i class="pi pi-user-edit"></i>
-                            </span>
-                        </a>
-                        <a class="ml-2"  title="Excluir">  
-                            <span class="text-red">
-                            <i class="pi pi-trash"></i>
-                            </span> 
-                        </a>
-                        </div>
-                        </div>
-                    </mat-card-content>
-                    </mat-card>
-                </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
+        <div class="row d-flex justify-content-center">
+            <p-table #dtUsuarios class="col-9" [value]="usuarios" dataKey="usuario.id"  
+                    [rows]="5" [globalFilterFields]="['nome','email']"
+                    >
+                    
+            
+                <ng-template pTemplate="body" let-usuario let-i="rowIndex" >
+                    <tr (dblclick)="alterarUsuario(usuario)">
+                    <td>
+                    <mat-card class="mat-card-lista">
+                        <mat-card-content >
+                            <div class="row">
+                            <div class="col text-center" title="{{usuario.nome}}">{{usuario.nome.length > 20 ? usuario.nome.substring(0, 20) + '...' : usuario.nome}}</div>
+                            <div class="col text-center " title="{{usuario.email}}">{{usuario.email.length > 30 ? usuario.email.substring(0, 30) : usuario.email}}</div>
+                            <div class="form-group last text-center col-3">
+                            
+                            <a class=" btn-edit"    title="Editar" (click)="alterarUsuario(usuario)">
+                                <span class="text-green">
+                                <i class="pi pi-user-edit"></i>
+                                </span>
+                            </a>
+                            <a class="ml-2"  title="Alterar Senha" (click)="abrirModalAlteracaoSenha(usuario)">  
+                                <span class="">
+                                <i class="pi pi-lock"></i>
+                                </span> 
+                            </a>
+                            <a class="ml-2"  title="Excluir" (click)="deletar(usuario)">  
+                                <span class="text-red">
+                                <i class="pi pi-trash"></i>
+                                </span> 
+                            </a>
+                            </div>
+                            </div>
+                        </mat-card-content>
+                        </mat-card>
+                    </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>   
+    </p-panel>   
 </div>

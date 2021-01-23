@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManterPermissoesComponent } from './manter-permissoes.component';
+import { ContaComponent } from './conta.component';
 
-describe('ManterPermissoesComponent', () => {
-  let component: ManterPermissoesComponent;
-  let fixture: ComponentFixture<ManterPermissoesComponent>;
+describe('ContaComponent', () => {
+  let component: ContaComponent;
+  let fixture: ComponentFixture<ContaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManterPermissoesComponent ]
+      declarations: [ ContaComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManterPermissoesComponent);
+    fixture = TestBed.createComponent(ContaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

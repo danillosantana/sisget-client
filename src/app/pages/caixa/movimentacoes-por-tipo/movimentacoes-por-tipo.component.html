@@ -15,7 +15,7 @@
             [rows]="10" [globalFilterFields]="['descricao','tipoOperacao.descricao','tipoMovimentacao.descricao', 'valor']">
     
         <ng-template pTemplate="body" let-movimentacao let-i="rowIndex" >
-            <tr *ngIf="movimentacao?.tipoOperacao?.id === tipoOperacao">
+            <tr *ngIf="movimentacao?.tipoOperacao?.id === tipoOperacao" (dblclick)="alterarMovimentacao(movimentacao, i)">
             <td>
                 <mat-card  class="mat-card-lista">
                 <mat-card-content >

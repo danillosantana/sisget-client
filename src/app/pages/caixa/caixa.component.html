@@ -4,7 +4,8 @@
                     class="w-100" 
                    (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  
                    (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"
-                   (novoCaixaEmitter) = "novoCaixa()">
+                   (novoCaixaEmitter) = "novoCaixa()"
+                   [apenasMembresia]="apenasMembresia()">
 </app-lista-caixa>
 
 	<div class="row mt-2" *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
@@ -40,16 +41,17 @@
         </div>
         <div class="col">
           <div class="form-group text-right">
-                <button   *ngIf="acaoSistema.isAcaoSistemaIncluir()" type="button"	pButton label="Salvar"
+                <button   *ngIf="acaoSistema.isAcaoSistemaIncluir() && !apenasMembresia()" type="button"	pButton label="Salvar"
                           icon="pi pi-user-plus" class=" ui-button-success" (click)="salvar()" >
                 </button>
                 
-                <button   *ngIf="acaoSistema.isAcaoSistemaAlterar()" pButton label="Salvar"
+                <button   *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" pButton label="Salvar"
                             icon="pi pi-user-edit" class="ui-button-success"
                             type="button"	(click)="alterar()">
                 </button>
-                <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar()" class="text-left" label="Finalizar" icon="pi pi-save"  
-                      class="ui-button-primary ml-2" (click)="finalizarCaixa()">
+                <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" 
+                        class="text-left ui-button-primary ml-2" label="Finalizar" icon="pi pi-save"  
+                        (click)="finalizarCaixa()">
               </button>
           </div>  
         </div>
@@ -101,8 +103,8 @@
         </mat-card>  
       </div> 
        <div class="row mt-3">
-        <div class="col" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
-          <div class="text-left" >
+        <div class="col" *ngIf="!acaoSistema.isAcaoSistemaVisualizar() ">
+          <div class="text-left" *ngIf="!apenasMembresia()">
             <button  pButton type="button"	(click)="novaMovimentacaoFinanceira()"
                   icon="pi pi-plus-circle" class="ui-button-secondary" 
                   label="Nova Movimentação Caixa">

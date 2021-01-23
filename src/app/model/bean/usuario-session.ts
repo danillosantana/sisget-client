@@ -2,7 +2,7 @@ export class UsuarioSession {
     
     public id: number;
     public nome : string;
-    public role: String;
+    public permissoes: Array<string>;
     public exp: number;
     public iat: number;
 }

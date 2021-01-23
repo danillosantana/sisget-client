@@ -19,6 +19,7 @@ export class LoginService {
       this.http.post(environment.apiUrl+'auth', loginBean)
         .subscribe((data : any) => {
           this.tokenService.setToken(data.token);
+          location.reload();
           resolve(undefined);
         }, data => {
           reject(data.error);

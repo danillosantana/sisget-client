@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ViewChild  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ViewChild, Input  } from '@angular/core';
 import { CaixaService } from '../caixa.service';
 import { CaixaTO } from 'src/app/model/dto/caixa.to';
 import { FiltroCaixaBean, PesquiasCaixaFormBuilderService } from './pesquisa-caixa-form-builder';
@@ -31,6 +31,8 @@ export class ListaCaixaComponent implements OnInit {
   caixasTO : Array<CaixaTO> = [];
   meses    : Array<SelectItem> = [];
   formPesquisaCaixa: FormGroup;
+
+  @Input() apenasMembresia : boolean;
 
   @Output() enviarCaixaParaVisualizacao : EventEmitter<any> = new EventEmitter<any>();
   @Output() enviarCaixaParaAlteracao : EventEmitter<any> = new EventEmitter<any>();
