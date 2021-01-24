@@ -1,0 +1,145 @@
+<div class="container">
+<div class="row mt-3">
+  <app-lista-caixa *ngIf="acaoSistema.isAcaoSistemaListar()"
+                    class="w-100" 
+                   (enviarCaixaParaAlteracao)="receberCaixaParaAlteracao($event)"  
+                   (enviarCaixaParaVisualizacao)="receberCaixaParaVisualizacao($event)"
+                   (novoCaixaEmitter) = "novoCaixa()"
+                   [apenasMembresia]="apenasMembresia()">
+</app-lista-caixa>
+
+	<div class="row mt-2" *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()">
+    <form #cadastro="ngForm" class="form-horizontal">
+      
+      <div class="row mt-n3">
+        <div class="col-2">
+          <button  *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()" 
+                  pButton (click)="voltar()" type="button" icon="pi pi-backward" label="Voltar" class="ui-button-secondary"> 
+           </button>
+        </div>
+        <div class="col-7">
+          <div class="row">
+            <div class="col-6 ml-n5">
+              <span class="ui-float-label">
+                <label  for="mes">Mês:</label>
+                  <select class="form-control ml-5" name="mes" id="mes" [(ngModel)]="caixaBean.mes"
+                          [disabled]="acaoSistema.isAcaoSistemaVisualizar() || acaoSistema.isAcaoSistemaAlterar()">
+                      <option *ngFor="let mes of meses, let i = index" [ngValue]="mes">{{mes.descricao}}</option> 
+                  </select>
+              </span>
+            </div>
+            <div class="col-6 ml-5">
+              <span class="ui-float-label">
+                <label  for="complemento" >Ano</label>
+                <input	class="form-control ml-5" type="text" id="ano" name="ano" [(ngModel)]="caixaBean.ano" 
+                        [disabled]="true" >
+
+              </span>
+            </div>
+
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group text-right">
+                <button   *ngIf="acaoSistema.isAcaoSistemaIncluir() && !apenasMembresia()" type="button"	pButton label="Salvar"
+                          icon="pi pi-user-plus" class=" ui-button-success" (click)="salvar()" >
+                </button>
+                
+                <button   *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" pButton label="Salvar"
+                            icon="pi pi-user-edit" class="ui-button-success"
+                            type="button"	(click)="alterar()">
+                </button>
+                <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" 
+                        class="text-left ui-button-primary ml-2" label="Finalizar" icon="pi pi-save"  
+                        (click)="finalizarCaixa()">
+              </button>
+          </div>  
+        </div>
+      </div>
+      
+      <div class="row text-center">
+        <mat-card class="col-3 card-header-result" >
+          <mat-card-title>
+            <label style="font-size: 12px">
+              Entradas
+            </label>
+          </mat-card-title>
+          <mat-card-content class="ml-2">
+            <label class="text-blue">
+                {{caixaBean.entradas | currency:'BRL':true}}
+            </label>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="col-3 card-header-result">
+          <mat-card-title>
+            <label style="font-size: 12px">
+              Saídas
+            </label>
+          </mat-card-title>
+          <mat-card-content >
+            <label [ngClass]="{'text-red' : caixaBean.saidas < 0.0, 'text-green' : caixaBean.saidas >= 0.0}">
+              {{caixaBean.saidas | currency:'BRL':true}}
+            </label>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="col-3 card-header-result">
+          <mat-card-title>
+            <label style="font-size: 12px">
+              Anterior</label>
+          </mat-card-title>
+          <mat-card-content >
+            <label [ngClass]="{'text-red' : caixaBean.saldoAnterior < 0.0, 'text-green' : caixaBean.saldoAnterior >= 0.0}">
+              {{caixaBean.saldoAnterior | currency:'BRL':true}}
+            </label>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="col-3 card-header-result">
+          <mat-card-title>
+            <label style="font-size: 12px">
+              Final
+            </label>
+          </mat-card-title>
+          <mat-card-content >
+            <span [ngClass]="{'text-red' : caixaBean.saldoFinal < 0.0, 'text-green' : caixaBean.saldoFinal >= 0.0}" >
+              {{caixaBean.saldoFinal | currency:'BRL':true}}
+            </span>
+          </mat-card-content>
+        </mat-card>  
+      </div> 
+       <div class="row mt-3">
+        <div class="col" *ngIf="!acaoSistema.isAcaoSistemaVisualizar() ">
+          <div class="text-left" *ngIf="!apenasMembresia()">
+            <button  pButton type="button"	(click)="novaMovimentacaoFinanceira()"
+                  icon="pi pi-plus-circle" class="ui-button-secondary" 
+                  label="Nova Movimentação Caixa">
+            </button>	 
+        </div>
+        </div>
+       </div>
+       <br/>
+
+       <div class="row ">
+        <div class="form-group col-6">
+          <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
+                                        [tipoOperacao]="1"
+                                        [acaoSistema]="acaoSistema"
+                                        [apenasMembresia]="apenasMembresia()" 
+                                        (notificarAlteracaoEmMovimentacoes)="receberNotificacaoMovimentacao()"
+                                        (notificarPoupModificacaoFinanceira)="abrirPopupMovimentacaoFinanceira($event)">
+          </app-movimentacoes-por-tipo>
+        </div>
+
+        <div class="form-group col-6">
+          <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
+                                       [tipoOperacao]="2"
+                                       [acaoSistema]="acaoSistema"
+                                       [apenasMembresia]="apenasMembresia()"
+                                       (notificarAlteracaoEmMovimentacoes)="receberNotificacaoMovimentacao()"
+                                       (notificarPoupModificacaoFinanceira)="abrirPopupMovimentacaoFinanceira($event)">
+          </app-movimentacoes-por-tipo>
+        </div>
+       </div>
+		</form>	
+	</div>
+</div>	
+</div>

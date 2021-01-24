@@ -1,0 +1,25 @@
+<div class="container ">
+    <p-panel header="Conta" *ngIf="usuario">
+        <div class="row d-flex justify-content-center mt-3">
+            <div class="form-group col-9">
+                <label	for="nome" class="required">Nome</label>
+                <input	class="form-control" type="text" id="nome" maxlength="100"
+                        name="nome"  [(ngModel)]="usuario.nome"  disabled>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="form-group col-9">
+                <label	for="email" class="required">Email</label>
+                <input	class="form-control" type="text" id="email" maxlength="100"
+                        name="email"  [(ngModel)]="usuario.email"  disabled>
+            </div>
+        </div>
+        <div class="row form-group  d-flex justify-content-center" >
+            <div class="form-group col-9">
+                <a class="pi pi-lock"  (click)="abrirModalAlteracaoSenha()" >
+                    Alterar Senha        
+                </a>
+            </div>
+          </div>   
+    </p-panel>
+ </div>       

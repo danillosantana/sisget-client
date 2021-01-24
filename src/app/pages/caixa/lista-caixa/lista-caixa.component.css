@@ -1,0 +1,50 @@
+
+ .box-actions-right {
+    width: 65px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .box-actions-right .btn-edit i:before,
+  .box-actions-right .btn-delete i:before {
+    font-size: 16px;
+  }
+  
+  .box-actions-right .btn-delete,
+  .box-actions-right .btn-edit {
+    cursor: pointer;
+    margin-left: 10px;
+  } 
+
+  .lista-caixa-card {
+    min-width: 350px !important;
+    border-left: 12px solid #0d47a1;
+  }
+  
+  
+  .box-actions-right .btn-edit i {
+    color: green;
+  }
+  
+  .box-actions-right .btn-delete i {
+    color: red;
+  }
+  
+  body .ui-table .ui-table-tbody > tr:nth-child(even) {
+    background-color: white;
+}
+
+body .ui-table .ui-table-tbody > tr > td {
+  background-color: inherit;
+  border: none;
+  transition: box-shadow 0.2s;
+}
+
+.font-size-20 {
+  font-size: 20px;
+}
+
+.font-size-12 {
+  font-size: 12px;
+}

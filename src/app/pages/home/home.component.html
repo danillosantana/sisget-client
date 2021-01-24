@@ -1,0 +1,15 @@
+<div *ngIf="loginService.isAutenticado()"  class="top-fixed w-100"> 
+    <p-menubar  [model]="rigthMenu" sytleClass="navbar-dark bg-primary">
+        <div>
+            <p-splitButton icon="pi pi-bars" [model]="leftMenu" ></p-splitButton>
+        </div>
+    </p-menubar>
+</div>
+<div class="content" [ngClass]="{'navbar-dark blue-degrade' : !loginService.isAutenticado()}">
+    <div class="content-inside"> 
+            <div class="container">
+    <router-outlet></router-outlet>
+    <app-loader></app-loader>
+    </div>	
+    </div>
+</div>

@@ -28,7 +28,7 @@ export class ArquivoService {
                   var fileURL = URL.createObjectURL(file);
                   window.open(fileURL);
                 }, (httpErrorResponse: HttpErrorResponse) => {
-                    this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+                    this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.message);
                   });
         }
   

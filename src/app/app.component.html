@@ -1,16 +1,5 @@
-<div  class="row top-fixed w-100 navbar navbar-expand-lg navbar-dark bg-primary"> 
-  <p-menubar [model]="items" sytleClass="navbar-dark bg-primary"></p-menubar>
-</div>
-    <div class="content">
-        <div class="content-inside"> 
-				<div class="container">
-          <router-outlet></router-outlet>
-          <app-loader></app-loader>
-        </div>	
-        </div>
-    </div>
-    
-<footer class="font-small bg-primary botton-fixed" style="color: white">  
+<app-home></app-home>
+<footer *ngIf="loginService.isAutenticado()" class="font-small bg-primary botton-fixed" style="color: white">  
     <div class="footer-copyright text-center py-3" style="background-color: #0d47a1">© {{getAno()}} Copyright:
       <a href="">Danillo Santana D'Afonseca Alves</a>
     </div>
