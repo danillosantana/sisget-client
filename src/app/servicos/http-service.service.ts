@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
-import { NgLoadingService } from '../ng-loading/ng-loading.service';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -14,7 +13,7 @@ const httpOptions = {
 @Injectable()
 export class HttpService {
 
-    constructor( private loadingService: NgLoadingService, private http: HttpClient ) { }
+    constructor( private http: HttpClient ) { }
  
     get(url: string) {
         return this.watch(this.http.get<any>(url));

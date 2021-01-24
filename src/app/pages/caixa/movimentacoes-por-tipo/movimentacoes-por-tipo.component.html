@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col">
+        <p *ngIf="tipoOperacao === 1" class="text-green text-left">Entradas</p>
+        <p *ngIf="tipoOperacao === 2" class="text-red text-left">Saídas</p>
+    </div>
+    <div class="col">
+        <div class="text-left ml-n3">
+        <input pInputText type="text" class="w-100" placeholder="Pesquise" 
+                (input)="dtMovimentacao.filterGlobal($event.target.value, 'contains')" />
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <p-table #dtMovimentacao [value]="movimentacoes" dataKey="caixa.id"  styleClass="ui-table-pendencias" 
+            [rows]="10" [globalFilterFields]="['descricao','tipoOperacao.descricao','tipoMovimentacao.descricao', 'valor']">
+    
+        <ng-template pTemplate="body" let-movimentacao let-i="rowIndex" >
+            <tr *ngIf="movimentacao?.tipoOperacao?.id === tipoOperacao" 
+                        (dblclick)="alterarMovimentacao(movimentacao, i)">
+            <td>
+                <mat-card  class="mat-card-lista">
+                <mat-card-content >
+                    <div class="row">
+                    <div *ngIf="caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)" class="col text-center">{{movimentacao.tipoMovimentacao.descricao}}</div>
+                    <div class="col text-center " title="{{movimentacao.descricao}}" >{{movimentacao.descricao.length > 10 ? movimentacao.descricao.substring(0, 10) + '...' : movimentacao.descricao}}</div>
+                    <div class="col  text-center " 
+                        [ngClass]="{'text-red' : !caixaService.isOperacaoEntrada(movimentacao.tipoOperacao), 'text-green' : caixaService.isOperacaoEntrada(movimentacao.tipoOperacao)}">
+                        {{movimentacao.valor | currency:'BRL':true}}
+                    </div>
+                    <div class="form-group last text-center col-3" *ngIf="acaoSistema.isAcaoSistemaVisualizar()">
+                        <a *ngIf="movimentacao?.comprovante" class=" btn-edit"  
+                        title="{{movimentacao.comprovante.nome}}" (click)="visualizarComprovante(movimentacao.comprovante.id)">
+                            <span >
+                                <i class="pi pi-image"></i>        
+                            </span>
+                        </a> 
+                    </div>
+                    <div class="form-group last text-center col-3" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
+                    
+                    <a class=" btn-edit" [ngClass]="{'ml-n4' : !movimentacao?.comprovante}" 
+                        *ngIf="!apenasMembresia"
+                        (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
+                        <span class="text-green">
+                        <i class="pi pi-user-edit"></i>
+                        </span>
+                    </a>
+                    <a class="ml-2"  (click)="excluirMovimentacao(i)"  
+                        *ngIf="!apenasMembresia" title="Excluir">  
+                        <span class="text-red">
+                        <i class="pi pi-trash"></i>
+                        </span> 
+                    </a>
+                    <a *ngIf="movimentacao?.comprovante" class=" btn-edit ml-2 "  
+                        title="{{movimentacao.comprovante.nome}}" (click)="visualizarComprovante(movimentacao.comprovante.id)">
+                        <span >
+                            <i class="pi pi-image"></i>        
+                        </span>
+                    </a>
+                    </div>
+                    </div>
+                </mat-card-content>
+                </mat-card>
+            </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

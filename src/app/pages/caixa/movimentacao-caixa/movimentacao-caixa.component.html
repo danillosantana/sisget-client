@@ -1,0 +1,58 @@
+<div class="col-lg-12">
+      <div class="modal-body">
+        <div class="text-right required  text-red">Campos Obrigatórios</div>  
+        <form [formGroup]= "formMovimentacao" class="form-horizontal" (keyup.enter)="salvar()">
+              <div class="form-group">
+                <label	for="movimentacaoFinanceira" class="required">Descrição</label>
+                <input	#inputDescricao
+                        class="form-control" type="text" id="movimentacaoFinanceira" maxlength="100"
+                        name="movimentacaoFinanceira" formControlName="descricao"  appAutoFocus >
+              </div>
+              <div class="form-group">
+                  <label  for="complemento" class="required">Tipo Operação:</label>
+                  <p-dropdown class="w-100" [options]="tiposOperacoes" optionLabel="descricao"
+                              (onChange)="changeTipoOperacao($event)"
+                              formControlName="tipoOperacao" [style]="{'width':'100%'}">
+                </p-dropdown>
+              </div>
+              <div class="form-group" *ngIf="mostrarTipoMovimentacao">
+                  <label  for="tipoMovimentacao" class="required" >Tipo Movimentações:</label>
+                  <p-dropdown class="w-100" [options]="tiposMovimentacoes" optionLabel="descricao"
+                              formControlName="tipoMovimentacao" [style]="{'width':'100%'}">
+                  </p-dropdown>
+              </div> 
+              <div class="form-group" *ngIf="TipoOperacao.SAIDA === formMovimentacao.controls['tipoOperacao']?.value?.id">
+                  <div class="row input-file" *ngIf="!formMovimentacao.controls['comprovante'].value">
+                    <input  accept="image/jpg, image/png, image/jpeg" (change)="upload($event)"  
+                            type="file" id="comprovante" />
+                    <label class="col-11 mt-2" for="arquivo">Selecionar Arquivo</label>
+                    <label *ngIf="!formMovimentacao.controls['comprovante'].value"  
+                          title="Upload do Comprovante" for="comprovante" class="col-1 mt-2">
+                      <i class="pi pi-upload"></i>
+                    </label>
+                  </div>
+                  <div class="row input-file" *ngIf="formMovimentacao.controls['comprovante'].value" (click)="removerArquivo()">
+                      <label class="col-11 mt-2">{{formMovimentacao.controls['comprovante'].value.nome}}</label>
+                      <a class="col-1 mt-2" id="excluirArquivo"  title="Excluir">  
+                        <span class="text-red">
+                        <i class="pi pi-trash"></i>
+                        </span> 
+                      </a>
+                  </div>
+                </div>
+              <div class="form-group">
+                <label	for="valor" class="required">Valor</label>
+                <input	class="form-control"  maxlength="15"  type="text" 
+                        currencyMask [options]="{prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                        id="valor" name="valor" formControlName="valor" >
+              </div> 
+            <div class="form-group last" >
+            <div class="col text-center">
+              <button  type="button"	pButton label="Salvar"
+                       icon="pi pi-user-plus" class="ui-button-success" (click)="salvar()" >
+              </button>
+            </div>
+          </div>
+        </form>	
+      </div>
+</div>
