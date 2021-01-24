@@ -61,11 +61,10 @@
         <mat-card class="col-3 card-header-result" >
           <mat-card-title>
             <label style="font-size: 12px">
-              <i class="pi pi-shopping-cart"></i>
               Entradas
             </label>
           </mat-card-title>
-          <mat-card-content >
+          <mat-card-content class="ml-2">
             <label class="text-blue">
                 {{caixaBean.entradas | currency:'BRL':true}}
             </label>
@@ -73,7 +72,9 @@
         </mat-card>
         <mat-card class="col-3 card-header-result">
           <mat-card-title>
-            <label style="font-size: 12px"><i class="pi pi-sign-out"></i>Saídas</label>
+            <label style="font-size: 12px">
+              Saídas
+            </label>
           </mat-card-title>
           <mat-card-content >
             <label [ngClass]="{'text-red' : caixaBean.saidas < 0.0, 'text-green' : caixaBean.saidas >= 0.0}">
@@ -83,7 +84,8 @@
         </mat-card>
         <mat-card class="col-3 card-header-result">
           <mat-card-title>
-            <label style="font-size: 12px"><i class="pi pi-chart-bar"></i>Anterior</label>
+            <label style="font-size: 12px">
+              Anterior</label>
           </mat-card-title>
           <mat-card-content >
             <label [ngClass]="{'text-red' : caixaBean.saldoAnterior < 0.0, 'text-green' : caixaBean.saldoAnterior >= 0.0}">
@@ -93,7 +95,9 @@
         </mat-card>
         <mat-card class="col-3 card-header-result">
           <mat-card-title>
-            <label style="font-size: 12px"><i class="pi pi-money-bill"></i>Final</label>
+            <label style="font-size: 12px">
+              Final
+            </label>
           </mat-card-title>
           <mat-card-content >
             <span [ngClass]="{'text-red' : caixaBean.saldoFinal < 0.0, 'text-green' : caixaBean.saldoFinal >= 0.0}" >
@@ -119,6 +123,7 @@
           <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
                                         [tipoOperacao]="1"
                                         [acaoSistema]="acaoSistema"
+                                        [apenasMembresia]="apenasMembresia()" 
                                         (notificarAlteracaoEmMovimentacoes)="receberNotificacaoMovimentacao()"
                                         (notificarPoupModificacaoFinanceira)="abrirPopupMovimentacaoFinanceira($event)">
           </app-movimentacoes-por-tipo>
@@ -128,6 +133,7 @@
           <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
                                        [tipoOperacao]="2"
                                        [acaoSistema]="acaoSistema"
+                                       [apenasMembresia]="apenasMembresia()"
                                        (notificarAlteracaoEmMovimentacoes)="receberNotificacaoMovimentacao()"
                                        (notificarPoupModificacaoFinanceira)="abrirPopupMovimentacaoFinanceira($event)">
           </app-movimentacoes-por-tipo>

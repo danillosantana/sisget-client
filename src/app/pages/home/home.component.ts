@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
   inicializarLeftMenu() {
     this.leftMenu = [
-        {label : this.usuarioSession.nome },
+        {label : this.usuarioSession?.nome },
         {
           label: 'Conta', 
           icon: 'pi pi-user-plus',

@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { TokenService } from '../security/token.service';
-import { map, catchError } from 'rxjs/operators';
-// import { MessageCode } from 'app/util/message-code';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MensagemService } from 'src/app/servicos/mensagem.service';
 
 @Injectable()
 export class HttpsRequestInterceptor implements HttpInterceptor {
 
-constructor(private tokenService : TokenService) {}
+constructor(public tokenService : TokenService,
+            public router : Router,
+            public mensagemService : MensagemService) {}
 
 
 intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -22,13 +25,22 @@ intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<an
 
     return next.handle(request).pipe(catchError(err => {
       console.log(err);
+
+      if (err.status === 401) {
+        err.message = 'Login expirado. Você será redirecinado para fazer o login.';
+        this.tokenService.removeToken();
+        return throwError(err);
+      }
+
+
       if (err.status === 403) {
-          // err.message = MessageCode.MSG_003;
-          err.message = 'Forbiden';
+          err.message = 'Você não posui permissão para realizar essa operação. Contate o Administrador';
+
           return throwError(err);
       }
 
-      err.message = err.error.message;
+
+      err.message = err.error.reason;
       return throwError(err);
   }));
   }

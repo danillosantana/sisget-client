@@ -108,7 +108,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
           (tiposOperacoes : Array<TipoOperacaoTO>) => {
             this.tiposOperacoes = tiposOperacoes;
           }, (httpErrorResponse: HttpErrorResponse) => {
-            this.mensagemService.adicionarMensagemErro('Movimentação Caixa', httpErrorResponse?.error?.message);
+            this.mensagemService.adicionarMensagemErro('Movimentação Caixa', httpErrorResponse?.message);
           });
     
   }
@@ -154,7 +154,8 @@ export class MovimentacaoCaixaComponent implements OnInit {
   removerArquivo() {
     if (this.formMovimentacao?.controls?.id?.value) {
        const idMovimentacaoCaixa = this.formMovimentacao.controls.id.value;
-       this.caixaService.deletarComprovanteMovimentacao(idMovimentacaoCaixa)
+       const idComprovante = this.formMovimentacao?.controls?.comprovante?.value?.id;
+       this.caixaService.deletarComprovanteMovimentacao(idMovimentacaoCaixa, idComprovante)
             .toPromise()
             .then(() => {
               this.formMovimentacao.controls.comprovante.setValue(undefined);  

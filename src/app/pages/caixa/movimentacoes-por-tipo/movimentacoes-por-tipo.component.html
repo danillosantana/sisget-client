@@ -15,7 +15,8 @@
             [rows]="10" [globalFilterFields]="['descricao','tipoOperacao.descricao','tipoMovimentacao.descricao', 'valor']">
     
         <ng-template pTemplate="body" let-movimentacao let-i="rowIndex" >
-            <tr *ngIf="movimentacao?.tipoOperacao?.id === tipoOperacao" (dblclick)="alterarMovimentacao(movimentacao, i)">
+            <tr *ngIf="movimentacao?.tipoOperacao?.id === tipoOperacao" 
+                        (dblclick)="alterarMovimentacao(movimentacao, i)">
             <td>
                 <mat-card  class="mat-card-lista">
                 <mat-card-content >
@@ -36,12 +37,15 @@
                     </div>
                     <div class="form-group last text-center col-3" *ngIf="!acaoSistema.isAcaoSistemaVisualizar()">
                     
-                    <a class=" btn-edit" [ngClass]="{'ml-n4' : !movimentacao?.comprovante}"  (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
+                    <a class=" btn-edit" [ngClass]="{'ml-n4' : !movimentacao?.comprovante}" 
+                        *ngIf="!apenasMembresia"
+                        (click)="alterarMovimentacao(movimentacao, i)"  title="Editar">
                         <span class="text-green">
                         <i class="pi pi-user-edit"></i>
                         </span>
                     </a>
-                    <a class="ml-2"  (click)="excluirMovimentacao(i)"  title="Excluir">  
+                    <a class="ml-2"  (click)="excluirMovimentacao(i)"  
+                        *ngIf="!apenasMembresia" title="Excluir">  
                         <span class="text-red">
                         <i class="pi pi-trash"></i>
                         </span> 

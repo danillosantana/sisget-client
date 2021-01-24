@@ -34,7 +34,7 @@ export class ContaComponent implements OnInit {
           .then((usuario : UsuarioTO) => {
               this.usuario = usuario;
             }, (httpErrorResponse: HttpErrorResponse) => {
-              this.mensagemService.adicionarMensagemErro('Conta', httpErrorResponse?.error?.message);
+              this.mensagemService.adicionarMensagemErro('Conta', httpErrorResponse?.message);
           });
   }
 

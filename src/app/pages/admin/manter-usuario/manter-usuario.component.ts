@@ -37,7 +37,7 @@ export class ManterUsuarioComponent implements OnInit {
           .then((usuarios : Array<UsuarioTO>) => {
               this.usuarios = usuarios;
           },( httpErrorResponse: HttpErrorResponse) => {
-            this.mensagemService.adicionarMensagemErro('Usuarios', httpErrorResponse?.error?.message);
+            this.mensagemService.adicionarMensagemErro('Usuarios', httpErrorResponse?.message);
           });
   }
 
@@ -51,7 +51,7 @@ export class ManterUsuarioComponent implements OnInit {
               .then(() => {
                   this.buscarUsuarios();  
                 },( httpErrorResponse: HttpErrorResponse) => {
-                  this.mensagemService.adicionarMensagemErro('Usuarios', httpErrorResponse?.error?.message);
+                  this.mensagemService.adicionarMensagemErro('Usuarios', httpErrorResponse?.message);
                 });
       }
     });

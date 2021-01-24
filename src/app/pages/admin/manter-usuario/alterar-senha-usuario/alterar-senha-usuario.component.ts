@@ -49,7 +49,7 @@ export class AlterarSenhaUsuarioComponent implements OnInit {
               this.mensagemService.adicionarMensagemSucesso('Alteração de Senha','Operação Realizada Com Sucesso');
               this.dialogRef.close();
           }, (httpErrorResponse: HttpErrorResponse) => {
-            this.mensagemService.adicionarMensagemErro('Alteração de Senha', httpErrorResponse?.error?.message);
+            this.mensagemService.adicionarMensagemErro('Alteração de Senha', httpErrorResponse?.message);
         });
   }
 

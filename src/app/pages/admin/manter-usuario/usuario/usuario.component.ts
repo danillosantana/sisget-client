@@ -51,7 +51,7 @@ export class UsuarioComponent implements OnInit {
               this.formUsuario.controls.email.disable();
               this.formUsuario.controls.permissoes.setValue(usuario.permissoes);
             }, (httpErrorResponse: HttpErrorResponse) => {
-              this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.error?.message);
+              this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.message);
           });
     } 
   }
@@ -68,7 +68,7 @@ export class UsuarioComponent implements OnInit {
           .then((permissoes : Array<PermissoesTO>) => {
               this.permissoes = permissoes.map(p => new ObjectList(p.descricao, p.id));
           }, (httpErrorResponse: HttpErrorResponse) => {
-              this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.error?.message);
+              this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.message);
           });
   }
 
@@ -79,7 +79,7 @@ export class UsuarioComponent implements OnInit {
           .then(() => {
             this.dialogRef.close();
           }, (httpErrorResponse: HttpErrorResponse) => {
-            this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.error?.message);
+            this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.message);
         });
   }
 
@@ -90,7 +90,7 @@ export class UsuarioComponent implements OnInit {
           .then(() => {
             this.dialogRef.close();
           }, (httpErrorResponse: HttpErrorResponse) => {
-            this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.error?.message);
+            this.mensagemService.adicionarMensagemErro('Usuario', httpErrorResponse?.message);
         });
   }
 }

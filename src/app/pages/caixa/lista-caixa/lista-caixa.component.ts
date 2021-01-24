@@ -74,7 +74,7 @@ export class ListaCaixaComponent implements OnInit {
     .then( (caixasTO : Array<CaixaTO>) => {
         this.caixasTO = caixasTO;        
       }, (httpErrorResponse: HttpErrorResponse) => {
-        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.message);
       });
   }
 
@@ -115,7 +115,7 @@ export class ListaCaixaComponent implements OnInit {
       data => {
         this.caixasTO = data;
       }, (httpErrorResponse: HttpErrorResponse) => {
-        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.message);
       });
   }
 

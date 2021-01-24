@@ -66,7 +66,7 @@
                 <i class="pi pi-eye"></i>
               </span> 
             </a>
-              <a class="text-green ml-2"  *ngIf="!caixa.encerrado" (click)="alterar(caixa)"  title="Editar">
+              <a class="text-green ml-2"  *ngIf="!caixa.encerrado && !apenasMembresia" (click)="alterar(caixa)"  title="Editar">
                 <span class="p-input-icon-left">
                   <i class="pi pi-user-edit"></i>
                 </span>

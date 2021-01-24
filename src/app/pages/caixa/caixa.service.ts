@@ -140,8 +140,12 @@ export class CaixaService {
 		return this.http.get<Array<MesTO>>(this.API+'caixa/meses');
 	}
 
-	deletarComprovanteMovimentacao(idMovimentacaoCaixa : number) :  Observable<any> {
-		return this.http.delete(this.API+`caixa/comprovante/movimentacao-caixa/${idMovimentacaoCaixa}`);		
+	deletarComprovanteMovimentacao(idMovimentacaoCaixa : number, idComprovante : number) :  Observable<any> {
+		return this.http.delete(this.API+`caixa/comprovante/movimentacao-caixa/${idMovimentacaoCaixa}/${idComprovante}`);		
+	 }
+
+	 garbageComprovantes(idsComprovante : Array<number>) {
+		return this.http.post(this.API+`caixa/garbage/comprovantes`, idsComprovante);	
 	 }
 	
 }

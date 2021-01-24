@@ -20,6 +20,7 @@ export class MovimentacoesPorTipoComponent implements OnInit {
   @Input() movimentacoes : Array<MovimentacaoBean>;
   @Input() tipoOperacao : number;
   @Input() acaoSistema : AcaoSistema;
+  @Input() apenasMembresia : boolean;
 
   @Output() notificarAlteracaoEmMovimentacoes : EventEmitter<any> = new EventEmitter<any>(); 
   @Output() notificarPoupModificacaoFinanceira : EventEmitter<MovimentacaoBean> = new EventEmitter<any>(); 
@@ -44,9 +45,11 @@ export class MovimentacoesPorTipoComponent implements OnInit {
    * @param template 
    */
   alterarMovimentacao(movimentacao: MovimentacaoBean, indice : number) {
-    movimentacao.indice = indice;
-    this.movimentacaoFinanceira = movimentacao;
-    this.abrirPopupMovimentacaoFinanceira(movimentacao);
+    if (!this.apenasMembresia) {
+      movimentacao.indice = indice;
+      this.movimentacaoFinanceira = movimentacao;
+      this.abrirPopupMovimentacaoFinanceira(movimentacao);
+    }
   }
 
   /**
@@ -117,7 +120,7 @@ export class MovimentacoesPorTipoComponent implements OnInit {
           this.abrirVisualizadorComprovante(image);
         }
       }, (httpErrorResponse: HttpErrorResponse) => {
-          this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.error?.message);
+          this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse?.message);
         });;
   }
 
