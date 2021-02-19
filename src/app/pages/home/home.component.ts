@@ -33,18 +33,18 @@ export class HomeComponent implements OnInit {
 
   inicializarRigthMenu() {
     this.rigthMenu = [
-    {
-    label: 'Administração',
-    icon: 'pi pi-cog',
-    visible: this.isMenuAdministracaoVisivel(),
-    items : [
-    {
-      label: 'Usuários', 
-      icon: 'pi pi-users',
-      routerLink: '/usuarios'
-    }
-    ]
-    },
+    // {
+    // label: 'Administração',
+    // icon: 'pi pi-cog',
+    // visible: this.isMenuAdministracaoVisivel(),
+    // items : [
+    // {
+    //   label: 'Usuários', 
+    //   icon: 'pi pi-users',
+    //   routerLink: '/usuarios'
+    // }
+    // ]
+    // },
     {
     label: 'Caixa',
     icon: 'pi pi-inbox',
@@ -54,19 +54,19 @@ export class HomeComponent implements OnInit {
   }
 
   inicializarLeftMenu() {
-    this.leftMenu = [
-        {label : this.usuarioSession?.nome },
-        {
-          label: 'Conta', 
-          icon: 'pi pi-user-plus',
-          routerLink: '/conta'
-        },
-        {
-          label: 'Logout', 
-          icon: 'pi pi-power-off',
-          command : () => this.logout()
-        } 
-    ];
+    // this.leftMenu = [
+    //     {label : this.usuarioSession?.nome },
+    //     {
+    //       label: 'Conta', 
+    //       icon: 'pi pi-user-plus',
+    //       routerLink: '/conta'
+    //     },
+    //     {
+    //       label: 'Logout', 
+    //       icon: 'pi pi-power-off',
+    //       command : () => this.logout()
+    //     } 
+    // ];
   }
 
   logout() {

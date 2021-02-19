@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { TokenService } from '../security/token.service';
 import { catchError } from 'rxjs/operators';
@@ -15,19 +15,20 @@ constructor(public tokenService : TokenService,
 
 
 intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.tokenService.getToken()) {
+    // if (this.tokenService.getToken()) {
         request = request.clone({
           setHeaders: {
-            'Authorization': this.tokenService.getToken()
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzb2VzIjpbIlNHVF9BRE0iXSwibm9tZSI6InRlc3RlIiwiaWQiOjcsImV4cCI6MTYxNTgzNjUwMiwiaWF0IjoxNjEzNDE3MzAyfQ.AXXPpAU6TPI8syuZgXIXjw9dbkRdSQXdW4AQnz_Su6A'
+            // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzb2VzIjpbIlNHVF9BRE0iXSwibm9tZSI6InRlc3RlIiwiaWQiOjcsImV4cCI6MTYxMDc0MDU1NSwiaWF0IjoxNjEzNDE4OTU1fQ.GoRdjPOXh5eEoTpWDEhA4ozTMSEo_mbEyC2sZ5mmHBk'
           }
         }); 
-    }
-
+    // }
+   
     return next.handle(request).pipe(catchError(err => {
       console.log(err);
 
       if (err.status === 401) {
-        err.message = 'Login expirado. Você será redirecinado para fazer o login.';
+        err.message = '): Acesso Expirado. Contate o Administrador do Sistema!!!!';
         this.tokenService.removeToken();
         return throwError(err);
       }

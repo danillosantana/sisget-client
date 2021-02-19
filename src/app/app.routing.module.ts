@@ -28,11 +28,6 @@ const appRoutes: Routes = [
       path: '',
       loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
   }]},
-  // {
-  //   path: 'painel-gestor',
-  //   loadChildren: () => import('./pages/painel-gestor/painel-gestor.module').then(m => m.PainelGestorModule),
-  //   canActivate: [AuthGuard, AuthGuardPainelGestor],
-  // },
   {
     path: '**',
     component: LoginComponent

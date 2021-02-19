@@ -138,7 +138,7 @@ export class ListaCaixaComponent implements OnInit {
         this.meses.push({ label : 'Selecione', value :null});
         meses.forEach(m => this.meses.push({label : m.descricao, value : m.id}));
       }, (httpErrorResponse: HttpErrorResponse) => {
-        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse.error.message);
+        this.mensagemService.adicionarMensagemErro('Caixas', httpErrorResponse.message);
       });
   }
 

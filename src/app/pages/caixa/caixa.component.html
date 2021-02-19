@@ -77,7 +77,7 @@
             </label>
           </mat-card-title>
           <mat-card-content >
-            <label [ngClass]="{'text-red' : caixaBean.saidas < 0.0, 'text-green' : caixaBean.saidas >= 0.0}">
+            <label class="text-red" >
               {{caixaBean.saidas | currency:'BRL':true}}
             </label>
           </mat-card-content>
