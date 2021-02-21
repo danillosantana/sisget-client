@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ArquivoService } from 'src/app/servicos/arquivo.service';
 import { ObjectList } from 'src/app/model/objects/object-list';
 import { SelectItem } from 'primeng/api';
+import { RelatorioCaixaService } from '../relatorio.service';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class ListaCaixaComponent implements OnInit {
 
   constructor(public caixaService : CaixaService, public mensagemService : MensagemService, 
               public pesquisaCaixaFormBuilderService : PesquiasCaixaFormBuilderService,
-              public arquivoService : ArquivoService) { 
+              public arquivoService : ArquivoService, public relatorioCaixaService : RelatorioCaixaService) { 
 
   }
 
@@ -102,7 +103,8 @@ export class ListaCaixaComponent implements OnInit {
 	 * @param idCaixa
 	 */
 	getRelatorioCaixa(idCaixa) {
-      this.arquivoService.getRelatorioCaixa(idCaixa);
+    this.relatorioCaixaService.gerarRelatorioCaixa(idCaixa);
+      // this.arquivoService.getRelatorioCaixa(idCaixa);
   }
   
   /**

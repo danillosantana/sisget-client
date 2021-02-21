@@ -12,53 +12,52 @@
     <form #cadastro="ngForm" class="form-horizontal">
       
       <div class="row mt-n3">
-        <div class="col-2">
+        <div class="col-md">
           <button  *ngIf="acaoSistema.isAcaoSistemaIncluir() || acaoSistema.isAcaoSistemaAlterar() || acaoSistema.isAcaoSistemaVisualizar()" 
-                  pButton (click)="voltar()" type="button" icon="pi pi-backward" label="Voltar" class="ui-button-secondary"> 
-           </button>
-        </div>
-        <div class="col-7">
-          <div class="row">
-            <div class="col-6 ml-n5">
-              <span class="ui-float-label">
-                <label  for="mes">Mês:</label>
-                  <select class="form-control ml-5" name="mes" id="mes" [(ngModel)]="caixaBean.mes"
-                          [disabled]="acaoSistema.isAcaoSistemaVisualizar() || acaoSistema.isAcaoSistemaAlterar()">
-                      <option *ngFor="let mes of meses, let i = index" [ngValue]="mes">{{mes.descricao}}</option> 
-                  </select>
-              </span>
-            </div>
-            <div class="col-6 ml-5">
-              <span class="ui-float-label">
-                <label  for="complemento" >Ano</label>
-                <input	class="form-control ml-5" type="text" id="ano" name="ano" [(ngModel)]="caixaBean.ano" 
-                        [disabled]="true" >
+                  pButton (click)="voltar()" type="button" icon="pi pi-backward" label="Voltar" class="mr-2 ui-button-secondary"> 
+          </button>
 
-              </span>
-            </div>
+          <button pButton *ngIf="!apenasMembresia() && caixaBean?.id" 
+                  class="text-left ui-button-danger mr-2" label="Relatório" icon="pi pi-file-pdf"  
+                  (click)="getRelatorioCaixa()">
+          </button>
 
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group text-right">
-                <button   *ngIf="acaoSistema.isAcaoSistemaIncluir() && !apenasMembresia()" type="button"	pButton label="Salvar"
-                          icon="pi pi-user-plus" class=" ui-button-success" (click)="salvar()" >
-                </button>
+          <button   *ngIf="acaoSistema.isAcaoSistemaIncluir() && !apenasMembresia()" 
+                      class="ui-button-success ml-2" type="button"	pButton label="Salvar"
+                      icon="pi pi-user-plus"  
+                      (click)="salvar()" >
+          </button>
                 
-                <button   *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" pButton label="Salvar"
-                            icon="pi pi-user-edit" class="ui-button-success"
-                            type="button"	(click)="alterar()">
-                </button>
-                <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" 
-                        class="text-left ui-button-primary ml-2" label="Finalizar" icon="pi pi-save"  
-                        (click)="finalizarCaixa()">
-              </button>
-          </div>  
+            <button   *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" pButton label="Salvar"
+                        icon="pi pi-user-edit" class="ui-button-success"
+                        type="button"	(click)="alterar()">
+            </button>
+            <button pButton *ngIf="acaoSistema.isAcaoSistemaAlterar() && !apenasMembresia()" 
+                    class="text-left ui-button-primary ml-2" label="Finalizar" icon="pi pi-save"  
+                    (click)="finalizarCaixa()">
+            </button>
+        </div>
+        <div class="col-md-2">
+          <span class="ui-float-label">
+            <!-- <label  for="mes">Mês:</label> -->
+              <select class="form-control " name="mes" id="mes" [(ngModel)]="caixaBean.mes"
+                      [disabled]="acaoSistema.isAcaoSistemaVisualizar() || acaoSistema.isAcaoSistemaAlterar()">
+                  <option *ngFor="let mes of meses, let i = index" [ngValue]="mes">{{mes.descricao}}</option> 
+              </select>
+          </span>
+        </div>
+        <div class="col-md-2 ">
+          <span class="ui-float-label">
+            <!-- <label  for="complemento" >Ano</label> -->
+            <input	class="form-control " type="text" id="ano" name="ano" [(ngModel)]="caixaBean.ano" 
+                    [disabled]="true" >
+
+          </span>
         </div>
       </div>
       
-      <div class="row text-center">
-        <mat-card class="col-3 card-header-result" >
+      <div class="row text-center mt-2">
+        <mat-card class="col-md-3 card-header-result" >
           <mat-card-title>
             <label style="font-size: 12px">
               Entradas
@@ -70,19 +69,19 @@
             </label>
           </mat-card-content>
         </mat-card>
-        <mat-card class="col-3 card-header-result">
+        <mat-card class="col-md-3 card-header-result">
           <mat-card-title>
             <label style="font-size: 12px">
               Saídas
             </label>
           </mat-card-title>
           <mat-card-content >
-            <label [ngClass]="{'text-red' : caixaBean.saidas < 0.0, 'text-green' : caixaBean.saidas >= 0.0}">
+            <label class="text-red">
               {{caixaBean.saidas | currency:'BRL':true}}
             </label>
           </mat-card-content>
         </mat-card>
-        <mat-card class="col-3 card-header-result">
+        <mat-card class="col-md-3 card-header-result">
           <mat-card-title>
             <label style="font-size: 12px">
               Anterior</label>
@@ -93,7 +92,7 @@
             </label>
           </mat-card-content>
         </mat-card>
-        <mat-card class="col-3 card-header-result">
+        <mat-card class="col-md-3 card-header-result">
           <mat-card-title>
             <label style="font-size: 12px">
               Final
@@ -119,7 +118,7 @@
        <br/>
 
        <div class="row ">
-        <div class="form-group col-6">
+        <div class="form-group col-md">
           <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
                                         [tipoOperacao]="1"
                                         [acaoSistema]="acaoSistema"
@@ -129,7 +128,7 @@
           </app-movimentacoes-por-tipo>
         </div>
 
-        <div class="form-group col-6">
+        <div class="form-group col-md">
           <app-movimentacoes-por-tipo  [movimentacoes]="caixaBean?.movimentacoes"
                                        [tipoOperacao]="2"
                                        [acaoSistema]="acaoSistema"

@@ -13,6 +13,7 @@ import { UserSessionService } from 'src/app/config/security/user-session.service
 import { UsuarioSession } from 'src/app/model/bean/usuario-session';
 import { Permissoes } from 'src/app/model/enum/permissoes.enum';
 import { TipoOperacao } from 'src/app/model/enum/tipo-operacao.enum';
+import { RelatorioCaixaService } from './relatorio.service';
 
 @Component({
   selector: 'app-caixa',
@@ -32,7 +33,8 @@ export class CaixaComponent implements OnInit {
   constructor(public caixaService : CaixaService, 
               public mensagemService : MensagemService, 
               public dialogService : DialogService,
-              public usuarioSessionService : UserSessionService,) { }
+              public usuarioSessionService : UserSessionService,
+              public relatorioCaixaService : RelatorioCaixaService) { }
 
   ngOnInit() {
     this.acaoSistema.setaAcaoParaListar();
@@ -342,4 +344,7 @@ export class CaixaComponent implements OnInit {
     return apenasMembresia;
   }
 
+  getRelatorioCaixa() {
+    this.relatorioCaixaService.gerarRelatorioCaixa(this.caixaBean.id);
+  }
 }
