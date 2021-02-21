@@ -15,7 +15,7 @@ export class RelatorioCaixaService {
                 public mensagemService : MensagemService) { }
 
     gerarRelatorioCaixa(idCaixa) {
-        return	this.http.get(this.API+'relatorio/caixa/'+idCaixa, { responseType: 'blob' }).subscribe(
+        return	this.http.get(this.API+'relatorio-caixa/'+idCaixa, { responseType: 'blob' }).subscribe(
                 data => {
                   var file = new Blob([data], {type: 'application/pdf'});
                   var fileURL = URL.createObjectURL(file);
