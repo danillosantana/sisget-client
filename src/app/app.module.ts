@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, LOCALE_ID, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule  } from '@angular/router';
@@ -22,7 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MenubarModule } from 'primeng/menubar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { LoaderComponent } from './pages/loader/loader.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -86,7 +86,8 @@ registerLocaleData(localePt, 'pt');
     SplitButtonModule,
     PanelModule
   ],
-  providers: [HttpService, 
+  providers: [
+              HttpService, 
               DialogService,
               {provide: LOCALE_ID, useValue: 'pt'},
               {
@@ -99,9 +100,13 @@ registerLocaleData(localePt, 'pt');
                 useClass: HttpsRequestInterceptor,
                 multi: true,
               }
-            ],
+  ],
+  
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA,
+  ],
   entryComponents: [
     MovimentacaoCaixaComponent,
     VisualizaComprovanteComponent,

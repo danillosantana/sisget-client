@@ -27,19 +27,18 @@ intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<an
       console.log(err);
 
       if (err.status === 401) {
-        err.message = 'Login expirado. Você será redirecinado para fazer o login.';
+        err.message =  "Login Expirado!! Faça Login Novamente!!!";
+        this.router.navigate(['login']);
         this.tokenService.removeToken();
         return throwError(err);
       }
-
 
       if (err.status === 403) {
           err.message = 'Você não posui permissão para realizar essa operação. Contate o Administrador';
 
           return throwError(err);
       }
-
-
+      
       err.message = err.error.reason;
       return throwError(err);
   }));

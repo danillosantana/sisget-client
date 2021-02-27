@@ -121,7 +121,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
           (tiposMovimentacoes : Array<TipoMovimentacaoTO>) => {
             this.tiposMovimentacoes = tiposMovimentacoes;
           }, (httpErrorResponse: HttpErrorResponse) => {
-            this.mensagemService.adicionarMensagemErro('Movimentação Caixa', httpErrorResponse.error.message);
+            this.mensagemService.adicionarMensagemErro('Movimentação Caixa', httpErrorResponse.message);
           });
   }
 
@@ -143,7 +143,7 @@ export class MovimentacaoCaixaComponent implements OnInit {
         () => {
           this.dialogRef.close(movimentacao);
         }, (httpErrorResponse: HttpErrorResponse) => {
-          this.mensagemService.adicionarMensagemErro('Movimentação Caixa', httpErrorResponse.error.message);
+          this.mensagemService.adicionarMensagemErro('Movimentação Caixa', httpErrorResponse.message);
         });
   }
 

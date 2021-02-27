@@ -22,6 +22,14 @@ export class MensagemService {
           });
     }
 
+    adicionarMensagemInfo(titulo : string, mensagem :string) {
+      Swal.fire({
+          icon: 'info',
+          title: titulo,
+          text: mensagem
+        });
+  }
+
     dialogConfirm(msg) {
       return Swal.fire({
         title: msg,
